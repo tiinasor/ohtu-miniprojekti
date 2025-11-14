@@ -1,5 +1,9 @@
 ## Ohtu miniprojekti
 
-Lue [täältä](https://ohjelmistotuotanto-hy.github.io/flask/) lisää.
+[Product ja sprint backlog](https://docs.google.com/spreadsheets/d/1mSdKyYM1908SzdmZ8wrdTdeK1SKqvMYnkV53-zhKxrM/edit?gid=1#gid=1)
 
-Muutamia vihjeitä projektin alkuun [täällä](https://github.com/ohjelmistotuotanto-hy/miniprojekti-boilerplate/blob/main/misc/ohjeita.md).
+## Definition of done
+
+Vaatimus on analysoitu, suunniteltu, ohjelmoitu, testattu, testaus automatisoitu ja integroitu muuhun ohjelmistoon.
+
+## Käynnistysohjeet
