@@ -1,0 +1,11 @@
+[MASTER]
+
+ignore-paths=src/tests
+
+[MESSAGE CONTROL]
+
+[FORMAT]
+
+[REFACTORING]
+
+[DESIGN]
