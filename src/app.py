@@ -8,7 +8,7 @@ from util import validate_todo
 def index():
     citations = get_citations()
     unfinished = len(citations)
-    return render_template("index.html", citations=citations, unfinished=unfinished) 
+    return render_template("index.html", todos=citations, unfinished=unfinished) 
 
 @app.route("/new_todo")
 def new():
@@ -16,11 +16,11 @@ def new():
 
 @app.route("/create_todo", methods=["POST"])
 def todo_creation():
-    content = request.form.get("content")
+    name = request.form.get("content")
 
     try:
-        validate_todo(content)
-        create_todo(content)
+        validate_todo(name)
+        create_citation(name, citation_type="article", author="Unknown", title="Untitled", journal="Unknown", year=2024, volume=1.0, number=1, pages="1-10")
         return redirect("/")
     except Exception as error:
         flash(str(error))
