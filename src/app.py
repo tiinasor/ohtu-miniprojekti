@@ -1,6 +1,6 @@
 from flask import redirect, render_template, request, jsonify, flash
 from db_helper import reset_db
-from repositories.citation_repository import get_citations, create_citation
+from repositories.citation_repository import get_citations, create_citation, remove_citation
 from config import app, test_env
 from util import validate_todo
 
@@ -46,6 +46,12 @@ def create_citation_route():
 @app.route("/toggle_todo/<todo_id>", methods=["POST"])
 def toggle_todo(todo_id):
     set_done(todo_id)
+    return redirect("/")
+
+
+@app.route("/remove/<int:citation_id>", methods=["POST"])
+def remove(citation_id):
+    remove_citation(citation_id)
     return redirect("/")
 
 if test_env:

@@ -6,8 +6,8 @@ from config import db, app
 
 
 def reset_db():
-    print(f"Clearing contents from table citations")
-    sql = text(f"DELETE FROM citations")
+    print("Clearing contents from table citations")
+    sql = text("DELETE FROM citations")
     db.session.execute(sql)
     db.session.commit()
 
@@ -32,7 +32,7 @@ def setup_db():
     """
     tables_in_db = tables()
     if len(tables_in_db) > 0:
-        print(f"Tables exist, dropping: {', '.join(tables_in_db)}")
+        print("Tables exist, dropping: {', '.join(tables_in_db)}")
         for table in tables_in_db:
             sql = text(f"DROP TABLE {table}")
             db.session.execute(sql)
