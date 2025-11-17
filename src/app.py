@@ -19,7 +19,11 @@ def todo_creation():
 
     try:
         validate_todo(name)
-        create_citation(name, citation_type="article", author="Unknown", title="Untitled", journal="Unknown", year=2024, volume=1.0, number=1, pages="1-10")
+        create_citation(
+            name, citation_type="article", author="Unknown",
+            title="Untitled", journal="Unknown", year=2024,
+            volume=1.0, number=1, pages="1-10"
+        )
         return redirect("/")
     except Exception as error:
         flash(str(error))

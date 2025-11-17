@@ -1,5 +1,9 @@
 class Citation:
-    def __init__(self, id, name: str, citation_type: str, author: str, title: str, journal: str, year: int, volume: float, number: int, pages: str):
+    def __init__(
+        self, id, name: str, citation_type: str, author: str,
+        title: str, journal: str, year: int, volume: float,
+        number: int, pages: str
+    ):
         self.id = id
         self.name = name
         self.citation_type = "article"
@@ -12,4 +16,8 @@ class Citation:
         self.pages = pages      
 
     def __str__(self):
-        return f"{self.name}: {self.title} by {self.author} ({self.year}) {self.journal}, Vol. {self.volume}, No. {self.number}, pp. {self.pages}"
+        return (
+            f"{self.name}: {self.title} by {self.author} ({self.year}) "
+            f"{self.journal}, Vol. {self.volume}, No. {self.number}, "
+            f"pp. {self.pages}"
+        )
