@@ -8,24 +8,34 @@ Todo app
 
 <h2>Todo app</h2>
 
-<div>
-  things still unfinished: {{ unfinished }}
-</div>
-
-<ul>
-  {% for todo in todos %}
-    <li style="display: flex">
-      <div>
-        {{ todo }} 
-      </div>
-      {% if not todo.done %}
-        <form action="/toggle_todo/{{ todo.id }}" method="post" style="margin-left: 10px;">
-          <button type="submit">mark as done</button>
-        </form>
-      {% endif %}
-    </li>
-  {% endfor %}
-</ul>
+<table border="1">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Author</th>
+      <th>Title</th>
+      <th>Journal</th>
+      <th>Year</th>
+      <th>Volume</th>
+      <th>Number</th>
+      <th>Pages</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for citation in citations %}
+    <tr>
+      <td>{{ citation.name }}</td>
+      <td>{{ citation.author }}</td>
+      <td>{{ citation.title }}</td>
+      <td>{{ citation.journal }}</td>
+      <td>{{ citation.year }}</td>
+      <td>{{ citation.volume }}</td>
+      <td>{{ citation.number }}</td>
+      <td>{{ citation.pages }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
 <div>
   <a href="/new_todo">Create new todo</a>
