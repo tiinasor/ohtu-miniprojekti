@@ -74,6 +74,11 @@ Citation database app
             <td>{{ citation.volume }}</td>
             <td>{{ citation.number }}</td>
             <td>{{ citation.pages }}</td>
+            <td>
+        <form action="/remove/{{ citation.id }}" method="GET">
+          <button type="submit">Remove</button>
+        </form>
+      </td>
         </tr>
         {% endfor %}
     </tbody>

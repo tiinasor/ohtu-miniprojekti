@@ -55,10 +55,18 @@ def toggle_todo(todo_id):
     return redirect("/")
 
 
-@app.route("/remove/<int:citation_id>", methods=["POST"])
+@app.route("/remove/<int:citation_id>", methods=["GET","POST"])
 def remove(citation_id):
-    remove_citation(citation_id)
-    return redirect("/")
+    if request.method == "GET":
+        return render_template("remove_citation.html", citation_id = citation_id)
+    
+    if request.method == "POST":
+        
+        if "remove" in request.form:
+            remove_citation(citation_id)
+            return redirect("/")
+        elif "back" in request.form:
+            return redirect("/")
 
 if test_env:
     @app.route("/reset_db")

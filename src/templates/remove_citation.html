@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}Citation removal{% endblock %}
+{% block body %}
+
+  <h2>Citation removal</h2> 
+  
+  <p>Are you sure you want to remove this citation?</p>
+<form action="/remove/{{citation_id}}" method="post">
+  
+  <input type="submit" name="remove" value="Remove">
+  <input type="submit" name="back" value="Back">
+  
+</form>
+
+{% endblock %}
