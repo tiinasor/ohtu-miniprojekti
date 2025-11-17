@@ -1,6 +1,8 @@
-from config import db, app
-from sqlalchemy import text
 import os
+
+from sqlalchemy import text
+
+from config import db, app
 
 
 def reset_db():
