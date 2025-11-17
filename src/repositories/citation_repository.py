@@ -1,6 +1,6 @@
-from config import db
 from sqlalchemy import text
 
+from config import db
 from entities.citation import Citation
 
 def get_citations():
