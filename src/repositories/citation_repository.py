@@ -33,3 +33,15 @@ def create_citation(
         "number": number, "pages": pages
     })
     db.session.commit()
+
+
+def remove_citation(citation_id):
+    
+    if citation_id is None:
+        return
+    
+    sql = text(f"DELETE FROM citations WHERE id = :id")
+    db.session.execute(sql, {"id": citation_id})
+    db.session.commit()
+    
+    
