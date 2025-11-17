@@ -13,7 +13,7 @@ class Citation:
         self.year = year
         self.volume = volume
         self.number = number
-        self.pages = pages      
+        self.pages = pages
 
     def __str__(self):
         return (
