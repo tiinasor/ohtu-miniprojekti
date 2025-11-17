@@ -1,6 +1,6 @@
 from flask import redirect, render_template, request, jsonify, flash
 from db_helper import reset_db
-from repositories.citation_repository import get_citations, create_citation, remove_citation
+from repositories.citation_repository import get_citations, create_citation, remove_citation, citation_name_exists
 from config import app, test_env
 from util import validate_todo
 
@@ -20,12 +20,18 @@ def create_citation_route():
     number = request.form.get("number")
     pages = request.form.get("pages")
 
-    try:
-        validate_todo(name)
+    if not name or not year or not volume or not number or not pages:
+        flash("Missing required fields")
+        return redirect("/")
 
-        year_int = int(year) if year else None
-        volume_float = float(volume) if volume else None
-        number_int = int(number) if number else None
+    if citation_name_exists(name):
+        flash("Citation name must be unique")
+        return redirect("/")
+
+    try:
+        year_int = int(year)
+        volume_float = float(volume)
+        number_int = int(number)
 
         create_citation(
             name=name,

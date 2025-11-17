@@ -1,6 +1,6 @@
 CREATE TABLE citations (
   id SERIAL PRIMARY KEY,
-  name TEXT NOT NULL,
+  name TEXT NOT NULL UNIQUE,
   citation_type TEXT NOT NULL,
   author TEXT NOT NULL,
   title TEXT NOT NULL,

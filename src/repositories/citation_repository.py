@@ -45,3 +45,7 @@ def remove_citation(citation_id):
     db.session.commit()
     
     
+def citation_name_exists(name: str) -> bool:
+    sql = text("SELECT 1 FROM citations WHERE name = :name")
+    result = db.session.execute(sql, {"name": name}).first()
+    return result is not None
