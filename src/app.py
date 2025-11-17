@@ -9,21 +9,39 @@ def index():
     citations = get_citations()
     return render_template("index.html", citations=citations)
 
-@app.route("/new_todo")
-def new():
-    return render_template("new_todo.html")
-
-@app.route("/create_todo", methods=["POST"])
-def todo_creation():
-    name = request.form.get("content")
+@app.route("/create_citation", methods=["POST"])
+def create_citation_route():
+    name = request.form.get("name")
+    author = request.form.get("author")
+    title = request.form.get("title")
+    journal = request.form.get("journal")
+    year = request.form.get("year")
+    volume = request.form.get("volume")
+    number = request.form.get("number")
+    pages = request.form.get("pages")
 
     try:
         validate_todo(name)
-        create_citation(name, citation_type="article", author="Unknown", title="Untitled", journal="Unknown", year=2024, volume=1.0, number=1, pages="1-10")
+
+        year_int = int(year) if year else None
+        volume_float = float(volume) if volume else None
+        number_int = int(number) if number else None
+
+        create_citation(
+            name=name,
+            citation_type="article",
+            author=author,
+            title=title,
+            journal=journal,
+            year=year_int,
+            volume=volume_float,
+            number=number_int,
+            pages=pages,
+        )
         return redirect("/")
     except Exception as error:
         flash(str(error))
-        return  redirect("/new_todo")
+        return redirect("/")
 
 @app.route("/toggle_todo/<todo_id>", methods=["POST"])
 def toggle_todo(todo_id):

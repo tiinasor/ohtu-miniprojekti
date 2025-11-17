@@ -1,44 +1,82 @@
 {% extends "layout.html" %}
 
 {% block title %}
-Todo app
+Citation database app
 {% endblock %}
 
 {% block body %}
 
-<h2>Todo app</h2>
+<h2>Citations engine</h2>
+
+<h3>Create new citation</h3>
+
+<form action="/create_citation" method="post">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name"><br>
+
+    <label for="author">Author:</label><br>
+    <input type="text" id="author" name="author"><br>
+
+    <label for="title">Title:</label><br>
+    <input type="text" id="title" name="title"><br>
+
+    <label for="journal">Journal:</label><br>
+    <input type="text" id="journal" name="journal"><br>
+
+    <label for="year">Year:</label><br>
+    <input type="text" id="year" name="year"><br>
+
+    <label for="volume">Volume:</label><br>
+    <input type="text" id="volume" name="volume"><br>
+
+    <label for="number">Number:</label><br>
+    <input type="text" id="number" name="number"><br>
+
+    <label for="pages">Pages:</label><br>
+    <input type="text" id="pages" name="pages"><br><br>
+
+    <button type="submit">Create</button>
+</form>
+
+<h3>Existing citations</h3>
 
 <table border="1">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Author</th>
-      <th>Title</th>
-      <th>Journal</th>
-      <th>Year</th>
-      <th>Volume</th>
-      <th>Number</th>
-      <th>Pages</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for citation in citations %}
-    <tr>
-      <td>{{ citation.name }}</td>
-      <td>{{ citation.author }}</td>
-      <td>{{ citation.title }}</td>
-      <td>{{ citation.journal }}</td>
-      <td>{{ citation.year }}</td>
-      <td>{{ citation.volume }}</td>
-      <td>{{ citation.number }}</td>
-      <td>{{ citation.pages }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Author</th>
+            <th>Title</th>
+            <th>Journal</th>
+            <th>Year</th>
+            <th>Volume</th>
+            <th>Number</th>
+            <th>Pages</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for citation in citations %}
+        <tr>
+            <td>{{ citation.name }}</td>
+            <td>{{ citation.author }}</td>
+            <td>{{ citation.title }}</td>
+            <td>{{ citation.journal }}</td>
+            <td>{{ citation.year }}</td>
+            <td>{{ citation.volume }}</td>
+            <td>{{ citation.number }}</td>
+            <td>{{ citation.pages }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
-
-<div>
-  <a href="/new_todo">Create new todo</a>
-</div>
 
 {% endblock %}
