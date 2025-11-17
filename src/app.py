@@ -8,7 +8,7 @@ from util import validate_todo
 def index():
     citations = get_citations()
     unfinished = len(citations)
-    return render_template("index.html", todos=citations, unfinished=unfinished) 
+    return render_template("index.html", todos=citations, unfinished=unfinished)
 
 @app.route("/new_todo")
 def new():
