@@ -36,15 +36,14 @@ def create_citation(
 
 
 def remove_citation(citation_id):
-    
     if citation_id is None:
         return
-    
-    sql = text(f"DELETE FROM citations WHERE id = :id")
+
+    sql = text("DELETE FROM citations WHERE id = :id")
     db.session.execute(sql, {"id": citation_id})
     db.session.commit()
-    
-    
+
+
 def citation_name_exists(name: str) -> bool:
     sql = text("SELECT 1 FROM citations WHERE name = :name")
     result = db.session.execute(sql, {"name": name}).first()

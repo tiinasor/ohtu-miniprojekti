@@ -2,7 +2,6 @@ from flask import redirect, render_template, request, jsonify, flash
 from db_helper import reset_db
 from repositories.citation_repository import get_citations, create_citation, remove_citation, citation_name_exists
 from config import app, test_env
-from util import validate_todo
 
 @app.route("/")
 def index():
@@ -57,16 +56,14 @@ def toggle_todo(todo_id):
 
 @app.route("/remove/<int:citation_id>", methods=["GET","POST"])
 def remove(citation_id):
-    if request.method == "GET":
-        return render_template("remove_citation.html", citation_id = citation_id)
-    
     if request.method == "POST":
-        
         if "remove" in request.form:
             remove_citation(citation_id)
             return redirect("/")
-        elif "back" in request.form:
+        if "back" in request.form:
             return redirect("/")
+    else:
+        return render_template("remove_citation.html", citation_id = citation_id)
 
 if test_env:
     @app.route("/reset_db")

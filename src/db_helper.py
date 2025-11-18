@@ -42,7 +42,7 @@ def setup_db():
 
     # Read schema from schema.sql file
     schema_path = os.path.join(os.path.dirname(__file__), 'schema.sql')
-    with open(schema_path, 'r') as f:
+    with open(schema_path, 'r', encoding="utf-8") as f:
         schema_sql = f.read().strip()
 
     sql = text(schema_sql)
