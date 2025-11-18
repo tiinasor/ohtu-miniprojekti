@@ -61,7 +61,6 @@ def toggle_citation(citation_id):
 
 @app.route("/remove/<int:citation_id>", methods=["GET","POST"])
 def remove(citation_id):
-
     if request.method == "POST":
         if "remove" in request.form:
             remove_citation(citation_id)

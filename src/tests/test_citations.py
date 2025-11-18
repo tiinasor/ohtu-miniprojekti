@@ -32,7 +32,7 @@ class ValidateCitationTestCase(unittest.TestCase):
         }
         base.update(overrides)
         return self.client.post("/create_citation", data=base, follow_redirects=True)
-    
+
     """ ----------------- SQL DATABASE TESTS ----------------- """
 
     def test_sql_create_citation(self):
