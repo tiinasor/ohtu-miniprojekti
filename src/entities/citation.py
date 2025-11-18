@@ -1,10 +1,10 @@
 class Citation:
     def __init__(
-        self, id, name: str, citation_type: str, author: str,
+        self, citation_id, name: str, citation_type: str, author: str,
         title: str, journal: str, year: int, volume: float,
         number: int, pages: str
     ):
-        self.id = id
+        self.id = citation_id
         self.name = name
         self.citation_type = "article"
         self.author = author

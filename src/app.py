@@ -1,6 +1,11 @@
 from flask import redirect, render_template, request, jsonify, flash
 from db_helper import reset_db
-from repositories.citation_repository import get_citations, create_citation, remove_citation, citation_name_exists
+from repositories.citation_repository import (
+    get_citations,
+    create_citation,
+    remove_citation,
+    citation_name_exists,
+)
 from config import app, test_env
 
 @app.route("/")
