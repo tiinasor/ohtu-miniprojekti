@@ -38,6 +38,8 @@ jobs:
         run: pip install poetry
       - name: Install dependencies
         run: poetry install
+      - name: Initialize database
+        run: poetry run python src/db_helper.py
       - name: Lint
         run: poetry run pylint src --fail-under=10.00      
       - name: Run unit tests
