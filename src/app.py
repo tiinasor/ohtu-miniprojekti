@@ -48,9 +48,9 @@ def create_citation_route():
         flash(str(error))
         return redirect("/")
 
-@app.route("/toggle_todo/<todo_id>", methods=["POST"])
-def toggle_todo(todo_id):
-    set_done(todo_id)
+@app.route("/toggle_citation/<citation_id>", methods=["POST"])
+def toggle_citation(citation_id):
+    set_done(citation_id)
     return redirect("/")
 
 
