@@ -1,4 +1,4 @@
-from REF_FIELDS import REF_FIELDS
+from ref_fields import REF_FIELDS
 
 class Citation:
     def __init__(self, ref_info: list):

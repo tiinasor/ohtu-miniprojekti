@@ -39,7 +39,7 @@ class ValidateCitationTestCase(unittest.TestCase):
         response = self.submit(name="test-citation")
         citations = get_citations()
         self.assertEqual(len(citations), 1)
-        self.assertEqual(citations[0].name, "test-citation")
+        self.assertEqual(citations[0].get_field("name"), "test-citation")
         self.assertIn(b"test-citation", response.data)
 
     def test_sql_unique_citation_name(self):
@@ -51,7 +51,7 @@ class ValidateCitationTestCase(unittest.TestCase):
 
     def test_sql_remove_citation(self):
         self.submit(name="to-delete")
-        citation_id = get_citations()[0].id
+        citation_id = get_citations()[0].get_field("id")
         response = self.client.post(f"/remove/{citation_id}", data={"remove": "1"}, follow_redirects=True)
         self.assertEqual(len(get_citations()), 0)
         self.assertNotIn(b"to-delete", response.data)

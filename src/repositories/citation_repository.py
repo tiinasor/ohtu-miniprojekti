@@ -2,7 +2,7 @@ from sqlalchemy import text
 
 from config import db
 from entities.citation import Citation
-from REF_FIELDS import REF_FIELDS
+from ref_fields import REF_FIELDS
 
 def get_citations():
     sql_command = "SELECT id, "

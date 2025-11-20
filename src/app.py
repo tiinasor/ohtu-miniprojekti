@@ -7,7 +7,7 @@ from repositories.citation_repository import (
     citation_name_exists,
 )
 from config import app, test_env
-from REF_FIELDS import REF_FIELDS
+from ref_fields import REF_FIELDS
 
 @app.route("/")
 def index():
@@ -17,12 +17,12 @@ def index():
 @app.route("/create_citation", methods=["POST"])
 def create_citation_route():
     citation_info = [None for field in REF_FIELDS]
-    index = 0
+    idx = 0
     for ref_field in REF_FIELDS:
         field = request.form.get(f'{ref_field}')
         if field:
-            citation_info[index] = field
-        index += 1
+            citation_info[idx] = field
+        idx += 1
     citation_info[REF_FIELDS.index("citation_type")] = "article"
     for required_info in ["name", "year", "volume"]:
         if citation_info[REF_FIELDS.index(required_info)] is None:
