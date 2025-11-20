@@ -7,59 +7,42 @@ from repositories.citation_repository import (
     citation_name_exists,
 )
 from config import app, test_env
+from REF_FIELDS import REF_FIELDS
 
 @app.route("/")
 def index():
     citations = get_citations()
-    return render_template("index.html", citations=citations)
+    return render_template("index.html", citations=citations, ref_fields=REF_FIELDS)
 
 @app.route("/create_citation", methods=["POST"])
 def create_citation_route():
-    name = request.form.get("name")
-    author = request.form.get("author")
-    title = request.form.get("title")
-    journal = request.form.get("journal")
-    year = request.form.get("year")
-    volume = request.form.get("volume")
-    number = request.form.get("number")
-    pages = request.form.get("pages")
-
-    if not name or not year or not volume or not number or not pages:
-        flash("Missing required fields")
-        return redirect("/")
-
-    if citation_name_exists(name):
+    citation_info = [None for field in REF_FIELDS]
+    index = 0
+    for ref_field in REF_FIELDS:
+        field = request.form.get(f'{ref_field}')
+        if field:
+            citation_info[index] = field
+        index += 1
+    citation_info[REF_FIELDS.index("citation_type")] = "article"
+    for required_info in ["name", "year", "volume"]:
+        if citation_info[REF_FIELDS.index(required_info)] is None:
+            flash("Missing required fields")
+            return redirect("/")
+    if citation_name_exists(citation_info[REF_FIELDS.index("name")]):
         flash("Citation name must be unique")
         return redirect("/")
-
     try:
-        year_int = int(year)
-        volume_float = float(volume)
-        number_int = int(number)
-
-        create_citation(
-            name=name,
-            citation_type="article",
-            author=author,
-            title=title,
-            journal=journal,
-            year=year_int,
-            volume=volume_float,
-            number=number_int,
-            pages=pages,
-        )
+        int(citation_info[REF_FIELDS.index("year")])
+        float(citation_info[REF_FIELDS.index("volume")])
+        int(citation_info[REF_FIELDS.index("number")])
+        create_citation(citation_info)
         return redirect("/")
     except Exception as error:
         flash(str(error))
         return redirect("/")
 
-@app.route("/toggle_citation/<citation_id>", methods=["POST"])
-def toggle_citation(citation_id):
-    set_done(citation_id)
-    return redirect("/")
 
-
-@app.route("/remove/<int:citation_id>", methods=["GET","POST"])
+@app.route("/remove/<citation_id>", methods=["GET","POST"])
 def remove(citation_id):
     if request.method == "POST":
         if "remove" in request.form:

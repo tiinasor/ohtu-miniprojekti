@@ -1,23 +1,16 @@
+from REF_FIELDS import REF_FIELDS
+
 class Citation:
-    def __init__(
-        self, citation_id, name: str, citation_type: str, author: str,
-        title: str, journal: str, year: int, volume: float,
-        number: int, pages: str
-    ):
-        self.id = citation_id
-        self.name = name
-        self.citation_type = "article"
-        self.author = author
-        self.title = title
-        self.journal = journal
-        self.year = year
-        self.volume = volume
-        self.number = number
-        self.pages = pages
+    def __init__(self, ref_info: list):
+        self.id = ref_info[0]
+        self.ref_info = ref_info[1:]
+
+    def get_field(self, field_name: str):
+        if field_name == 'id':
+            return self.id
+        if field_name in REF_FIELDS:
+            return self.ref_info[REF_FIELDS.index(field_name)]
+        raise ValueError(f"Field '{field_name}' is not a valid reference field.")
 
     def __str__(self):
-        return (
-            f"{self.name}: {self.title} by {self.author} ({self.year}) "
-            f"{self.journal}, Vol. {self.volume}, No. {self.number}, "
-            f"pp. {self.pages}"
-        )
+        return f"Citation({', '.join(f'{field}={getattr(self, field)}' for field in REF_FIELDS)})"

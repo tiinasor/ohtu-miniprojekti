@@ -2,38 +2,34 @@ from sqlalchemy import text
 
 from config import db
 from entities.citation import Citation
+from REF_FIELDS import REF_FIELDS
 
 def get_citations():
-    result = db.session.execute(
-        text("""SELECT id, name, citation_type, author, title, journal,
-                year, volume, number, pages FROM citations""")
-    )
+    sql_command = "SELECT id, "
+    for field in REF_FIELDS:
+        sql_command += field + ", "
+    sql_command = sql_command.rstrip(", ")  # Remove trailing comma and space
+    sql_command += " FROM citations"
+    result = db.session.execute(text(sql_command))
     citations = result.fetchall()
     return [
-        Citation(
-            citation[0], citation[1], citation[2], citation[3],
-            citation[4], citation[5], citation[6], citation[7],
-            citation[8], citation[9]
-        ) for citation in citations
+        Citation(citation) for citation in citations
     ]
 
-def create_citation(
-    name: str, citation_type: str, author: str, title: str,
-    journal: str, year: int, volume: float, number: int, pages: str
-):
-    sql = text(
-        """INSERT INTO citations (name, citation_type, author, title,
-           journal, year, volume, number, pages)
-           VALUES (:name, :citation_type, :author, :title, :journal,
-           :year, :volume, :number, :pages)"""
-    )
-    db.session.execute(sql, {
-        "name": name, "citation_type": citation_type, "author": author,
-        "title": title, "journal": journal, "year": year, "volume": volume,
-        "number": number, "pages": pages
+def create_citation(ref_info:list):
+
+    sql_command = "INSERT INTO citations ("
+    sql_command += ", ".join(REF_FIELDS)
+    sql_command += ") VALUES ("
+    for field in REF_FIELDS:
+        sql_command += f":{field}, "
+    sql_command = sql_command.rstrip(", ")  # Remove trailing comma and space
+    sql_command += ")"
+
+    db.session.execute(text(sql_command), {
+        field: ref_info[index] for index, field in enumerate(REF_FIELDS)
     })
     db.session.commit()
-
 
 def remove_citation(citation_id):
     if citation_id is None:
@@ -42,7 +38,6 @@ def remove_citation(citation_id):
     sql = text("DELETE FROM citations WHERE id = :id")
     db.session.execute(sql, {"id": citation_id})
     db.session.commit()
-
 
 def citation_name_exists(name: str) -> bool:
     sql = text("SELECT 1 FROM citations WHERE name = :name")

@@ -53,29 +53,21 @@ Citation database app
 <table border="1">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Author</th>
-            <th>Title</th>
-            <th>Journal</th>
-            <th>Year</th>
-            <th>Volume</th>
-            <th>Number</th>
-            <th>Pages</th>
+            <th>id</th>
+            {% for ref_field in ref_fields %}
+            <th>{{ ref_field }}</th>
+            {% endfor %}
         </tr>
     </thead>
     <tbody>
-        {% for citation in citations %}
         <tr>
-            <td>{{ citation.name }}</td>
-            <td>{{ citation.author }}</td>
-            <td>{{ citation.title }}</td>
-            <td>{{ citation.journal }}</td>
-            <td>{{ citation.year }}</td>
-            <td>{{ citation.volume }}</td>
-            <td>{{ citation.number }}</td>
-            <td>{{ citation.pages }}</td>
-            <td>
-        <form action="/remove/{{ citation.id }}" method="GET">
+        {% for citation in citations %}
+        <td>{{ citation.get_field("id") }}</td>
+        {% for ref_field in ref_fields %}
+        <td>{{ citation.get_field(ref_field) }}</td>
+        {% endfor %}
+        <td>
+        <form action="/remove/{{ citation.get_field("id") }}" method="GET">
           <button type="submit">Remove</button>
         </form>
       </td>
