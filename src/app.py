@@ -1,3 +1,5 @@
+"""Flask app routes for citation management."""
+
 from flask import redirect, render_template, request, jsonify, flash
 from db_helper import reset_db
 from repositories.citation_repository import (
@@ -11,11 +13,13 @@ from ref_fields import REF_FIELDS
 
 @app.route("/")
 def index():
+    """Show citations."""
     citations = get_citations()
     return render_template("index.html", citations=citations, ref_fields=REF_FIELDS)
 
 @app.route("/create_citation", methods=["POST"])
 def create_citation_route():
+    """Handle citation creation form."""
     citation_info = [None for field in REF_FIELDS]
     idx = 0
     for ref_field in REF_FIELDS:
@@ -44,6 +48,7 @@ def create_citation_route():
 
 @app.route("/remove/<citation_id>", methods=["GET","POST"])
 def remove(citation_id):
+    """Remove a citation or show confirmation."""
     if request.method == "POST":
         if "remove" in request.form:
             remove_citation(citation_id)
@@ -56,5 +61,6 @@ def remove(citation_id):
 if test_env:
     @app.route("/reset_db")
     def reset_database():
+        """Reset the database (test only)."""
         reset_db()
         return jsonify({ 'message': "db reset" })
