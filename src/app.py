@@ -41,7 +41,7 @@ def create_citation_route():
         int(citation_info[REF_FIELDS.index("number")])
         create_citation(citation_info)
         return redirect("/")
-    except Exception as error:
+    except (ValueError, TypeError) as error:
         flash(str(error))
         return redirect("/")
 
@@ -55,8 +55,8 @@ def remove(citation_id):
             return redirect("/")
         if "back" in request.form:
             return redirect("/")
-    else:
-        return render_template("remove_citation.html", citation_id = citation_id)
+        return redirect("/")
+    return render_template("remove_citation.html", citation_id = citation_id)
 
 if test_env:
     @app.route("/reset_db")

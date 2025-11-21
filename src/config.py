@@ -1,3 +1,5 @@
+"""Configuration for the Flask app and SQLAlchemy."""
+
 from os import getenv
 
 from flask import Flask

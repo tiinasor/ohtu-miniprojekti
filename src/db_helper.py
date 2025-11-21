@@ -1,3 +1,5 @@
+"""Database helper utilities for creating and resetting the schema."""
+
 import os
 
 from sqlalchemy import text
@@ -6,6 +8,7 @@ from config import db, app
 
 
 def reset_db():
+    """Delete all rows from the `citations` table."""
     print("Clearing contents from table citations")
     sql = text("DELETE FROM citations")
     db.session.execute(sql)
@@ -42,7 +45,7 @@ def setup_db():
 
     # Read schema from schema.sql file
     schema_path = os.path.join(os.path.dirname(__file__), 'schema.sql')
-    with open(schema_path, 'r', encoding="utf-8") as f:
+    with open(schema_path, 'r', encoding='utf-8') as f:
         schema_sql = f.read().strip()
 
     sql = text(schema_sql)

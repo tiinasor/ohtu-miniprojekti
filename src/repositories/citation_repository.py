@@ -1,3 +1,5 @@
+"""Repository helpers for reading and writing citations."""
+
 from sqlalchemy import text
 
 from config import db
@@ -5,6 +7,7 @@ from entities.citation import Citation
 from ref_fields import REF_FIELDS
 
 def get_citations():
+    """Return all citations as Citation entities."""
     sql_command = "SELECT id, "
     for field in REF_FIELDS:
         sql_command += field + ", "
@@ -16,7 +19,8 @@ def get_citations():
         Citation(citation) for citation in citations
     ]
 
-def create_citation(ref_info:list):
+def create_citation(ref_info: list):
+    """Insert a citation using `ref_info` ordered by `REF_FIELDS`."""
 
     sql_command = "INSERT INTO citations ("
     sql_command += ", ".join(REF_FIELDS)
@@ -32,6 +36,7 @@ def create_citation(ref_info:list):
     db.session.commit()
 
 def remove_citation(citation_id):
+    """Delete a citation by id."""
     if citation_id is None:
         return
 
@@ -40,6 +45,7 @@ def remove_citation(citation_id):
     db.session.commit()
 
 def citation_name_exists(name: str) -> bool:
+    """Return True if a citation with `name` exists."""
     sql = text("SELECT 1 FROM citations WHERE name = :name")
     result = db.session.execute(sql, {"name": name}).first()
     return result is not None
