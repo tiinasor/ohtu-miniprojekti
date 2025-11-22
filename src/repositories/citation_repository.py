@@ -4,32 +4,30 @@ from config import db
 from entities.citation import Citation
 from ref_fields import REF_FIELDS
 
+
 def get_citations():
-    sql_command = "SELECT id, "
-    for field in REF_FIELDS:
-        sql_command += field + ", "
-    sql_command = sql_command.rstrip(", ")  # Remove trailing comma and space
-    sql_command += " FROM citations"
+    sql_command = "SELECT id, " + ", ".join(REF_FIELDS) + " FROM citations"
     result = db.session.execute(text(sql_command))
     citations = result.fetchall()
-    return [
-        Citation(citation) for citation in citations
-    ]
+    
+    return [Citation(citation) for citation in citations]
 
-def create_citation(ref_info:list):
 
-    sql_command = "INSERT INTO citations ("
-    sql_command += ", ".join(REF_FIELDS)
-    sql_command += ") VALUES ("
-    for field in REF_FIELDS:
-        sql_command += f":{field}, "
-    sql_command = sql_command.rstrip(", ")  # Remove trailing comma and space
-    sql_command += ")"
+def create_citation(fields: dict):
+    sql_command = f"""
+        INSERT INTO citations (
+            {", ".join(REF_FIELDS)}
+        ) VALUES (
+            {", ".join(f":{f}" for f in REF_FIELDS)}
+        )
+    """
 
-    db.session.execute(text(sql_command), {
-        field: ref_info[index] for index, field in enumerate(REF_FIELDS)
-    })
+    # fill missing fields with None
+    params = {field: fields.get(field) for field in REF_FIELDS}
+
+    db.session.execute(text(sql_command), params)
     db.session.commit()
+
 
 def remove_citation(citation_id):
     if citation_id is None:
@@ -38,6 +36,7 @@ def remove_citation(citation_id):
     sql = text("DELETE FROM citations WHERE id = :id")
     db.session.execute(sql, {"id": citation_id})
     db.session.commit()
+
 
 def citation_name_exists(name: str) -> bool:
     sql = text("SELECT 1 FROM citations WHERE name = :name")

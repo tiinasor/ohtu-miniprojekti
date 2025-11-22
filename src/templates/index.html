@@ -6,74 +6,103 @@ Citation database app
 
 {% block body %}
 
-<h2>Citations engine</h2>
+<div class="panel form-panel">
+    <h2>Create citation</h2>
+    <p class="panel-subtitle">Fill in fields for the selected type</p>
 
-<h3>Create new citation</h3>
+    <form action="/create_citation" method="post">
 
-<form action="/create_citation" method="post">
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <ul>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    {% endwith %}
-
-    <label for="name">Name:</label><br>
-    <input type="text" id="name" name="name" required><br>
-
-    <label for="author">Author:</label><br>
-    <input type="text" id="author" name="author"><br>
-
-    <label for="title">Title:</label><br>
-    <input type="text" id="title" name="title"><br>
-
-    <label for="journal">Journal:</label><br>
-    <input type="text" id="journal" name="journal"><br>
-
-    <label for="year">Year (Number):</label><br>
-    <input type="text" id="year" name="year" required pattern="[0-9]+" inputmode="numeric"><br>
-
-    <label for="volume">Volume (Number):</label><br>
-    <input type="text" id="volume" name="volume" required pattern="[0-9]+(\.[0-9]+)?" inputmode="numeric"><br>
-
-    <label for="number">Number (Number):</label><br>
-    <input type="text" id="number" name="number" required pattern="[0-9]+" inputmode="numeric"><br>
-
-    <label for="pages">Pages:</label><br>
-    <input type="text" id="pages" name="pages" required><br><br>
-
-    <button type="submit">Create</button>
-</form>
-
-<h3>Existing citations</h3>
-
-<table border="1">
-    <thead>
-        <tr>
-            <th>id</th>
-            {% for ref_field in ref_fields %}
-            <th>{{ ref_field }}</th>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="flash-messages">
+            {% for m in messages %}
+            <li>{{ m }}</li>
             {% endfor %}
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-        {% for citation in citations %}
-        <td>{{ citation.get_field("id") }}</td>
-        {% for ref_field in ref_fields %}
-        <td>{{ citation.get_field(ref_field) }}</td>
-        {% endfor %}
-        <td>
-        <form action="/remove/{{ citation.get_field("id") }}" method="GET">
-          <button type="submit">Remove</button>
-        </form>
-      </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        <label for="citation_type">Citation type</label>
+        <select name="citation_type" id="citation_type">
+            <option value="article">Article</option>
+            <option value="book">Book</option>
+            <option value="inproceedings">Inproceedings</option>
+            <option value="mastersthesis">Mastersthesis</option>
+            <option value="phdthesis">Phdthesis</option>
+            <option value="misc">Misc</option>
+        </select>
+
+        <label>Name (unique)</label>
+        <input type="text" name="name" required>
+
+        <div id="fields-container" class="form-fields">
+            {% include 'forms/article_form.html' %}
+            {% include 'forms/book_form.html' %}
+            {% include 'forms/inproceedings_form.html' %}
+            {% include 'forms/mastersthesis_form.html' %}
+            {% include 'forms/phdthesis_form.html' %}
+            {% include 'forms/misc_form.html' %}
+        </div>
+
+        <div class="button-row">
+            <button type="submit">Save citation</button>
+        </div>
+
+    </form>
+</div>
+
+<div class="panel list-panel">
+    <h2>Citations</h2>
+    <p class="panel-subtitle">All saved entries</p>
+
+    <div class="scroll-area">
+        <table>
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>type</th>
+                    <th>author</th>
+                    <th>year</th>
+                    <th>volume</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for c in citations %}
+                <tr>
+                    <td>{{ c.id }}</td>
+                    <td>{{ c.get_field("name") }}</td>
+                    <td>{{ c.get_field("citation_type") }}</td>
+                    <td>{{ c.get_field("author") }}</td>
+                    <td>{{ c.get_field("year") }}</td>
+                    <td>{{ c.get_field("volume") }}</td>
+                    <td>
+                        <form class="remove-form" action="/remove/{{ c.id }}" method="post">
+                            <button class="remove-button" type="submit">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    const typeSelect = document.getElementById("citation_type")
+    const fieldBlocks = document.querySelectorAll(".citation-fields")
+
+    function updateFields() {
+        const selected = typeSelect.value
+        fieldBlocks.forEach(b =>
+            b.style.display = (b.dataset.type === selected ? "block" : "none")
+        )
+    }
+
+    updateFields()
+    typeSelect.addEventListener("change", updateFields)
+</script>
 
 {% endblock %}

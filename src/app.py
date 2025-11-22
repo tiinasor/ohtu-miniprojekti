@@ -16,27 +16,29 @@ def index():
 
 @app.route("/create_citation", methods=["POST"])
 def create_citation_route():
-    citation_info = [None for field in REF_FIELDS]
-    idx = 0
-    for ref_field in REF_FIELDS:
-        field = request.form.get(f'{ref_field}')
-        if field:
-            citation_info[idx] = field
-        idx += 1
-    citation_info[REF_FIELDS.index("citation_type")] = "article"
-    for required_info in ["name", "year", "volume"]:
-        if citation_info[REF_FIELDS.index(required_info)] is None:
+
+    fields = {field: request.form.get(field) for field in REF_FIELDS}
+
+    required = ["name", "year", "volume"]
+    for r in required:
+        if not fields.get(r):
             flash("Missing required fields")
             return redirect("/")
-    if citation_name_exists(citation_info[REF_FIELDS.index("name")]):
+        
+    if citation_name_exists(fields["name"]):
         flash("Citation name must be unique")
         return redirect("/")
+
+    fields["citation_type"] = request.form.get("citation_type")
+
     try:
-        int(citation_info[REF_FIELDS.index("year")])
-        float(citation_info[REF_FIELDS.index("volume")])
-        int(citation_info[REF_FIELDS.index("number")])
-        create_citation(citation_info)
+        fields["year"] = int(fields["year"])
+        fields["volume"] = float(fields["volume"])
+        fields["number"] = int(fields["number"]) if fields.get("number") else None
+
+        create_citation(fields)
         return redirect("/")
+
     except Exception as error:
         flash(str(error))
         return redirect("/")
