@@ -1,3 +1,5 @@
+"""Repository helpers for reading and writing citations."""
+
 from sqlalchemy import text
 
 from config import db
@@ -30,6 +32,7 @@ def create_citation(fields: dict):
 
 
 def remove_citation(citation_id):
+    """Delete a citation by id."""
     if citation_id is None:
         return
 
@@ -39,6 +42,7 @@ def remove_citation(citation_id):
 
 
 def citation_name_exists(name: str) -> bool:
+    """Return True if a citation with `name` exists."""
     sql = text("SELECT 1 FROM citations WHERE name = :name")
     result = db.session.execute(sql, {"name": name}).first()
     return result is not None

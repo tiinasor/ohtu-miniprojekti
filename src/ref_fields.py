@@ -1,3 +1,5 @@
+"""List of reference field names in the order used for citations."""
+
 REF_FIELDS = ["name",
 "citation_type",
 "address",
