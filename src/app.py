@@ -19,6 +19,7 @@ def index():
 
 @app.route("/create_citation", methods=["POST"])
 def create_citation_route():
+    """Handle citation creation form submission."""
 
     fields = {field: request.form.get(field) for field in REF_FIELDS}
 
@@ -27,7 +28,7 @@ def create_citation_route():
         if not fields.get(r):
             flash("Missing required fields")
             return redirect("/")
-        
+
     if citation_name_exists(fields["name"]):
         flash("Citation name must be unique")
         return redirect("/")
@@ -42,7 +43,7 @@ def create_citation_route():
         create_citation(fields)
         return redirect("/")
 
-    except Exception as error:
+    except (ValueError, TypeError) as error:
         flash(str(error))
         return redirect("/")
 

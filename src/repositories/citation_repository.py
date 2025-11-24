@@ -8,14 +8,16 @@ from ref_fields import REF_FIELDS
 
 
 def get_citations():
+    """Return all citations as Citation objects."""
     sql_command = "SELECT id, " + ", ".join(REF_FIELDS) + " FROM citations"
     result = db.session.execute(text(sql_command))
     citations = result.fetchall()
-    
+
     return [Citation(citation) for citation in citations]
 
 
 def create_citation(fields: dict):
+    """Insert a citation record using a mapping of field->value."""
     sql_command = f"""
         INSERT INTO citations (
             {", ".join(REF_FIELDS)}
