@@ -79,7 +79,7 @@ Citation database app
                     <td>{{ c.get_field("year") }}</td>
                     <td>{{ c.get_field("volume") }}</td>
                     <td>
-                        <form class="remove-form" action="/remove/{{ c.id }}" method="post">
+                        <form class="remove-form" action="/remove/{{ c.id }}" method="get">
                             <button class="remove-button" type="submit">Remove</button>
                         </form>
                     </td>
