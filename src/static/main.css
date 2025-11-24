@@ -35,6 +35,8 @@ body {
     box-sizing: border-box;
     height: 100%;
     /* same height for both panels */
+    overflow-y: auto;
+    /* allow scrolling when content exceeds panel height */
 }
 
 /* form panel: content just flows, no internal scroll */

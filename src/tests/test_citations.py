@@ -22,6 +22,7 @@ class ValidateCitationTestCase(unittest.TestCase):
     def submit(self, **overrides):
         base = {
             "name": "test",
+            "citation_type": "article",
             "author": "A",
             "title": "T",
             "journal": "J",
@@ -35,21 +36,21 @@ class ValidateCitationTestCase(unittest.TestCase):
 
     """ ----------------- SQL DATABASE TESTS ----------------- """
 
-    def test_sql_create_citation(self):
+    def test_sql_create_article_citation(self):
         response = self.submit(name="test-citation")
         citations = get_citations()
         self.assertEqual(len(citations), 1)
         self.assertEqual(citations[0].get_field("name"), "test-citation")
         self.assertIn(b"test-citation", response.data)
 
-    def test_sql_unique_citation_name(self):
+    def test_sql_unique_article_citation_name(self):
         self.submit(name="unique-name")
         response = self.submit(name="unique-name")
         citations = get_citations()
         self.assertEqual(len(citations), 1)
         self.assertIn(b"Citation name must be unique", response.data)
 
-    def test_sql_remove_citation(self):
+    def test_sql_remove_article_citation(self):
         self.submit(name="to-delete")
         citation_id = get_citations()[0].get_field("id")
         response = self.client.post(f"/remove/{citation_id}", data={"remove": "1"}, follow_redirects=True)
@@ -58,14 +59,15 @@ class ValidateCitationTestCase(unittest.TestCase):
 
     """ ----------------- FORM VALIDITY TESTS ----------------- """
 
-    def test_form_missing_required_fields(self):
-        fields = ["name", "year", "volume", "number", "pages"]
+    def test_article_form_missing_required_fields(self):
+        fields = ["name", "author", "title", "journal", "year"]
         for field in fields:
+            reset_db()  # Reset database between iterations
             response = self.submit(**{field: ""})
             self.assertEqual(len(get_citations()), 0)
             self.assertIn(b"Missing required fields", response.data)
 
-    def test_form_invalid_numeric_fields(self):
+    def test_article_form_invalid_numeric_fields(self):
         invalids = {
             "year": "abcd",
             "volume": "x.y",

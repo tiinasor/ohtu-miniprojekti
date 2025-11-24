@@ -8,7 +8,7 @@ Citation database app
 
 <div class="panel form-panel">
     <h2>Create citation</h2>
-    <p class="panel-subtitle">Fill in fields for the selected type</p>
+    <p class="panel-subtitle">Fields marked with <span class="required">*</span> are required.</p>
 
     <form action="/create_citation" method="post">
 
@@ -23,7 +23,7 @@ Citation database app
         {% endwith %}
 
         <label for="citation_type">Citation type</label>
-        <select name="citation_type" id="citation_type">
+        <select name="citation_type" id="citation_type" onchange="this.form.className = 'citation-form-' + this.value">
             <option value="article">Article</option>
             <option value="book">Book</option>
             <option value="inproceedings">Inproceedings</option>
@@ -32,16 +32,28 @@ Citation database app
             <option value="misc">Misc</option>
         </select>
 
-        <label>Name (unique)</label>
-        <input type="text" name="name" required>
+        <label>Name<span class="required">*</span></label>
+        <input type="text" name="name"  placeholder="Unique name" required>
 
         <div id="fields-container" class="form-fields">
+            <div class="citation-fields" data-type="article">
             {% include 'forms/article_form.html' %}
+            </div>
+            <div class="citation-fields" data-type="book">
             {% include 'forms/book_form.html' %}
+            </div>
+            <div class="citation-fields" data-type="inproceedings">
             {% include 'forms/inproceedings_form.html' %}
+            </div>
+            <div class="citation-fields" data-type="mastersthesis">
             {% include 'forms/mastersthesis_form.html' %}
+            </div>
+            <div class="citation-fields" data-type="phdthesis">
             {% include 'forms/phdthesis_form.html' %}
+            </div>
+            <div class="citation-fields" data-type="misc">
             {% include 'forms/misc_form.html' %}
+            </div>
         </div>
 
         <div class="button-row">
@@ -96,9 +108,14 @@ Citation database app
 
     function updateFields() {
         const selected = typeSelect.value
-        fieldBlocks.forEach(b =>
-            b.style.display = (b.dataset.type === selected ? "block" : "none")
-        )
+        fieldBlocks.forEach(b => {
+            const isSelected = b.dataset.type === selected
+            b.style.display = isSelected ? "block" : "none"
+            // Disable inputs in hidden forms so they're not submitted
+            b.querySelectorAll("input, select, textarea").forEach(input => {
+                input.disabled = !isSelected
+            })
+        })
     }
 
     updateFields()

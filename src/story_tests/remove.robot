@@ -5,8 +5,16 @@ Suite Teardown   Close Browser
 
 
 *** Test Cases ***
-Remove citation correctly
+Remove article citation correctly
+    Reset Citations
     Go To  ${HOME_URL}
+    Select From List By Value  citation_type  article
+    Input Text  name  jhojkjsadfj
+    Input Text  author_article  kifgj
+    Input Text  title_article  hfhhhdf
+    Input Text  journal_article  tasd
+    Input Text  year_article  1996
+    Click Button  Save citation
     
     #Finds the remove button which has the unique test name in its row
     Click Button  xpath=//tr[td[normalize-space()="jhojkjsadfj"]]//button[text()="Remove"]
@@ -16,5 +24,3 @@ Remove citation correctly
     Click Button  Remove
     Page Should Contain  Create citation
     Page Should Not Contain  jhojkjsadfj
-
-
