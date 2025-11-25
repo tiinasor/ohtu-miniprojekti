@@ -79,9 +79,8 @@ Citation database app
                 <tr>
                     <th>name</th>
                     <th>type</th>
-                    <th>author</th>
+                    <th>title</th>
                     <th>year</th>
-                    <th>volume</th>
                     <th></th>
                 </tr>
             </thead>
@@ -91,13 +90,16 @@ Citation database app
                 <tr>
                     <td>{{ c.get_field("name") }}</td>
                     <td>{{ c.get_field("citation_type") }}</td>
-                    <td>{{ c.get_field("author") }}</td>
+                    <td>{{ c.get_field("title") }}</td>
                     <td>{{ c.get_field("year") }}</td>
-                    <td>{{ c.get_field("volume") }}</td>
                     <td>
-                        <form class="remove-form" action="/remove/{{ c.id }}" method="post"
-                            data-name="{{ c.get_field('name') }}">
-                            <button class="remove-button icon-button" type="submit" title="Delete">X</button>
+                        <form class="remove-form"
+                              action="/remove/{{ c.id }}"
+                              method="post"
+                              data-name="{{ c.get_field('name') }}">
+                            <button class="remove-button icon-button"
+                                    type="submit"
+                                    title="Delete">X</button>
                         </form>
                     </td>
                 </tr>
