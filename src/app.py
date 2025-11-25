@@ -8,7 +8,7 @@ from repositories.citation_repository import (
     remove_citation,
     citation_name_exists,
 )
-from config import app, test_env #pylint: disable=W0611
+from config import app, test_env
 from ref_fields import REF_FIELDS
 from util import  UserInputError
 
@@ -99,12 +99,10 @@ def remove(citation_id):
     remove_citation(citation_id)
     return redirect("/")
 
-# pylint: disable=W0101
 # Test-only: reset DB
-# if test_env:
+if test_env:
     @app.route("/reset_db")
     def reset_database():
         """Reset the database (test only)."""
         reset_db()
         return jsonify({"message": "db reset"})
-# pylint: enable=W0101
