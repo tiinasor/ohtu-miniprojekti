@@ -10,6 +10,7 @@ from repositories.citation_repository import (
 )
 from config import app, test_env
 from ref_fields import REF_FIELDS
+from util import validate_citation_info, UserInputError
 
 def get_required_fields(citation_type, fields):
     """Get required fields based on citation type.
@@ -68,6 +69,10 @@ def create_citation_route():
         return redirect("/")
 
     try:
+        # Validate user input (may raise UserInputError)
+        validate_citation_info(fields)
+
+        # Convert numeric strings to proper types when present
         if fields.get("year"):
             fields["year"] = int(fields["year"])
         if fields.get("volume"):
@@ -78,6 +83,9 @@ def create_citation_route():
         create_citation(fields)
         return redirect("/")
 
+    except UserInputError as error:
+        flash(str(error))
+        return redirect("/")
     except (ValueError, TypeError) as error:
         flash(str(error))
         return redirect("/")
