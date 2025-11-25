@@ -10,7 +10,7 @@ from repositories.citation_repository import (
 )
 from config import app, test_env
 from ref_fields import REF_FIELDS
-
+from util import validate_citation_info, UserInputError
 
 def get_required_fields(citation_type, fields):
     """Return required fields for a given citation type.
@@ -84,6 +84,9 @@ def create_citation_route():
         create_citation(fields)
         return redirect("/")
 
+    except UserInputError as error:
+        flash(str(error))
+        return redirect("/")
     except (ValueError, TypeError) as error:
         flash(str(error))
         return redirect("/")
