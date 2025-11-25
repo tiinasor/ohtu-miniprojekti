@@ -1,48 +1,69 @@
 <div class="citation-fields" data-type="phdthesis">
-    
+
     <!-- Author (required) -->
-    <div class="field-row field-medium">
-        <label for="author_phdthesis">Author <span class="required">*</span></label>
-        <input type="text" id="author_phdthesis" name="author" placeholder="Author name" required>
+
+    <div class="field-row field-medium required-field">
+        <label for="author_phdthesis">Author</label>
+        <div class="required-wrapper">
+            <input type="text" id="author_phdthesis" name="author" placeholder="Author name" required>
+            <span class="required-star">*</span>
+        </div>
     </div>
 
-    <!-- Title (required) -->
+
+    <!-- Title (required, full width) -->
+    <div class="field-row field-large required-field">
+        <label for="title_phdthesis">Title</label>
+        <div class="required-wrapper">
+            <input type="text" id="title_phdthesis" name="title" placeholder="Dissertation title" required>
+            <span class="required-star">*</span>
+        </div>
+    </div>
+
+    <!-- School (required, full width) -->
+    <div class="field-row field-large required-field">
+        <label for="school_phdthesis">School</label>
+        <div class="required-wrapper">
+            <input type="text" id="school_phdthesis" name="school" placeholder="University / institution name" required>
+            <span class="required-star">*</span>
+        </div>
+    </div>
+
+    <!-- Year + Month + Keywords -->
+    <div class="field-inline">
+        <div class="field-row field-small required-field">
+            <label for="year_phdthesis">Year</label>
+            <div class="required-wrapper">
+                <input
+                    type="text"
+                    id="year_phdthesis"
+                    name="year"
+                    placeholder="YYYY"
+                    required
+                >
+                <span class="required-star">*</span>
+            </div>
+        </div>
+
+        <div class="field-row field-small">
+            <label for="month_phdthesis">Month</label>
+            <input type="text" id="month_phdthesis" name="month" placeholder="e.g. Jan">
+        </div>
+
+        <div class="field-row field-medium">
+            <label for="keywords_phdthesis">Keywords</label>
+            <input type="text" id="keywords_phdthesis" name="keywords" placeholder="Comma-separated">
+        </div>
+
+    </div>
+
+    <!-- Address (optional, full width) -->
     <div class="field-row field-large">
-        <label for="title_phdthesis">Title <span class="required">*</span></label>
-        <input type="text" id="title_phdthesis" name="title" placeholder="Dissertation title" required>
-    </div>
-
-    <!-- Year (required) -->
-    <div class="field-row field-small">
-        <label for="year_phdthesis">Year <span class="required">*</span></label>
-        <input type="text" id="year_phdthesis" name="year" placeholder="YYYY" required>
-    </div>
-
-    <!-- School (required) -->
-    <div class="field-row field-large">
-        <label for="school_phdthesis">School <span class="required">*</span></label>
-        <input type="text" id="school_phdthesis" name="school" placeholder="University/institution name" required>
-    </div>
-
-    <!-- Address (optional) -->
-    <div class="field-row field-medium">
         <label for="address_phdthesis">Address</label>
         <input type="text" id="address_phdthesis" name="address" placeholder="Location">
     </div>
 
-    <!-- Month (optional) -->
-    <div class="field-row field-small">
-        <label for="month_phdthesis">Month</label>
-        <input type="text" id="month_phdthesis" name="month" placeholder="e.g. Jan">
-    </div>
-
-    <!-- Keywords (optional) -->
-    <div class="field-row field-large">
-        <label for="keywords_phdthesis">Keywords</label>
-        <input type="text" id="keywords_phdthesis" name="keywords" placeholder="Keywords separated by commas">
-    </div>
-
-    <!-- Note (optional) -->
+    <!-- Note (optional, full width) -->
     <div class="field-row field-large">
         <label for="note_phdthesis">Note</label>
         <input type="text" id="note_phdthesis" name="note" placeholder="Additional notes">

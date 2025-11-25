@@ -4,8 +4,7 @@ body {
     margin: 0;
     font-family: system-ui, sans-serif;
     background-color: #f1f1f1;
-    overflow: hidden;
-    /* no page scroll */
+    overflow: hidden; /* no page scroll */
 }
 
 .page-wrapper {
@@ -19,7 +18,6 @@ body {
     width: 90%;
     max-width: 1200px;
     height: 80%;
-    /* fixed height for the two panels */
     display: flex;
     gap: 40px;
 }
@@ -34,17 +32,15 @@ body {
     padding: 20px;
     box-sizing: border-box;
     height: 100%;
-    /* same height for both panels */
-    overflow-y: auto;
-    /* allow scrolling when content exceeds panel height */
+    overflow-y: auto; /* panels scroll internally */
 }
 
-/* form panel: content just flows, no internal scroll */
+/* form panel */
 .form-panel .form-fields {
     margin-top: 10px;
 }
 
-/* list panel: inner area scrolls */
+/* list panel */
 .list-panel .scroll-area {
     flex: 1;
     margin-top: 10px;
@@ -52,7 +48,6 @@ body {
     border-radius: 4px;
     padding: 6px;
     overflow-y: auto;
-    /* only place with scroll */
 }
 
 .panel h2 {
@@ -75,6 +70,7 @@ label {
     font-size: 14px;
 }
 
+/* INPUTS */
 input[type="text"],
 select,
 textarea {
@@ -82,13 +78,16 @@ textarea {
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 6px 8px;
+    padding-right: 24px;  /* space for required star */
     font-size: 14px;
+    box-sizing: border-box;
 }
 
 textarea {
     resize: vertical;
 }
 
+/* Submit button row */
 .button-row {
     margin-top: 10px;
 }
@@ -106,15 +105,7 @@ button:hover {
     background-color: #1e4ed0;
 }
 
-.scroll-area {
-    flex: 1;
-    overflow-y: auto;
-    border: 1px solid #eee;
-    border-radius: 4px;
-    padding: 6px;
-    margin-top: 10px;
-}
-
+/* Table */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -131,14 +122,34 @@ th {
     background-color: #f3f3f3;
 }
 
+table td:last-child,
+table th:last-child {
+    width: 1%;
+    white-space: nowrap;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+/* Remove button */
 .remove-button {
     background-color: #d9534f;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    width: 22px;   /* smaller width */
+    height: 22px;  /* smaller height */
+    padding: 0;    /* IMPORTANT — removes padding */
+    line-height: 22px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px;
 }
 
 .remove-button:hover {
     background-color: #c9302c;
 }
 
+/* REQUIRED FIELD STYLING */
 .required {
     color: #d9534f;
     margin-left: 3px;
@@ -150,18 +161,68 @@ th {
     width: 100%;
 }
 
-.required-wrapper input {
-    padding-right: 24px;  /* space so the * doesn't overlap text */
-    box-sizing: border-box; /* prevents input from expanding */
-}
-
 .required-star {
     position: absolute;
-    right: 6px;       /* closer to the edge */
+    right: 6px;
     top: 50%;
     transform: translateY(-50%);
     color: #d9534f;
     font-size: 16px;
     pointer-events: none;
-    margin: 0;        /* ensure it's not adding spacing */
+    margin: 0;
+}
+
+/* FIELD LAYOUT SYSTEM ---------------------------------- */
+
+/* Multiple fields in one row */
+.field-inline {
+    display: flex;
+    gap: 10px;
+}
+
+/* Size modifiers (used inside inline rows) */
+.field-inline .field-small {
+    flex: 1;
+}
+
+.field-inline .field-medium {
+    flex: 1.5;
+}
+
+.field-inline .field-large {
+    flex: 2;
+}
+
+/* Ensure child inputs expand fully */
+.field-row {
+    width: 100%;
+}
+
+.field-row input,
+.field-row select,
+.field-row textarea {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+
+
+/* small icon delete button */
+.icon-button {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    font-size: 18px;
+    line-height: 32px;
+    text-align: center;
+    border-radius: 6px;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.icon-button:hover {
+    background-color: #c9302c;
 }

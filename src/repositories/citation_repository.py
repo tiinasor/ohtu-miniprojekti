@@ -25,8 +25,6 @@ def create_citation(fields: dict):
             {", ".join(f":{f}" for f in REF_FIELDS)}
         )
     """
-
-    # fill missing fields with None, convert empty strings to None
     params = {field: fields.get(field) or None for field in REF_FIELDS}
 
     db.session.execute(text(sql_command), params)

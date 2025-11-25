@@ -1,85 +1,123 @@
 <div class="citation-fields" data-type="article">
 
     <!-- Author (required) -->
-    <div class="field-row field-medium">
-        <label for="author_article">
-            Author <span class="required">*</span>
-        </label>
-        <input type="text" id="author_article" name="author"
-               placeholder="Author name(s)" required>
+    <div class="field-row field-large required-field">
+        <label for="author_article">Author</label>
+        <div class="required-wrapper">
+            <input
+                type="text"
+                id="author_article"
+                name="author"
+                placeholder="Author name(s)"
+                required
+            >
+            <span class="required-star">*</span>
+        </div>
     </div>
 
     <!-- Title (required) -->
     <div class="field-row field-large required-field">
-        <label for="title_article">
-            Title <span class="required">*</span>
-        </label>
-        <input 
-            type="text" 
-            id="title_article" 
-            name="title" 
-            placeholder="Article title"
-            required
-        >
+        <label for="title_article">Title</label>
+        <div class="required-wrapper">
+            <input 
+                type="text" 
+                id="title_article" 
+                name="title" 
+                placeholder="Article title"
+                required
+            >
+            <span class="required-star">*</span>
+        </div>
     </div>
 
     <!-- Journal (required) -->
-    <div class="field-row field-large">
-        <label for="journal_article">
-            Journal <span class="required">*</span>
-        </label>
-        <input type="text" id="journal_article" name="journal"
-               placeholder="Journal name" required>
+    <div class="field-row field-large required-field">
+        <label for="journal_article">Journal</label>
+        <div class="required-wrapper">
+            <input 
+                type="text" 
+                id="journal_article" 
+                name="journal"
+                placeholder="Journal name"
+                required
+            >
+            <span class="required-star">*</span>
+        </div>
     </div>
 
     <!-- Year + Volume + Number -->
     <div class="field-inline">
-
-        <!-- Year (required) -->
-        <div class="field-row field-small">
-            <label for="year_article">
-                Year <span class="required">*</span>
-            </label>
-            <input type="text" id="year_article" name="year"
-                   placeholder="YYYY" required>
+        <div class="field-row field-small required-field">
+            <label for="year_article">Year</label>
+            <div class="required-wrapper">
+                <input 
+                    type="text" 
+                    id="year_article" 
+                    name="year"
+                    placeholder="YYYY"
+                    required
+                >
+                <span class="required-star">*</span>
+            </div>
         </div>
 
-        <!-- Volume (optional) -->
-        <div class="field-row field-small">
+        <div class="field-row field-small required-field">
             <label for="volume_article">Volume</label>
-            <input type="text" id="volume_article" name="volume"
-                   placeholder="Volume number">
+            <div class="required-wrapper">
+                <input 
+                    type="text" 
+                    id="volume_article" 
+                    name="volume"
+                    placeholder="Volume"
+                    required
+                >
+                <span class="required-star">*</span>
+            </div>
         </div>
 
-        <!-- Number (optional) -->
         <div class="field-row field-small">
             <label for="number_article">Number</label>
-            <input type="text" id="number_article" name="number"
-                   placeholder="Issue number">
+            <input 
+                type="text" 
+                id="number_article" 
+                name="number"
+                placeholder="Issue number"
+            >
         </div>
     </div>
 
     <!-- Pages + Month -->
     <div class="field-inline">
-
         <div class="field-row field-medium">
             <label for="pages_article">Pages</label>
-            <input type="text" id="pages_article" name="pages"
-                   placeholder="e.g. 101-120">
+            <input 
+                type="text" 
+                id="pages_article" 
+                name="pages"
+                placeholder="e.g. 101-120"
+            >
         </div>
 
         <div class="field-row field-small">
             <label for="month_article">Month</label>
-            <input type="text" id="month_article" name="month"
-                   placeholder="e.g. Jan">
+            <input 
+                type="text" 
+                id="month_article" 
+                name="month"
+                placeholder="e.g. Jan"
+            >
         </div>
     </div>
 
     <!-- Note (optional) -->
     <div class="field-row field-large">
         <label for="note_article">Note</label>
-        <input type="text" id="note_article" name="note"
-               placeholder="Additional notes">
+        <input 
+            type="text" 
+            id="note_article" 
+            name="note"
+            placeholder="Additional notes"
+        >
     </div>
 
 </div>
