@@ -40,7 +40,6 @@ Citation database app
             </div>
         </div>
 
-
         <div id="fields-container" class="form-fields">
             <div class="citation-fields" data-type="article">
                 {% include 'forms/article_form.html' %}
@@ -63,7 +62,8 @@ Citation database app
         </div>
 
         <div class="button-row">
-            <button type="submit">Save citation</button>
+            <button type="submit" id="save_button">Save citation</button>
+            <button type="button" id="cancel_edit" style="display: none;">Cancel</button>
         </div>
 
     </form>
@@ -73,6 +73,16 @@ Citation database app
     <h2>Citations</h2>
     <p class="panel-subtitle">All saved entries</p>
 
+    <!-- Global Info / Edit / Delete buttons -->
+    <div class="button-row list-actions">
+        <button type="button" id="info_selected" disabled>Info</button>
+        <button type="button" id="edit_selected" disabled>Edit</button>
+
+        <form id="delete_selected_form" method="post" style="display: inline;">
+            <button type="submit" id="delete_selected" disabled>Delete</button>
+        </form>
+    </div>
+
     <div class="scroll-area">
         <table>
             <thead>
@@ -81,61 +91,25 @@ Citation database app
                     <th>type</th>
                     <th>title</th>
                     <th>year</th>
-                    <th></th>
                 </tr>
             </thead>
 
             <tbody>
                 {% for c in citations %}
-                <tr>
+                <tr
+                    data-id="{{ c.id }}"
+                    data-name="{{ c.get_field('name') }}"
+                    data-type="{{ c.get_field('citation_type') }}"
+                >
                     <td>{{ c.get_field("name") }}</td>
                     <td>{{ c.get_field("citation_type") }}</td>
                     <td>{{ c.get_field("title") }}</td>
                     <td>{{ c.get_field("year") }}</td>
-                    <td>
-                        <form class="remove-form"
-                              action="/remove/{{ c.id }}"
-                              method="post"
-                              data-name="{{ c.get_field('name') }}">
-                            <button class="remove-button icon-button"
-                                    type="submit"
-                                    title="Delete">X</button>
-                        </form>
-                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
-
-<script>
-    const typeSelect = document.getElementById("citation_type")
-    const fieldBlocks = document.querySelectorAll(".citation-fields")
-
-    function updateFields() {
-        const selected = typeSelect.value
-        fieldBlocks.forEach(b => {
-            const isSelected = b.dataset.type === selected
-            b.style.display = isSelected ? "block" : "none"
-            b.querySelectorAll("input, select, textarea").forEach(input => {
-                input.disabled = !isSelected
-            })
-        })
-    }
-
-    updateFields()
-    typeSelect.addEventListener("change", updateFields)
-
-    document.querySelectorAll(".remove-form").forEach(form => {
-        form.addEventListener("submit", function (event) {
-            const name = this.dataset.name || "this citation"
-            const ok = confirm(`Are you sure you want to remove "${name}"?`)
-            if (!ok) {
-                event.preventDefault()
-            }
-        })
-    })
-</script>
 
 {% endblock %}

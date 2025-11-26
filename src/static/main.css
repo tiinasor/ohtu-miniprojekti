@@ -226,3 +226,26 @@ table th:last-child {
 .icon-button:hover {
     background-color: #c9302c;
 }
+
+
+.list-actions {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.list-panel tbody tr {
+    cursor: pointer;
+}
+
+.list-panel tbody tr.selected-row {
+    background-color: #e0ecff;
+}
+
+#delete_selected {
+    background-color: #d9534f;
+}
+
+#delete_selected:hover {
+    background-color: #c9302c;
+}

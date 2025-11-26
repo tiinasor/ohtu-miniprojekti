@@ -92,7 +92,6 @@ def create_citation_route():
         return redirect("/")
 
 
-# NEW simplified delete route
 @app.route("/remove/<int:citation_id>", methods=["POST"])
 def remove(citation_id):
     """Delete a citation immediately (confirmation handled by JS popup)."""
