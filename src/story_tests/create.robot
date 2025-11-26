@@ -6,7 +6,6 @@ Suite Teardown   Close Browser
 
 *** Test Cases ***
 
-
 Add article citation correctly
     Go To  ${HOME_URL}
     Select From List By Value  citation_type  article
@@ -25,17 +24,21 @@ Add article citation correctly
     Input Text  note_article  500192asdokasdkpasjd34349!==#¤J#¤JN
     Click Button  Save citation
     Page Should Contain  UniqueNamekifgj
-    Click Button  css:form.remove-form[data-name="UniqueNamekifgj"] button
-    Handle Alert  ACCEPT
+
+    # select the row and use the global delete button
+    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNamekifgj"]]
+    Click Button   id=delete_selected
+    Handle Alert   ACCEPT
     Page Should Not Contain  UniqueNamekifgj
-	
+
+
 Add book citation correctly
     Go To  ${HOME_URL}
     Select From List By Value  citation_type  book
 
     #THIS IS UNIQUE NAME FIELD
     Input Text  author_article  UniqueNameforBookadsjkdsj
-    
+
     Input Text  author_book  jhojkjsadfj
     Input Text  editor_book  bobmarley
     Input Text  title_book  hfhhhdf
@@ -50,10 +53,13 @@ Add book citation correctly
     Input Text  note_book  500notes100!="#)23492834axvxcvxcv
     Click Button  Save citation
     Page Should Contain  UniqueNameforBookadsjkdsj
-    Click Button  css:form.remove-form[data-name="UniqueNameforBookadsjkdsj"] button
-    Handle Alert  ACCEPT
+
+    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameforBookadsjkdsj"]]
+    Click Button   id=delete_selected
+    Handle Alert   ACCEPT
     Page Should Not Contain  UniqueNameforBookadsjkdsj
-	
+
+
 Add inproceedings citation correctly
     Go To  ${HOME_URL}
     Select From List By Value  citation_type  inproceedings
@@ -77,9 +83,12 @@ Add inproceedings citation correctly
     Input Text  note_inproceedings  500notes100!="#)23492834axvxcvxcv
     Click Button  Save citation
     Page Should Contain  UniqueNameforInproceedings_testtest123123
-    Click Button  css:form.remove-form[data-name="UniqueNameforInproceedings_testtest123123"] button
-    Handle Alert  ACCEPT
+
+    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameforInproceedings_testtest123123"]]
+    Click Button   id=delete_selected
+    Handle Alert   ACCEPT
     Page Should Not Contain  UniqueNameforInproceedings_testtest123123
+
 
 Add mastersthesis citation correctly
     Go To  ${HOME_URL}
@@ -98,10 +107,13 @@ Add mastersthesis citation correctly
     Input Text  note_mastersthesis  500notes100!="#)23492834axvxcvxcv
     Click Button  Save citation
     Page Should Contain  UniqueNameForMastersthesis_testtest123123
-    Click Button  css:form.remove-form[data-name="UniqueNameForMastersthesis_testtest123123"] button
-    Handle Alert  ACCEPT
+
+    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameForMastersthesis_testtest123123"]]
+    Click Button   id=delete_selected
+    Handle Alert   ACCEPT
     Page Should Not Contain  UniqueNameForMastersthesis_testtest123123
-	
+
+
 Add phdthesis citation correctly
     Go To  ${HOME_URL}
     Select From List By Value  citation_type  phdthesis
@@ -119,10 +131,13 @@ Add phdthesis citation correctly
     Input Text  note_phdthesis  500notes100!="#)23492834axvxcvxcv
     Click Button  Save citation
     Page Should Contain  UniqueNameForphdthesis_testtest123123
-    Click Button  css:form.remove-form[data-name="UniqueNameForphdthesis_testtest123123"] button
-    Handle Alert  ACCEPT
+
+    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameForphdthesis_testtest123123"]]
+    Click Button   id=delete_selected
+    Handle Alert   ACCEPT
     Page Should Not Contain  UniqueNameForphdthesis_testtest123123
-	
+
+
 Add misc citation correctly
     Go To  ${HOME_URL}
     Select From List By Value  citation_type  misc
@@ -138,6 +153,8 @@ Add misc citation correctly
     Input Text  note_misc  500notes100!="#)23492834axvxcvxcv
     Click Button  Save citation
     Page Should Contain  UniqueNameFormisc_testtest123123
-    Click Button  css:form.remove-form[data-name="UniqueNameFormisc_testtest123123"] button
-    Handle Alert  ACCEPT
+
+    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameFormisc_testtest123123"]]
+    Click Button   id=delete_selected
+    Handle Alert   ACCEPT
     Page Should Not Contain  UniqueNameFormisc_testtest123123

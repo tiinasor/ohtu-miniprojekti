@@ -24,11 +24,15 @@ Removal of article citation works correctly
     Input Text  note_article  500192asdokasdkpasjd34349!==#¤J#¤JN
     Click Button  Save citation
     Page Should Contain  UniqueNameForArcticle_testtest123123
-    Click Button  css:form.remove-form[data-name="UniqueNameForArcticle_testtest123123"] button
-    Handle Alert  DISMISS
+
+    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameForArcticle_testtest123123"]]
+    Click Button   id=delete_selected
+    Handle Alert   DISMISS
     Page Should Contain  UniqueNameForArcticle_testtest123123
-    Click Button  css:form.remove-form[data-name="UniqueNameForArcticle_testtest123123"] button
-    Handle Alert  ACCEPT
+
+    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameForArcticle_testtest123123"]]
+    Click Button   id=delete_selected
+    Handle Alert   ACCEPT
     Page Should Not Contain  UniqueNameForArcticle_testtest123123
 
 Removal of book citation works correctly
@@ -50,11 +54,15 @@ Removal of book citation works correctly
     Input Text  note_book  500notes100!="#)23492834axvxcvxcv
     Click Button  Save citation
     Page Should Contain  UniqueNameforBook_testtest123123
-    Click Button  css:form.remove-form[data-name="UniqueNameforBook_testtest123123"] button
-    Handle Alert  DISMISS
+
+    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameforBook_testtest123123"]]
+    Click Button   id=delete_selected
+    Handle Alert   DISMISS
     Page Should Contain  UniqueNameforBook_testtest123123
-    Click Button  css:form.remove-form[data-name="UniqueNameforBook_testtest123123"] button
-    Handle Alert  ACCEPT
+
+    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameforBook_testtest123123"]]
+    Click Button   id=delete_selected
+    Handle Alert   ACCEPT
     Page Should Not Contain  UniqueNameforBook_testtest123123
 
 Removal of inproceedings citation works correctly
@@ -80,11 +88,15 @@ Removal of inproceedings citation works correctly
     Input Text  note_inproceedings  500notes100!="#)23492834axvxcvxcv
     Click Button  Save citation
     Page Should Contain  UniqueNameforInproceedings_testtest123123
-    Click Button  css:form.remove-form[data-name="UniqueNameforInproceedings_testtest123123"] button
-    Handle Alert  DISMISS
+
+    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameforInproceedings_testtest123123"]]
+    Click Button   id=delete_selected
+    Handle Alert   DISMISS
     Page Should Contain  UniqueNameforInproceedings_testtest123123
-    Click Button  css:form.remove-form[data-name="UniqueNameforInproceedings_testtest123123"] button
-    Handle Alert  ACCEPT
+
+    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameforInproceedings_testtest123123"]]
+    Click Button   id=delete_selected
+    Handle Alert   ACCEPT
     Page Should Not Contain  UniqueNameforInproceedings_testtest123123
 
 Removal of mastersthesis citation works correctly
@@ -104,13 +116,17 @@ Removal of mastersthesis citation works correctly
     Input Text  note_mastersthesis  500notes100!="#)23492834axvxcvxcv
     Click Button  Save citation
     Page Should Contain  UniqueNameForMastersthesis_testtest123123
-    Click Button  css:form.remove-form[data-name="UniqueNameForMastersthesis_testtest123123"] button
-    Handle Alert  DISMISS
+
+    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameForMastersthesis_testtest123123"]]
+    Click Button   id=delete_selected
+    Handle Alert   DISMISS
     Page Should Contain  UniqueNameForMastersthesis_testtest123123
-    Click Button  css:form.remove-form[data-name="UniqueNameForMastersthesis_testtest123123"] button
-    Handle Alert  ACCEPT
+
+    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameForMastersthesis_testtest123123"]]
+    Click Button   id=delete_selected
+    Handle Alert   ACCEPT
     Page Should Not Contain  UniqueNameForMastersthesis_testtest123123
-	
+
 Removal of phdthesis citation works correctly
     Go To  ${HOME_URL}
     Select From List By Value  citation_type  phdthesis
@@ -128,13 +144,17 @@ Removal of phdthesis citation works correctly
     Input Text  note_phdthesis  500notes100!="#)23492834axvxcvxcv
     Click Button  Save citation
     Page Should Contain  UniqueNameForphdthesis_testtest123123
-    Click Button  css:form.remove-form[data-name="UniqueNameForphdthesis_testtest123123"] button
-    Handle Alert  DISMISS
+
+    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameForphdthesis_testtest123123"]]
+    Click Button   id=delete_selected
+    Handle Alert   DISMISS
     Page Should Contain  UniqueNameForphdthesis_testtest123123
-    Click Button  css:form.remove-form[data-name="UniqueNameForphdthesis_testtest123123"] button
-    Handle Alert  ACCEPT
+
+    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameForphdthesis_testtest123123"]]
+    Click Button   id=delete_selected
+    Handle Alert   ACCEPT
     Page Should Not Contain  UniqueNameForphdthesis_testtest123123
-	
+
 Removal of misc citation works correctly
     Go To  ${HOME_URL}
     Select From List By Value  citation_type  misc
@@ -150,10 +170,13 @@ Removal of misc citation works correctly
     Input Text  note_misc  500notes100!="#)23492834axvxcvxcv
     Click Button  Save citation
     Page Should Contain  UniqueNameFormisc_testtest123123
-    Click Button  css:form.remove-form[data-name="UniqueNameFormisc_testtest123123"] button
-    Handle Alert  DISMISS
+
+    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameFormisc_testtest123123"]]
+    Click Button   id=delete_selected
+    Handle Alert   DISMISS
     Page Should Contain  UniqueNameFormisc_testtest123123
-    Click Button  css:form.remove-form[data-name="UniqueNameFormisc_testtest123123"] button
-    Handle Alert  ACCEPT
+
+    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameFormisc_testtest123123"]]
+    Click Button   id=delete_selected
+    Handle Alert   ACCEPT
     Page Should Not Contain  UniqueNameFormisc_testtest123123
-	
