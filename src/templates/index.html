@@ -93,7 +93,6 @@ Citation database app
                     <th>year</th>
                     <th></th>
                     <th></th>
-                    <th></th>
                 </tr>
             </thead>
 
@@ -109,16 +108,7 @@ Citation database app
                     <td>{{ c.get_field("title") }}</td>
                     <td>{{ c.get_field("year") }}</td>
                     <td>
-                        <form class="info-form"
-                              action="/info/{{ c.id }}"
-                              method="get">
-                            <button class="info-button icon-button"
-                                    type="submit"
-                                    title="Info">Info</button>
-                        </form>
-                    </td>
-                    <td>
-                        <form class=""edit-form"
+                        <form class="edit-form"
                               action="/edit/{{ c.id }}"
                               method="get">
                             <button class="edit-button icon-button"
