@@ -45,7 +45,7 @@ def get_required_fields(citation_type, fields):
 def index():
     """Show all saved citations."""
     citations = get_citations()
-    return render_template("index.html", citations=citations, ref_fields=REF_FIELDS)
+    return render_template("index.html", citations=citations)
 
 
 @app.route("/create_citation", methods=["POST"])
@@ -104,11 +104,12 @@ def edit(citation_id):
     print("Edit route called for citation_id:", citation_id)
     return redirect("/")
 
-@app.route("/info/<int:citation_id>", methods=["GET"])
-def info(citation_id):
-    """Show citation info (not implemented)."""
-    print("Info route called for citation_id:", citation_id)
-    return redirect("/")
+@app.route("/info/<citation_type>/<int:citation_id>", methods=["GET"])
+def info(citation_type, citation_id):
+    """Show citation info according to type (not implemented)."""
+    print("Info route called for citation_type:", citation_type, "citation_id:", citation_id)
+    template_name = f"infos/{citation_type}_info.html"
+    return render_template(template_name, citation_id=citation_id)
 
 # Test-only: reset DB
 if test_env:
