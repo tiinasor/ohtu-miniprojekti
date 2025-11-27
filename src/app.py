@@ -98,6 +98,18 @@ def remove(citation_id):
     remove_citation(citation_id)
     return redirect("/")
 
+@app.route("/edit/<int:citation_id>", methods=["GET"])
+def edit(citation_id):
+    """Edit a citation (not implemented)."""
+    print("Edit route called for citation_id:", citation_id)
+    return redirect("/")
+
+@app.route("/info/<int:citation_id>", methods=["GET"])
+def info(citation_id):
+    """Show citation info (not implemented)."""
+    print("Info route called for citation_id:", citation_id)
+    return redirect("/")
+
 # Test-only: reset DB
 if test_env:
     @app.route("/reset_db")

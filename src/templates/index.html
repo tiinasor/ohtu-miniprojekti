@@ -91,6 +91,9 @@ Citation database app
                     <th>type</th>
                     <th>title</th>
                     <th>year</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
 
@@ -105,11 +108,39 @@ Citation database app
                     <td>{{ c.get_field("citation_type") }}</td>
                     <td>{{ c.get_field("title") }}</td>
                     <td>{{ c.get_field("year") }}</td>
+                    <td>
+                        <form class="info-form"
+                              action="/info/{{ c.id }}"
+                              method="get">
+                            <button class="info-button icon-button"
+                                    type="submit"
+                                    title="Info">Info</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form class=""edit-form"
+                              action="/edit/{{ c.id }}"
+                              method="get">
+                            <button class="edit-button icon-button"
+                                    type="submit"
+                                    title="Edit">Edit</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form class="remove-form"
+                              action="/remove/{{ c.id }}"
+                              method="post"
+                              data-name="{{ c.get_field('name') }}">
+                            <button class="remove-button icon-button"
+                                    type="submit"
+                                    title="Delete">X</button>
+                        </form>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
-
 {% endblock %}
+
