@@ -2,181 +2,305 @@
 Resource  resource.robot
 Suite Setup      Open And Configure Browser
 Suite Teardown   Close Browser
+Test Setup       Reset Citations
 
 #This is a copy-paste of creation robot tests but it also checks that canceling the removal works
 
 *** Test Cases ***
-Removal of article citation works correctly
+Removal of article citation works correctly if confirmation pop-up is accepted
     Go To  ${HOME_URL}
+    # CREATE CITATION FIRST
     Select From List By Value  citation_type  article
+    Input Text  name:name  UniqueNameForArticle
+    Input Text  name:author  John Doe
+    Input Text  name:title  My First Article
+    Input Text  name:journal  Science Journal
+    Input Text  name:year  1996
+    Input Text  name:volume  1
+    Input Text  name:number  42
+    Input Text  name:pages  10-20
+    Input Text  name:month  January
+    Input Text  name:note  This might be useful
+    Click Button  Save citation    
+    Page Should Contain  UniqueNameForArticle
 
-    #THIS IS UNIQUE NAME FIELD
-    Input Text  author_article  UniqueNameForArcticle_testtest123123
-
-    Input Text  name:author  jhojkjsadfj
-    Input Text  title_article  hfhhhdf
-    Input Text  journal_article  tasd
-    Input Text  year_article  1996
-    Input Text  volume_article  100
-    Input Text  number_article  500
-    Input Text  pages_article  500
-    Input Text  month_article  500123123
-    Input Text  note_article  500192asdokasdkpasjd34349!==#¤J#¤JN
-    Click Button  Save citation
-    Page Should Contain  UniqueNameForArcticle_testtest123123
-
-    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameForArcticle_testtest123123"]]
+    # NOW REMOVE IT
+    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="My First Article"]]
     Click Button   id=delete_selected
-    Handle Alert   DISMISS
-    Page Should Contain  UniqueNameForArcticle_testtest123123
-
-    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameForArcticle_testtest123123"]]
-    Click Button   id=delete_selected
+    # NOW CONFIRM POP-UP
     Handle Alert   ACCEPT
-    Page Should Not Contain  UniqueNameForArcticle_testtest123123
+    Page Should Not Contain  UniqueNameForArticle
 
-Removal of book citation works correctly
+Removal of article citation works correctly if confirmation pop-up is dismissed
     Go To  ${HOME_URL}
+    # CREATE CITATION FIRST
+    Select From List By Value  citation_type  article
+    Input Text  name:name  UniqueNameForArticle
+    Input Text  name:author  John Doe
+    Input Text  name:title  My First Article
+    Input Text  name:journal  Science Journal
+    Input Text  name:year  1996
+    Input Text  name:volume  1
+    Input Text  name:number  42
+    Input Text  name:pages  10-20
+    Input Text  name:month  January
+    Input Text  name:note  This might be useful
+    Click Button  Save citation    
+    Page Should Contain  UniqueNameForArticle
+    # NOW REMOVE IT
+    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="My First Article"]]
+    Click Button   id=delete_selected
+    # NOW CANCEL POP-UP
+    Handle Alert   DISMISS
+    Page Should Contain  UniqueNameForArticle
+
+Removal of book citation works correctly if confirmation pop-up is accepted
+    Go To  ${HOME_URL}
+    # CREATE CITATION FIRST
     Select From List By Value  citation_type  book
-    #This is unique name field
-    Input Text  author_article  UniqueNameforBook_testtest123123
-    Input Text  author_book  jhojkjsadfj
-    Input Text  editor_book  bobmarley
-    Input Text  title_book  hfhhhdf
-    Input Text  publisher_book  bobmarleyscousin
+    Input Text  name:name  UniqueNameforBook
+    Input Text  author_book  Joanna Doe
+    Input Text  editor_book  Bob Marley
+    Input Text  title_book  The Great Book
+    Input Text  publisher_book  WSOY Press
     Input Text  year_book  1996
-    Input Text  volume_book  10022
-    Input Text  number_book  01230
-    Input Text  series_book  52200
-    Input Text  address_book  23rd Y03843 uqd
-    Input Text  edition_book  123rdeiditon
-    Input Text  month_book  22
-    Input Text  note_book  500notes100!="#)23492834axvxcvxcv
+    Input Text  volume_book  10
+    Input Text  number_book  2
+    Input Text  series_book  4
+    Input Text  address_book  Mannerheimintie 10, Helsinki
+    Input Text  edition_book  3rd
+    Input Text  month_book  March
+    Input Text  note_book  This is probably important
     Click Button  Save citation
-    Page Should Contain  UniqueNameforBook_testtest123123
+    Page Should Contain  The Great Book
 
-    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameforBook_testtest123123"]]
+    # NOW REMOVE IT
+    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="The Great Book"]]
     Click Button   id=delete_selected
-    Handle Alert   DISMISS
-    Page Should Contain  UniqueNameforBook_testtest123123
-
-    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameforBook_testtest123123"]]
-    Click Button   id=delete_selected
+    # NOW CONFIRM POP-UP
     Handle Alert   ACCEPT
-    Page Should Not Contain  UniqueNameforBook_testtest123123
+    Page Should Not Contain  The Great Book
 
-Removal of inproceedings citation works correctly
+Removal of book citation works correctly if confirmation pop-up is dismissed
     Go To  ${HOME_URL}
-    Select From List By Value  citation_type  inproceedings
-
-    #THIS IS UNIQUE NAME FIELD
-    Input Text  author_article  UniqueNameforInproceedings_testtest123123
-
-    Input Text  author_inproceedings  jhojkjsadfj
-    Input Text  title_inproceedings  hfhhhdf
-    Input Text  booktitle_inproceedings  booktitletesttest
-    Input Text  editor_inproceedings  bobmarley
-    Input Text  year_inproceedings  1996
-    Input Text  series_inproceedings  52200
-    Input Text  volume_inproceedings  10022
-    Input Text  number_inproceedings  01230
-    Input Text  month_inproceedings  JanFebJFSJF
-    Input Text  pages_inproceedings  1010-123491
-    Input Text  address_inproceedings  23rd Y03843 uqd
-    Input Text  organization_inproceedings  helsingisdjasdn
-    Input Text  publisher_inproceedings  bobmarleyscousin
-    Input Text  note_inproceedings  500notes100!="#)23492834axvxcvxcv
+    # CREATE CITATION FIRST
+    Select From List By Value  citation_type  book
+    Input Text  name:name  UniqueNameforBook
+    Input Text  author_book  Joanna Doe
+    Input Text  editor_book  Bob Marley
+    Input Text  title_book  The Great Book
+    Input Text  publisher_book  WSOY Press
+    Input Text  year_book  1996
+    Input Text  volume_book  10
+    Input Text  number_book  2
+    Input Text  series_book  4
+    Input Text  address_book  Mannerheimintie 10, Helsinki
+    Input Text  edition_book  3rd
+    Input Text  month_book  March
+    Input Text  note_book  This is probably important
     Click Button  Save citation
-    Page Should Contain  UniqueNameforInproceedings_testtest123123
+    Page Should Contain  The Great Book
 
-    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameforInproceedings_testtest123123"]]
+    # NOW REMOVE IT
+    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="The Great Book"]]
     Click Button   id=delete_selected
+    # NOW CANCEL POP-UP
     Handle Alert   DISMISS
-    Page Should Contain  UniqueNameforInproceedings_testtest123123
+    Page Should Contain  The Great Book
 
-    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameforInproceedings_testtest123123"]]
-    Click Button   id=delete_selected
-    Handle Alert   ACCEPT
-    Page Should Not Contain  UniqueNameforInproceedings_testtest123123
 
-Removal of mastersthesis citation works correctly
+
+# Removal of inproceedings citation works correctly if confirmation pop-up is accepted
+    # Go To  ${HOME_URL}
+    # CREATE CITATION FIRST
+    # Select From List By Value  citation_type  inproceedings
+    # Input Text  name:name  UniqueNameforInproceedings
+    # Input Text  author_inproceedings  John Doe
+    # Input Text  title_inproceedings   My First Inproceedings
+    # Input Text  booktitle_inproceedings   Conference Proceedings
+    # Input Text  editor_inproceedings   Bob Marley
+    # Input Text  year_inproceedings   1996
+    # Input Text  series_inproceedings  4
+    # Input Text  volume_inproceedings  10
+    # Input Text  number_inproceedings  2
+    # Input Text  month_inproceedings  March
+    # Input Text  pages_inproceedings  10-20
+    # Input Text  address_inproceedings  Mannerheimintie 10, Helsinki
+    # Input Text  organization_inproceedings  Helsinki University
+    # Input Text  publisher_inproceedings  WSOY Press
+    # Input Text  note_inproceedings  This is probably not very important
+    # Click Button  Save citation
+    #Page Should Contain  UniqueNameforInproceedings
+
+    # NOW REMOVE IT 
+    # Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="My First Inproceedings"]]
+    # Click Button   id=delete_selected
+    # NOW CONFIRM POP-UP
+    # Handle Alert   ACCEPT
+    #Page Should Not Contain  UniqueNameforInproceedings
+
+# Removal of inproceedings citation works correctly if confirmation pop-up is dismissed
+    # Go To  ${HOME_URL}
+    # CREATE CITATION FIRST
+    # Select From List By Value  citation_type  inproceedings
+    # Input Text  name:name  UniqueNameforInproceedings
+    # Input Text  author_inproceedings  John Doe
+    # Input Text  title_inproceedings   My First Inproceedings
+    # Input Text  booktitle_inproceedings   Conference Proceedings
+    # Input Text  editor_inproceedings   Bob Marley
+    # Input Text  year_inproceedings   1996
+    # Input Text  series_inproceedings  4
+    # Input Text  volume_inproceedings  10
+    # Input Text  number_inproceedings  2
+    # Input Text  month_inproceedings  March
+    # Input Text  pages_inproceedings  10-20
+    # Input Text  address_inproceedings  Mannerheimintie 10, Helsinki
+    # Input Text  organization_inproceedings  Helsinki University
+    # Input Text  publisher_inproceedings  WSOY Press
+    # Input Text  note_inproceedings  This is probably not very important
+    # Click Button  Save citation
+    # Page Should Contain  UniqueNameforInproceedings
+
+    # NOW REMOVE IT
+    # Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="My First Inproceedings"]]
+    # Click Button   id=delete_selected
+    # NOW CANCEL POP-UP
+    # Handle Alert   DISMISS
+    # Page Should Contain  UniqueNameforInproceedings
+
+
+Removal of mastersthesis citation works correctly if confirmation pop-up is accepted
+    #Go To  ${HOME_URL}
+    # CREATE CITATION FIRST
+    #Select From List By Value  citation_type  mastersthesis
+    # Input Text  name:name  UniqueNameForMastersthesis
+    # Input Text  author_mastersthesis  Mary Madelaine
+    # Input Text  title_mastersthesis  My First Mastersthesis
+    # Input Text  school_mastersthesis  Testing School
+    # Input Text  type_mastersthesis  Thesis Type
+    # Input Text  year_mastersthesis  1996
+    # Input Text  month_mastersthesis  March
+    # Input Text  address_mastersthesis  Times Square 10, New York
+    # Input Text  note_mastersthesis  This is probably interesting
+    # Click Button  Save citation
+    # Page Should Contain  UniqueNameForMastersthesis
+
+     # NOW REMOVE IT
+    # Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="My First Mastersthesis"]]
+    # Click Button   id=delete_selected
+    # NOW ACCEPT POP-UP
+    # Handle Alert   ACCEPT
+    #Page Should Not Contain  UniqueNameForMastersthesis
+
+# Removal of mastersthesis citation works correctly if confirmation pop-up is dismissed
+    # Go To  ${HOME_URL}
+    # CREATE CITATION FIRST
+    # Select From List By Value  citation_type  mastersthesis
+    # Input Text  name:name  UniqueNameForMastersthesis
+    # Input Text  author_mastersthesis  Mary Madelaine
+    # Input Text  title_mastersthesis  My First Mastersthesis
+    # Input Text  school_mastersthesis  Testing School
+    # Input Text  type_mastersthesis  Thesis Type
+    # Input Text  year_mastersthesis  1996
+    # Input Text  month_mastersthesis  March
+    # Input Text  address_mastersthesis  Times Square 10, New York
+    # Input Text  note_mastersthesis  This is probably interesting
+    # Click Button  Save citation
+    #Page Should Contain  UniqueNameForMastersthesis
+
+    # NOW REMOVE IT
+    # Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="My First Mastersthesis"]]
+    # Click Button   id=delete_selected
+    # NOW DISMISS POP-UP
+    # Handle Alert   DISMISS
+    # Page Should Contain  UniqueNameForMastersthesis
+
+# Removal of phdthesis citation works correctly if confirmation pop-up is accepted
     Go To  ${HOME_URL}
-    Select From List By Value  citation_type  mastersthesis
+    # CREATE CITATION FIRST
+    # Select From List By Value  citation_type  phdthesis
+    # Input Text  name:name  UniqueNameForphdthesis
+    # Input Text  author_phdthesis  Mads Mikkelsen
+    # Input Text  title_phdthesis  My First Phdthesis
+    # Input Text  school_phdthesis  Film School
+    # Input Text  year_phdthesis  1996
+    # Input Text  month_phdthesis  January
+    # Input Text  keywords_phdthesis  films, acting, drama
+    # Input Text  address_phdthesis  Hollywood Blvd 20, Los Angeles
+    # Input Text  note_phdthesis  Not relevant to thesis
+    # Click Button  Save citation
+    # Page Should Contain  UniqueNameForphdthesis
 
-    #THIS IS UNIQUE NAME FIELD
-    Input Text  author_article  UniqueNameForMastersthesis_testtest123123
+    # NOW REMOVE IT
+    # Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="My First Phdthesis"]]
+    # Click Button   id=delete_selected
+    # NOW ACCEPT POP-UP
+    # Handle Alert   ACCEPT
+    # Page Should Not Contain  UniqueNameForphdthesis
 
-    Input Text  author_mastersthesis  notme
-    Input Text  title_mastersthesis  hfhhhdf
-    Input Text  school_mastersthesis  testingschool
-    Input Text  type_mastersthesis  typeshixdxdxd
-    Input Text  year_mastersthesis  1996
-    Input Text  month_mastersthesis  JanFebJFSJF
-    Input Text  address_mastersthesis  23rd Y03843 uqd
-    Input Text  note_mastersthesis  500notes100!="#)23492834axvxcvxcv
-    Click Button  Save citation
-    Page Should Contain  UniqueNameForMastersthesis_testtest123123
-
-    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameForMastersthesis_testtest123123"]]
-    Click Button   id=delete_selected
-    Handle Alert   DISMISS
-    Page Should Contain  UniqueNameForMastersthesis_testtest123123
-
-    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameForMastersthesis_testtest123123"]]
-    Click Button   id=delete_selected
-    Handle Alert   ACCEPT
-    Page Should Not Contain  UniqueNameForMastersthesis_testtest123123
-
-Removal of phdthesis citation works correctly
+# Removal of phdthesis citation works correctly if confirmation pop-up is dismissed
     Go To  ${HOME_URL}
+    # CREATE CITATION FIRST
     Select From List By Value  citation_type  phdthesis
+    # Input Text  name:name  UniqueNameForphdthesis
+    # Input Text  author_phdthesis  Mads Mikkelsen
+    # Input Text  title_phdthesis  My First Phdthesis
+    # Input Text  school_phdthesis  Film School
+    # Input Text  year_phdthesis  1996
+    # Input Text  month_phdthesis  January
+    # Input Text  keywords_phdthesis  films, acting, drama
+    # Input Text  address_phdthesis  Hollywood Blvd 20, Los Angeles
+    # Input Text  note_phdthesis  Not relevant to thesis
+    # Click Button  Save citation
+    # Page Should Contain  UniqueNameForphdthesis
 
-    #THIS IS UNIQUE NAME FIELD
-    Input Text  author_article  UniqueNameForphdthesis_testtest123123
+    # NOW REMOVE IT
+    # Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="My First Phdthesis"]]
+    # Click Button   id=delete_selected
+    # NOW DISMISS POP-UP
+    # Handle Alert   DISMISS
+    # Page Should Contain  UniqueNameForphdthesis
 
-    Input Text  author_phdthesis  notme
-    Input Text  title_phdthesis  hfhhhdf
-    Input Text  school_phdthesis  testingschool
-    Input Text  year_phdthesis  1996
-    Input Text  month_phdthesis  JanFebJFSJF
-    Input Text  keywords_phdthesis  robot,frameworks,stuff,is,good
-    Input Text  address_phdthesis  23rd Y03843 uqd
-    Input Text  note_phdthesis  500notes100!="#)23492834axvxcvxcv
-    Click Button  Save citation
-    Page Should Contain  UniqueNameForphdthesis_testtest123123
 
-    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameForphdthesis_testtest123123"]]
-    Click Button   id=delete_selected
-    Handle Alert   DISMISS
-    Page Should Contain  UniqueNameForphdthesis_testtest123123
 
-    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameForphdthesis_testtest123123"]]
-    Click Button   id=delete_selected
-    Handle Alert   ACCEPT
-    Page Should Not Contain  UniqueNameForphdthesis_testtest123123
-
-Removal of misc citation works correctly
+Removal of misc citation works correctly if confirmation pop-up is accepted
     Go To  ${HOME_URL}
     Select From List By Value  citation_type  misc
-
-    #THIS IS UNIQUE NAME FIELD
-    Input Text  author_article  UniqueNameFormisc_testtest123123
-
-    Input Text  author_misc  notme
-    Input Text  title_misc  hfhhhdf
+    # CREATE CITATION FIRST
+    Input Text  name:name  UniqueNameFormisc
+    Input Text  author_misc  Michael Scott
+    Input Text  title_misc  The Best Boss
     Input Text  year_misc  1996
-    Input Text  month_misc  JanFebJFSJF
-    Input Text  howpublished_misc  it was posted on stackoverflow
-    Input Text  note_misc  500notes100!="#)23492834axvxcvxcv
+    Input Text  month_misc  January
+    Input Text  howpublished_misc  fictionally published by Dunder Mifflin
+    Input Text  note_misc  really insightful
     Click Button  Save citation
-    Page Should Contain  UniqueNameFormisc_testtest123123
+    Page Should Contain  UniqueNameFormisc
 
-    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameFormisc_testtest123123"]]
+    # NOW REMOVE IT
+    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="The Best Boss"]]
     Click Button   id=delete_selected
-    Handle Alert   DISMISS
-    Page Should Contain  UniqueNameFormisc_testtest123123
-
-    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="UniqueNameFormisc_testtest123123"]]
-    Click Button   id=delete_selected
+    # NOW ACCEPT POP-UP
     Handle Alert   ACCEPT
-    Page Should Not Contain  UniqueNameFormisc_testtest123123
+    Page Should Not Contain  UniqueNameFormisc
+
+Removal of misc citation works correctly if confirmation pop-up is dismissed
+    Go To  ${HOME_URL}
+    Select From List By Value  citation_type  misc
+    # CREATE CITATION FIRST
+    Input Text  name:name  UniqueNameFormisc
+    Input Text  author_misc  Michael Scott
+    Input Text  title_misc  The Best Boss
+    Input Text  year_misc  1996
+    Input Text  month_misc  January
+    Input Text  howpublished_misc  fictionally published by Dunder Mifflin
+    Input Text  note_misc  really insightful
+    Click Button  Save citation
+    Page Should Contain  UniqueNameFormisc
+
+    # NOW REMOVE IT
+    Click Element  xpath=//table//tbody//tr[td[normalize-space(.)="The Best Boss"]]
+    Click Button   id=delete_selected
+    # NOW DISMISS POP-UP
+    Handle Alert   DISMISS
+    Page Should Contain  UniqueNameFormisc

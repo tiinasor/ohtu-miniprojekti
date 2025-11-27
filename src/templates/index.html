@@ -33,9 +33,9 @@ Citation database app
         </select>
 
         <div class="field-row field-large required-field">
-            <label for="author_article">Name</label>
+            <label for="citation_name">Name</label>
             <div class="required-wrapper">
-                <input type="text" id="author_article" name="name" placeholder="Unique name" required>
+                <input type="text" id="citation_name" name="name" placeholder="Unique name" required>
                 <span class="required-star">*</span>
             </div>
         </div>
@@ -69,7 +69,8 @@ Citation database app
     </form>
 </div>
 
-<div class="panel list-panel">
+
+<div class="panel list-panel" style="max-width: none; width: 100%; box-sizing: border-box; padding: 0 16px;">
     <h2>Citations</h2>
     <p class="panel-subtitle">All saved entries</p>
 
@@ -111,6 +112,7 @@ Citation database app
                     <td>{{ c.get_field("citation_type") }}</td>
                     <td>{{ c.get_field("title") }}</td>
                     <td>{{ c.get_field("year") }}</td>
+                
                     <td>
                         <form class="edit-form"
                               action="/edit/{{ c.id }}"
@@ -127,6 +129,7 @@ Citation database app
                               data-name="{{ c.get_field('name') }}">
                             <button class="remove-button icon-button"
                                     type="submit"
+                                    id="delete_{{ c.get_field('name') }}"
                                     title="Delete">X</button>
                         </form>
                     </td>
