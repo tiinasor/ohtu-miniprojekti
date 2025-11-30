@@ -20,5 +20,6 @@ CREATE TABLE citations (
   title TEXT,
   type TEXT,
   volume FLOAT,
-  year INTEGER
+  year INTEGER,
+  keywords TEXT
 );

@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Book - {{ citation.get_field("name") }}
+{% endblock %}
+
+{% block body %}
+<div class="panel form-panel">
+    <h2>{{ citation.get_field("name") }}</h2>
+    <p class="panel-subtitle">Book Citation</p>
+
+    <div class="info-fields">
+        <div class="field-row field-large">
+            <label>Author</label>
+            <div class="field-value">{{ citation.get_field("author") or "—" }}</div>
+        </div>
+
+        <div class="field-row field-large">
+            <label>Editor</label>
+            <div class="field-value">{{ citation.get_field("editor") or "—" }}</div>
+        </div>
+
+        <div class="field-row field-large">
+            <label>Title</label>
+            <div class="field-value">{{ citation.get_field("title") or "—" }}</div>
+        </div>
+
+        <div class="field-inline">
+            <div class="field-row field-medium">
+                <label>Publisher</label>
+                <div class="field-value">{{ citation.get_field("publisher") or "—" }}</div>
+            </div>
+
+            <div class="field-row field-small">
+                <label>Year</label>
+                <div class="field-value">{{ citation.get_field("year") or "—" }}</div>
+            </div>
+        </div>
+
+        <div class="field-inline">
+            <div class="field-row field-small">
+                <label>Volume</label>
+                <div class="field-value">{{ citation.get_field("volume") or "—" }}</div>
+            </div>
+
+            <div class="field-row field-small">
+                <label>Number</label>
+                <div class="field-value">{{ citation.get_field("number") or "—" }}</div>
+            </div>
+        </div>
+
+        <div class="field-inline">
+            <div class="field-row field-medium">
+                <label>Series</label>
+                <div class="field-value">{{ citation.get_field("series") or "—" }}</div>
+            </div>
+
+            <div class="field-row field-medium">
+                <label>Address</label>
+                <div class="field-value">{{ citation.get_field("address") or "—" }}</div>
+            </div>
+        </div>
+
+        <div class="field-inline">
+            <div class="field-row field-small">
+                <label>Edition</label>
+                <div class="field-value">{{ citation.get_field("edition") or "—" }}</div>
+            </div>
+
+            <div class="field-row field-small">
+                <label>Month</label>
+                <div class="field-value">{{ citation.get_field("month") or "—" }}</div>
+            </div>
+        </div>
+
+        <div class="field-row field-large">
+            <label>Note</label>
+            <textarea class="field-value" rows="4" readonly>{{ citation.get_field("note") or "" }}</textarea>
+        </div>
+    </div>
+
+    <div class="button-row">
+        <button type="button" onclick="window.location.href='/'">Back to List</button>
+    </div>
+</div>
+{% endblock %}

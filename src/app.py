@@ -7,6 +7,7 @@ from repositories.citation_repository import (
     create_citation,
     remove_citation,
     citation_name_exists,
+    get_citation_by_id,
 )
 from config import app, test_env
 from ref_fields import REF_FIELDS
@@ -106,10 +107,15 @@ def edit(citation_id):
 
 @app.route("/info/<citation_type>/<int:citation_id>", methods=["GET"])
 def info(citation_type, citation_id):
-    """Show citation info according to type (not implemented)."""
-    print("Info route called for citation_type:", citation_type, "citation_id:", citation_id)
+    """Show citation info according to type."""
+    citation = get_citation_by_id(citation_id)
+
+    if citation is None:
+        flash("Citation not found")
+        return redirect("/")
+
     template_name = f"infos/{citation_type}_info.html"
-    return render_template(template_name, citation_id=citation_id)
+    return render_template(template_name, citation=citation)
 
 # Test-only: reset DB
 if test_env:

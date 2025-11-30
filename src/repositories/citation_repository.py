@@ -46,3 +46,15 @@ def citation_name_exists(name: str) -> bool:
     sql = text("SELECT 1 FROM citations WHERE name = :name")
     result = db.session.execute(sql, {"name": name}).first()
     return result is not None
+
+
+def get_citation_by_id(citation_id: int):
+    """Return a single citation by id as a Citation object."""
+    sql_command = "SELECT id, " + ", ".join(REF_FIELDS) + " FROM citations WHERE id = :id"
+    result = db.session.execute(text(sql_command), {"id": citation_id})
+    citation = result.fetchone()
+
+    if citation is None:
+        return None
+
+    return Citation(citation)
