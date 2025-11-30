@@ -27,7 +27,7 @@ class ValidateCitationTestCase(unittest.TestCase):
             "title": "T",
             "journal": "J",
             "year": "2024",
-            "volume": "1.0",
+            "volume": "1",
             "number": "1",
             "pages": "1-10",
         }

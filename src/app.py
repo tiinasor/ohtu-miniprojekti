@@ -78,7 +78,7 @@ def create_citation_route():
         if fields.get("year"):
             fields["year"] = int(fields["year"])
         if fields.get("volume"):
-            fields["volume"] = float(fields["volume"])
+            fields["volume"] = int(fields["volume"])
         if fields.get("number"):
             fields["number"] = int(fields["number"])
 

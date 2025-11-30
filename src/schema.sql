@@ -19,7 +19,7 @@ CREATE TABLE citations (
   series TEXT,
   title TEXT,
   type TEXT,
-  volume FLOAT,
+  volume INTEGER,
   year INTEGER,
   keywords TEXT
 );
