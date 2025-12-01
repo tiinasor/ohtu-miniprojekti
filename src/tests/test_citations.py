@@ -5,7 +5,7 @@ os.environ["TEST_ENV"] = "true"
 
 from app import app
 from db_helper import reset_db
-from repositories.citation_repository import get_citations
+from repositories.citation_repository import get_citations, get_citation_by_id
 
 
 class ValidateCitationTestCase(unittest.TestCase):
@@ -76,6 +76,31 @@ class ValidateCitationTestCase(unittest.TestCase):
         for field, bad_value in invalids.items():
             self.submit(name=f"bad-{field}", **{field: bad_value})
             self.assertEqual(len(get_citations()), 0)
+
+    """ ----------------- INFO PAGE TESTS ----------------- """
+
+    def test_get_citation_by_id_returns_citation(self):
+        self.submit(name="test-id")
+        citation_id = get_citations()[0].get_field("id")
+        citation = get_citation_by_id(citation_id)
+        self.assertIsNotNone(citation)
+        self.assertEqual(citation.get_field("name"), "test-id")
+
+    def test_get_citation_by_id_returns_none_for_invalid_id(self):
+        citation = get_citation_by_id(99999)
+        self.assertIsNone(citation)
+
+    def test_info_page_shows_citation_data(self):
+        self.submit(name="info-test", author="Test Author")
+        citation_id = get_citations()[0].get_field("id")
+        response = self.client.get(f"/info/article/{citation_id}")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b"info-test", response.data)
+        self.assertIn(b"Test Author", response.data)
+
+    def test_info_page_redirects_for_invalid_id(self):
+        response = self.client.get("/info/article/99999", follow_redirects=True)
+        self.assertIn(b"Citation not found", response.data)
 
 
 if __name__ == "__main__":
