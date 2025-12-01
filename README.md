@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/tiinasor/ohtu-miniprojekti/actions/workflows/ci.yaml/badge.svg)](https://github.com/tiinasor/ohtu-miniprojekti/actions/workflows/ci.yaml)
 
+[![codecov](https://codecov.io/github/tiinasor/ohtu-miniprojekti/graph/badge.svg?token=HZXVDE5V7V)](https://codecov.io/github/tiinasor/ohtu-miniprojekti)
+
 [Product ja sprint backlog](https://docs.google.com/spreadsheets/d/1mSdKyYM1908SzdmZ8wrdTdeK1SKqvMYnkV53-zhKxrM/edit?gid=1#gid=1)
 
 ## Definition of done
