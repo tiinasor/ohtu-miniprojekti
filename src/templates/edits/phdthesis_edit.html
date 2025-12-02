@@ -5,5 +5,9 @@ PhD Thesis - {{ citation.get_field("name") }}
 {% endblock %}
 
 {% block body %}
-EMPTY EDIT PAGE
+<div class="panel form-panel">
+    <div class="button-row">
+        <button type="button" onclick="window.location.href='/info/phdthesis/{{ citation.id }}'">Cancel</button>
+    </div>
+</div>
 {% endblock %}
