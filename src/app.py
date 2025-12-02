@@ -99,11 +99,17 @@ def remove(citation_id):
     remove_citation(citation_id)
     return redirect("/")
 
-@app.route("/edit/<int:citation_id>", methods=["GET"])
-def edit(citation_id):
+@app.route("/edit/<citation_type>/<int:citation_id>", methods=["GET"])
+def edit(citation_type,citation_id):
     """Edit a citation (not implemented)."""
-    print("Edit route called for citation_id:", citation_id)
-    return redirect("/")
+    citation = get_citation_by_id(citation_id)
+
+    if citation is None:
+        flash("Citation not found")
+        return redirect("/")
+
+    template_name = f"edits/{citation_type}_edit.html"
+    return render_template(template_name, citation=citation)
 
 @app.route("/info/<citation_type>/<int:citation_id>", methods=["GET"])
 def info(citation_type, citation_id):

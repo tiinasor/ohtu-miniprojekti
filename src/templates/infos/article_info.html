@@ -62,6 +62,7 @@ Article - {{ citation.get_field("name") }}
 
     <div class="button-row">
         <button type="button" onclick="window.location.href='/'">Back to List</button>
+        <button type="button" onclick="window.location.href='/edit/article/{{ citation.id }}'">Edit</button>
         <form action="/remove/{{ citation.id }}" method="post" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this citation?');">
             <button type="submit" style="background-color: #d9534f;">Delete</button>
         </form>
