@@ -1,13 +1,240 @@
 {% extends "layout.html" %}
 
 {% block title %}
-Inproceedings - {{ citation.get_field("name") }}
+Edit inproceedings - {{ citation.get_field("name") }}
 {% endblock %}
 
 {% block body %}
 <div class="panel form-panel">
-    <div class="button-row">
-        <button type="button" onclick="window.location.href='/info/inproceedings/{{ citation.id }}'">Cancel</button>
-    </div>
+    <h2>Edit inproceedings</h2>
+    <p class="panel-subtitle">Editing citation: {{ citation.get_field("name") }}</p>
+
+    <form action="/save/{{ citation.id }}" method="post">
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="flash-messages">
+            {% for m in messages %}
+            <li>{{ m }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        <!-- lock the type -->
+        <input type="hidden" name="citation_type" value="inproceedings">
+
+        <!-- Name (unique) -->
+        <div class="field-row field-large required-field">
+            <label for="citation_name">Name</label>
+            <div class="required-wrapper">
+                <input
+                    type="text"
+                    id="citation_name"
+                    name="name"
+                    placeholder="Unique name"
+                    value="{{ citation.get_field('name') }}"
+                    required
+                >
+                <span class="required-star">*</span>
+            </div>
+        </div>
+
+        <!-- Author -->
+        <div class="field-row field-large required-field">
+            <label for="author_inproceedings">Author</label>
+            <div class="required-wrapper">
+                <input
+                    type="text"
+                    id="author_inproceedings"
+                    name="author"
+                    placeholder="Author name(s)"
+                    value="{{ citation.get_field('author') or '' }}"
+                    required
+                >
+                <span class="required-star">*</span>
+            </div>
+        </div>
+
+        <!-- Title -->
+        <div class="field-row field-large required-field">
+            <label for="title_inproceedings">Title</label>
+            <div class="required-wrapper">
+                <input
+                    type="text"
+                    id="title_inproceedings"
+                    name="title"
+                    placeholder="Paper title"
+                    value="{{ citation.get_field('title') or '' }}"
+                    required
+                >
+                <span class="required-star">*</span>
+            </div>
+        </div>
+
+        <!-- Booktitle -->
+        <div class="field-row field-large required-field">
+            <label for="booktitle_inproceedings">Booktitle</label>
+            <div class="required-wrapper">
+                <input
+                    type="text"
+                    id="booktitle_inproceedings"
+                    name="booktitle"
+                    placeholder="Conference / proceedings title"
+                    value="{{ citation.get_field('booktitle') or '' }}"
+                    required
+                >
+                <span class="required-star">*</span>
+            </div>
+        </div>
+
+        <!-- Editor -->
+        <div class="field-row field-large">
+            <label for="editor_inproceedings">Editor</label>
+            <input
+                type="text"
+                id="editor_inproceedings"
+                name="editor"
+                placeholder="Editor name(s)"
+                value="{{ citation.get_field('editor') or '' }}"
+            >
+        </div>
+
+        <!-- Year + Series -->
+        <div class="field-inline">
+            <div class="field-row field-small required-field">
+                <label for="year_inproceedings">Year</label>
+                <div class="required-wrapper">
+                    <input
+                        type="text"
+                        id="year_inproceedings"
+                        name="year"
+                        placeholder="YYYY"
+                        value="{{ citation.get_field('year') or '' }}"
+                        required
+                    >
+                    <span class="required-star">*</span>
+                </div>
+            </div>
+
+            <div class="field-row field-medium">
+                <label for="series_inproceedings">Series</label>
+                <input
+                    type="text"
+                    id="series_inproceedings"
+                    name="series"
+                    placeholder="Series name"
+                    value="{{ citation.get_field('series') or '' }}"
+                >
+            </div>
+        </div>
+
+        <!-- Volume + Number + Month -->
+        <div class="field-inline">
+            <div class="field-row field-small">
+                <label for="volume_inproceedings">Volume</label>
+                <input
+                    type="text"
+                    id="volume_inproceedings"
+                    name="volume"
+                    placeholder="Vol."
+                    value="{{ citation.get_field('volume') or '' }}"
+                >
+            </div>
+
+            <div class="field-row field-small">
+                <label for="number_inproceedings">Number</label>
+                <input
+                    type="text"
+                    id="number_inproceedings"
+                    name="number"
+                    placeholder="No."
+                    value="{{ citation.get_field('number') or '' }}"
+                >
+            </div>
+
+            <div class="field-row field-small">
+                <label for="month_inproceedings">Month</label>
+                <input
+                    type="text"
+                    id="month_inproceedings"
+                    name="month"
+                    placeholder="e.g. Jan"
+                    value="{{ citation.get_field('month') or '' }}"
+                >
+            </div>
+        </div>
+
+        <!-- Pages + Address -->
+        <div class="field-inline">
+            <div class="field-row field-medium">
+                <label for="pages_inproceedings">Pages</label>
+                <input
+                    type="text"
+                    id="pages_inproceedings"
+                    name="pages"
+                    placeholder="e.g. 101-120"
+                    value="{{ citation.get_field('pages') or '' }}"
+                >
+            </div>
+
+            <div class="field-row field-medium">
+                <label for="address_inproceedings">Address</label>
+                <input
+                    type="text"
+                    id="address_inproceedings"
+                    name="address"
+                    placeholder="Location"
+                    value="{{ citation.get_field('address') or '' }}"
+                >
+            </div>
+        </div>
+
+        <!-- Organization + Publisher -->
+        <div class="field-inline">
+            <div class="field-row field-medium">
+                <label for="organization_inproceedings">Organization</label>
+                <input
+                    type="text"
+                    id="organization_inproceedings"
+                    name="organization"
+                    placeholder="Organizing body"
+                    value="{{ citation.get_field('organization') or '' }}"
+                >
+            </div>
+
+            <div class="field-row field-medium">
+                <label for="publisher_inproceedings">Publisher</label>
+                <input
+                    type="text"
+                    id="publisher_inproceedings"
+                    name="publisher"
+                    placeholder="Publisher name"
+                    value="{{ citation.get_field('publisher') or '' }}"
+                >
+            </div>
+        </div>
+
+        <!-- Note -->
+        <div class="field-row field-large">
+            <label for="note_inproceedings">Note</label>
+            <textarea
+                id="note_inproceedings"
+                name="note"
+                placeholder="Additional notes"
+                rows="2"
+            >{{ citation.get_field('note') or '' }}</textarea>
+        </div>
+
+        <div class="button-row">
+            <button type="submit">Save changes</button>
+            <button
+                type="button"
+                onclick="window.location.href='/info/inproceedings/{{ citation.id }}'">
+                Cancel
+            </button>
+        </div>
+
+    </form>
 </div>
 {% endblock %}

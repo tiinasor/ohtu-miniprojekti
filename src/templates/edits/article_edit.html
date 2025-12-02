@@ -1,13 +1,182 @@
 {% extends "layout.html" %}
 
 {% block title %}
-Article - {{ citation.get_field("name") }}
+Edit article - {{ citation.get_field("name") }}
 {% endblock %}
 
 {% block body %}
 <div class="panel form-panel">
-    <div class="button-row">
-        <button type="button" onclick="window.location.href='/info/article/{{ citation.id }}'">Cancel</button>
-    </div>
+    <h2>Edit article</h2>
+    <p class="panel-subtitle">Editing citation: {{ citation.get_field("name") }}</p>
+
+    <form action="/save/{{ citation.id }}" method="post">
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="flash-messages">
+            {% for m in messages %}
+            <li>{{ m }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        <!-- lock in the type so save() knows what we are editing -->
+        <input type="hidden" name="citation_type" value="article">
+
+        <!-- Name (unique) -->
+        <div class="field-row field-large required-field">
+            <label for="citation_name">Name</label>
+            <div class="required-wrapper">
+                <input
+                    type="text"
+                    id="citation_name"
+                    name="name"
+                    placeholder="Unique name"
+                    value="{{ citation.get_field('name') }}"
+                    required
+                >
+                <span class="required-star">*</span>
+            </div>
+        </div>
+
+        <!-- Author (required) -->
+        <div class="field-row field-large required-field">
+            <label for="author_article">Author</label>
+            <div class="required-wrapper">
+                <input
+                    type="text"
+                    id="author_article"
+                    name="author"
+                    placeholder="Author name(s)"
+                    value="{{ citation.get_field('author') or '' }}"
+                    required
+                >
+                <span class="required-star">*</span>
+            </div>
+        </div>
+
+        <!-- Title (required) -->
+        <div class="field-row field-large required-field">
+            <label for="title_article">Title</label>
+            <div class="required-wrapper">
+                <input
+                    type="text"
+                    id="title_article"
+                    name="title"
+                    placeholder="Article title"
+                    value="{{ citation.get_field('title') or '' }}"
+                    required
+                >
+                <span class="required-star">*</span>
+            </div>
+        </div>
+
+        <!-- Journal (required) -->
+        <div class="field-row field-large required-field">
+            <label for="journal_article">Journal</label>
+            <div class="required-wrapper">
+                <input
+                    type="text"
+                    id="journal_article"
+                    name="journal"
+                    placeholder="Journal name"
+                    value="{{ citation.get_field('journal') or '' }}"
+                    required
+                >
+                <span class="required-star">*</span>
+            </div>
+        </div>
+
+        <!-- Year + Volume + Number -->
+        <div class="field-inline">
+            <div class="field-row field-small required-field">
+                <label for="year_article">Year</label>
+                <div class="required-wrapper">
+                    <input
+                        type="text"
+                        id="year_article"
+                        name="year"
+                        placeholder="YYYY"
+                        value="{{ citation.get_field('year') or '' }}"
+                        required
+                    >
+                    <span class="required-star">*</span>
+                </div>
+            </div>
+
+            <div class="field-row field-small required-field">
+                <label for="volume_article">Volume</label>
+                <div class="required-wrapper">
+                    <input
+                        type="text"
+                        id="volume_article"
+                        name="volume"
+                        placeholder="Volume"
+                        value="{{ citation.get_field('volume') or '' }}"
+                        required
+                    >
+                    <span class="required-star">*</span>
+                </div>
+            </div>
+
+            <div class="field-row field-small">
+                <label for="number_article">Number</label>
+                <input
+                    type="text"
+                    id="number_article"
+                    name="number"
+                    placeholder="Issue number"
+                    value="{{ citation.get_field('number') or '' }}"
+                >
+            </div>
+        </div>
+
+        <!-- Pages + Month -->
+        <div class="field-inline">
+            <div class="field-row field-medium">
+                <label for="pages_article">Pages</label>
+                <input
+                    type="text"
+                    id="pages_article"
+                    name="pages"
+                    placeholder="e.g. 101-120"
+                    value="{{ citation.get_field('pages') or '' }}"
+                >
+            </div>
+
+            <div class="field-row field-small">
+                <label for="month_article">Month</label>
+                <input
+                    type="text"
+                    id="month_article"
+                    name="month"
+                    placeholder="e.g. Jan"
+                    value="{{ citation.get_field('month') or '' }}"
+                >
+            </div>
+        </div>
+
+        <!-- Note (optional) -->
+        <div class="field-row field-large">
+            <label for="note_article">Note</label>
+            <textarea
+                id="note_article"
+                name="note"
+                placeholder="Additional notes"
+                rows="2"
+            >{{ citation.get_field('note') or '' }}</textarea>
+        </div>
+
+        <div class="button-row">
+            <button type="submit">Save changes</button>
+            <button
+                type="button"
+                onclick="window.location.href='/info/article/{{ citation.id }}'">
+                Cancel
+            </button>
+        </div>
+
+    </form>
 </div>
 {% endblock %}
