@@ -8,6 +8,7 @@ from repositories.citation_repository import (
     remove_citation,
     citation_name_exists,
     get_citation_by_id,
+    save_citation,
 )
 from config import app, test_env
 from ref_fields import REF_FIELDS
@@ -98,6 +99,45 @@ def remove(citation_id):
     """Delete a citation immediately (confirmation handled by JS popup)."""
     remove_citation(citation_id)
     return redirect("/")
+
+@app.route("/save/<int:citation_id>", methods=["POST"])
+def save(citation_id):
+    """Save a citation."""
+    fields = {field: request.form.get(field) for field in REF_FIELDS}
+
+    citation_type = request.form.get("citation_type")
+    fields["citation_type"] = citation_type
+
+    # Validate required fields
+    required, error = get_required_fields(citation_type, fields)
+
+    if error:
+        flash(error)
+        return redirect("/")
+
+    for field in required:
+        if not fields.get(field):
+            flash("Missing required fields")
+            return redirect("/")
+
+    try:
+        # convert numeric fields
+        if fields.get("year"):
+            fields["year"] = int(fields["year"])
+        if fields.get("volume"):
+            fields["volume"] = int(fields["volume"])
+        if fields.get("number"):
+            fields["number"] = int(fields["number"])
+
+        save_citation(fields, citation_id)
+        return redirect("/")
+
+    except UserInputError as error:
+        flash(str(error))
+        return redirect("/")
+    except (ValueError, TypeError) as error:
+        flash(str(error))
+        return redirect("/")
 
 @app.route("/edit/<citation_type>/<int:citation_id>", methods=["GET"])
 def edit(citation_type,citation_id):

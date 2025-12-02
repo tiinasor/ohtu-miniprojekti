@@ -40,6 +40,22 @@ def remove_citation(citation_id):
     db.session.execute(sql, {"id": citation_id})
     db.session.commit()
 
+def save_citation(fields: dict, citation_id):
+    """Save a citation by id."""
+    if citation_id is None:
+        return
+
+    sql_command = f"""
+        UPDATE citations
+        SET {", ".join(f"{f} = :{f}" for f in REF_FIELDS)}
+        WHERE id = :id
+    """
+    params = {field: fields.get(field) or None for field in REF_FIELDS}
+    params["id"] = citation_id
+
+    db.session.execute(text(sql_command), params)
+    db.session.commit()
+
 
 def citation_name_exists(name: str) -> bool:
     """Return True if a citation with `name` exists."""
