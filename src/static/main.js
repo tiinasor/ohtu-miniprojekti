@@ -138,10 +138,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     searchInput.addEventListener("input", () => {
         const filter = searchInput.value.toLowerCase();
-        const rows = document.querySelectorAll("tbody tr");
+        const rows = document.querySelectorAll(".citation");
 
         rows.forEach(row => {
-            const text = row.textContent.toLowerCase();
+            // this makes all data inserted in any ref field one string for searching.
+            const values = Object.values(row.dataset).map(v => v.toLowerCase());
+            const text = values.join(" ");
             row.style.display = text.includes(filter) ? "" : "none";
         });
     });

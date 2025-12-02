@@ -46,7 +46,7 @@ def get_required_fields(citation_type, fields):
 def index():
     """Show all saved citations."""
     citations = get_citations()
-    return render_template("index.html", citations=citations)
+    return render_template("index.html", citations=citations, REF_FIELDS = REF_FIELDS)
 
 
 @app.route("/create_citation", methods=["POST"])

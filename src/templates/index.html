@@ -91,11 +91,12 @@ Citation database app
             </thead>
 
             <tbody>
+                <!--Gets all datafields using REF_FIELDS, if no data -> insert empty. Needed for complete search-->
                 {% for c in citations %}
-                <tr
-                    data-id="{{ c.id }}"
-                    data-name="{{ c.get_field('name') }}"
-                    data-type="{{ c.get_field('citation_type') }}"
+                <tr class = "citation"
+                {% for field in REF_FIELDS %}
+                data-{{ field }}="{{ c.get_field(field) or '' }}"
+                {% endfor %}
                 >
                     <td>
                         <a href="/info/{{ c.get_field('citation_type') }}/{{ c.id }}" style="color: blue; text-decoration: underline;">
