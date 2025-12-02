@@ -163,4 +163,25 @@ Add content to the page and search works correctly
     Page Should Contain  UniqueNameForArticle
     Page Should Contain  UniqueNameForphdthesis
     Page Should Contain  UniqueNameFormisc
+
+    #Test9
+    Input Text  css:input[placeholder="Search citations…"]  John
+    Page Should Contain  UniqueNameForArticle
+    Page Should Contain  UniqueNameforInproceedings
+    Citation list contains two rows
+
+    #Test10
+    Input Text  css:input[placeholder="Search citations…"]  UniqueNameforBook
+    Page Should Contain  UniqueNameforBook
+    Citation list contains only one row
+
+    #Test11
+    Input Text  css:input[placeholder="Search citations…"]  1996
+    Page Should Contain  1996
+    Page Should Contain  UniqueNameForArticle
+    Page Should Contain  UniqueNameforBook
+    Page Should Contain  UniqueNameforInproceedings
+    Page Should Contain  UniqueNameForMastersthesis
+    Page Should Contain  UniqueNameForphdthesis
+    Page Should Contain  UniqueNameFormisc
     Reset Citations
