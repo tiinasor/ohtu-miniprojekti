@@ -3,7 +3,7 @@ Library  SeleniumLibrary
 
 *** Variables ***
 ${SERVER}     localhost:5001
-${DELAY}      0.5 seconds
+${DELAY}      0.25 seconds
 ${HOME_URL}   http://${SERVER}
 ${RESET_URL}  http://${SERVER}/reset_db
 ${BROWSER}    chrome
@@ -28,3 +28,12 @@ Open And Configure Browser
 
 Reset Citations
     Go To  ${RESET_URL}
+
+
+Citation list contains only one row
+    ${visible_count}=    Execute JavaScript    return document.querySelectorAll('tbody tr.citation:not([style*="display: none"])').length;
+    Should Be Equal As Integers    ${visible_count}    1
+
+Citation list contains two rows
+    ${visible_count}=    Execute JavaScript    return document.querySelectorAll('tbody tr.citation:not([style*="display: none"])').length;
+    Should Be Equal As Integers    ${visible_count}    2
