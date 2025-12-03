@@ -42,6 +42,17 @@ def get_required_fields(citation_type, fields):
     )
     return required, None
 
+def create_bibtex_file(citations):
+    """Create a BibTeX file from the citations."""
+    with open("citations.bib", "w", encoding="utf-8") as bibtex_file:
+        for citation in citations:
+            bibtex_content = f'@{citation.get_field("citation_type")}'
+            bibtex_content += '{' + f'{citation.get_field("name")},\n'
+            for field in REF_FIELDS:
+                if citation.get_field(field):
+                    bibtex_content += f'  {field} = {{{citation.get_field(field)}}},\n'
+            bibtex_content += '}\n'
+            bibtex_file.write(bibtex_content + "\n\n")
 
 @app.route("/")
 def index():

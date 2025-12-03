@@ -10,3 +10,4 @@ possu.sh
 .coverage
 htmlcov/
 coverage.xml
+citations.bib
