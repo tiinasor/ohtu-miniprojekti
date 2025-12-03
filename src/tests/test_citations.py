@@ -103,5 +103,37 @@ class ValidateCitationTestCase(unittest.TestCase):
         self.assertIn(b"Citation not found", response.data)
 
 
+    """ ----------------- EDIT TESTS ----------------- """
+
+    def test_edit_page_shows_existing_data(self):
+        self.submit(name="edit-test", author="Edit Author", title="Original Title")
+        citation_id = get_citations()[0].get_field("id")
+
+        response = self.client.get(f"/edit/article/{citation_id}")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b"Original Title", response.data)
+
+    def test_save_updates_citation(self):
+        self.submit(name="save-test", author="Save Author", title="Old Title")
+        citation_id = get_citations()[0].get_field("id")
+
+        data = {
+            "name": "save-test",
+            "citation_type": "article",
+            "author": "Save Author",
+            "title": "New Title",
+            "journal": "J",
+            "year": "2000",
+            "volume": "1",
+            "number": "1",
+            "pages": "1-2",
+        }
+        response = self.client.post(f"/save/{citation_id}", data=data, follow_redirects=True)
+
+        citation = get_citation_by_id(citation_id)
+        self.assertEqual(citation.get_field("title"), "New Title")
+        self.assertIn(b"New Title", response.data)
+
+
 if __name__ == "__main__":
     unittest.main()
