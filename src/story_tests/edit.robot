@@ -147,7 +147,7 @@ Edit phdthesis citation correctly
     Input Text  school_phdthesis   Film School
     Input Text  year_phdthesis     1996
     Input Text  month_phdthesis    January
-    Input Text  keywords_phdthesis films, acting, drama
+    Input Text  keywords_phdthesis  films, acting, drama
     Input Text  address_phdthesis  Hollywood Blvd 20, Los Angeles
     Input Text  note_phdthesis     Not relevant to thesis
     Click Button  Save citation
@@ -159,7 +159,7 @@ Edit phdthesis citation correctly
 
     Input Text  title_phdthesis    My Edited Phdthesis
     Input Text  year_phdthesis     2004
-    Input Text  keywords_phdthesis edited, keywords
+    Input Text  keywords_phdthesis  edited, keywords
     Click Button  Save changes
 
     Page Should Contain      My Edited Phdthesis
