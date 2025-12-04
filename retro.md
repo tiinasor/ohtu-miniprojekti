@@ -21,3 +21,21 @@ Ensimmäinen kehitystoimenpide on, että pushaamme GitHubiin vain toimivaa ja te
 Toinen kehitystoimenpide on, että toteutamme riittävän pieniä osia sovelluksesta kerrallaan. Näin voidaan helpottaa eri osien toteuttamiseen kuluvan ajan arvioimista ja välttää pullonkaulat, joissa usean osan eteneminen on yhdestä ryhmäläisestä kiinni. Tämän saavuttamiseksi panostamme kolmannessa sprintissä riittävän pienten taskien suunnitteluun.
 
 Muita retrospektiivissä esiin nousseita asioita olivat mm. aikaisempi tapaamisajankohta ryhmän kesken ennen asiakastapaamista, backlogin ahkerampi päivittäminen sekä parikoodaus. Käytimme retrospektiiviin aikaa noin 30 minuuttia.
+
+## Kolmas sprintti
+
+Jatkoimme kolmannessa retrospektiivissä Start, Stop, Continue, More of, Less of -pyörän käyttämistä. Tällä kertaa reflektoitavaa tuntui olevan vähemmän, kuin edellisillä kerroilla.
+
+Koimme, että olimme onnistuneet hyvin edellisessä retrossa sovituissa kehitystoimenpiteissä. Olimme onnistuneet myös tällä kertaa jaotella user storyt huomattavasti pienempiin taskeihin, kuin ensimmäisien sprinttien aikana. CI-putki meni kolmannen sprintin aikana rikki huomattavasti harvemmin kuin kahden ensimmäisen sprintin aikana.
+
+Sovimme tulevaan sprintiin tavoitteeksemme, että saisimme työn aikasemmin aikaseksi kuin kolmannessa sprintissä. Yritämme toteuttaa kaikki sprintin user storyt ja projektin ylläpidolliset asiat tiistai-iltaan mennessä vaikka lopullinen määräaika on torstaiaamu, kun osallistumme loppudemoon. Lisäksi poimimme viimeisen sprintin arvosteluperusteista tavoitteen, että commit-viestit olisivat yhtenäiset. Kirjoitamme vastaisuudessa commitit näin:
+
+- englanniksi
+- imperatiivi-muoto isolla alkukirjaimella
+- mahdollisimman ytimekäs, yleensä alle 50 merkkiä
+- esimerkiksi:
+
+<pre>
+Add "Save" button to front page
+</pre>
+
