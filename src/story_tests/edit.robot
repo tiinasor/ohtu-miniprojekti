@@ -18,7 +18,7 @@ Edit article citation correctly
     Input Text  name:volume   1
     Input Text  name:number   42
     Input Text  name:pages    10-20
-    Input Text  name:month    January
+    Select From List By Label  name:month  Jan
     Input Text  name:note     This might be useful
     Click Button  Save citation
     Page Should Contain  UniqueNameForArticle
@@ -52,7 +52,7 @@ Edit book citation correctly
     Input Text  series_book   4
     Input Text  address_book  Mannerheimintie 10, Helsinki
     Input Text  edition_book  3rd
-    Input Text  month_book    March
+    Select From List By Label  month_book  Mar
     Input Text  note_book     This is probably important
     Click Button  Save citation
     Page Should Contain  UniqueNameforBook
@@ -84,7 +84,7 @@ Edit inproceedings citation correctly
     Input Text  series_inproceedings       4
     Input Text  volume_inproceedings       10
     Input Text  number_inproceedings       2
-    Input Text  month_inproceedings        March
+    Select From List By Label  month_inproceedings  Mar
     Input Text  pages_inproceedings        10-20
     Input Text  address_inproceedings      Mannerheimintie 10, Helsinki
     Input Text  organization_inproceedings  Helsinki University
@@ -117,7 +117,7 @@ Edit mastersthesis citation correctly
     Input Text  school_mastersthesis    Testing School
     Input Text  type_mastersthesis      Thesis Type
     Input Text  year_mastersthesis      1996
-    Input Text  month_mastersthesis     March
+    Select From List By Label  month_mastersthesis  Mar
     Input Text  address_mastersthesis   Times Square 10, New York
     Input Text  note_mastersthesis      This is probably interesting
     Click Button  Save citation
@@ -146,7 +146,7 @@ Edit phdthesis citation correctly
     Input Text  title_phdthesis    My First Phdthesis
     Input Text  school_phdthesis   Film School
     Input Text  year_phdthesis     1996
-    Input Text  month_phdthesis    January
+    Select From List By Label  month_phdthesis  Jan
     Input Text  keywords_phdthesis  films, acting, drama
     Input Text  address_phdthesis  Hollywood Blvd 20, Los Angeles
     Input Text  note_phdthesis     Not relevant to thesis
@@ -177,7 +177,7 @@ Edit misc citation correctly
     Input Text  author_misc      Michael Scott
     Input Text  title_misc       The Best Boss
     Input Text  year_misc        1996
-    Input Text  month_misc       January
+    Select From List By Label  month_misc  Jan
     Input Text  howpublished_misc  fictionally published by Dunder Mifflin
     Input Text  note_misc        really insightful
     Click Button  Save citation

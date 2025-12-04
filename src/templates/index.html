@@ -98,18 +98,13 @@ Citation database app
                 <tr class="citation" {% for field in REF_FIELDS %} data-{{ field }}="{{ c.get_field(field) or '' }}" {%
                     endfor %}>
                     <td>
-                        <a href="/info/{{ c.get_field('citation_type') }}/{{ c.id }}"
-                           style="color: blue; text-decoration: underline;">
-                            <span class="table-truncate">{{ c.get_field("name") }}</span>
+                        <a href="/info/{{ c.get_field('citation_type') }}/{{ c.id }}">
+                            {{ c.get_field("name") }}
                         </a>
                     </td>
                     <td>{{ c.get_field("citation_type") }}</td>
-                    <td>
-                        <span class="table-truncate">{{ c.get_field("title") }}</span>
-                    </td>
+                    <td>{{ c.get_field("title") }}</td>
                     <td>{{ c.get_field("year") }}</td>
-
-                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
