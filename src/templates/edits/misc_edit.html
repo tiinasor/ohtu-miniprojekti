@@ -78,14 +78,22 @@ Edit misc - {{ citation.get_field("name") }}
             </div>
 
             <div class="field-row field-small">
-                <label for="month_misc">Month</label>
-                <input
-                    type="text"
-                    id="month_misc"
-                    name="month"
-                    placeholder="e.g. Jan"
-                    value="{{ citation.get_field('month') or '' }}"
-                >
+                <label for="month_article">Month</label>
+                <select id="month_article" name="month">
+                    <option value=""></option>
+                    <option value="Jan">Jan</option>
+                    <option value="Feb">Feb</option>
+                    <option value="Mar">Mar</option>
+                    <option value="Apr">Apr</option>
+                    <option value="May">May</option>
+                    <option value="Jun">Jun</option>
+                    <option value="Jul">Jul</option>
+                    <option value="Aug">Aug</option>
+                    <option value="Sep">Sep</option>
+                    <option value="Oct">Oct</option>
+                    <option value="Nov">Nov</option>
+                    <option value="Dec">Dec</option>
+                </select>
             </div>
         </div>
 

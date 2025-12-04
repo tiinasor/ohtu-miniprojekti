@@ -60,6 +60,16 @@ def index():
     citations = get_citations()
     return render_template("index.html", citations=citations, REF_FIELDS = REF_FIELDS)
 
+MONTH_ABBREVIATIONS = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+]
+
+def is_valid_month(value):
+    """Return True if value is empty or a valid month abbreviation."""
+    if not value:
+        return True
+    return value in MONTH_ABBREVIATIONS
 
 @app.route("/create_citation", methods=["POST"])
 def create_citation_route():
@@ -80,6 +90,10 @@ def create_citation_route():
         if not fields.get(field):
             flash("Missing required fields")
             return redirect("/")
+        
+    if not is_valid_month(fields.get("month")):
+        flash("Month must be one of: Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec")
+        return redirect("/")
 
     if citation_name_exists(fields["name"]):
         flash("Citation name must be unique")
@@ -130,6 +144,10 @@ def save(citation_id):
         if not fields.get(field):
             flash("Missing required fields")
             return redirect("/")
+        
+    if not is_valid_month(fields.get("month")):
+        flash("Month must be one of: Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec")
+        return redirect("/")
 
     try:
         # convert numeric fields
