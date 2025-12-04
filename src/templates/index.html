@@ -78,10 +78,8 @@ Citation database app
         <button type="submit">Generate .bib (all citations)</button>
     </form>
 
-    <input type="text"
-     id="search"
-     placeholder="Search citations…"
-     style="margin-bottom: 12px; width: 100%; padding: 6px;">
+    <input type="text" id="search" placeholder="Search citations…"
+        style="margin-bottom: 12px; width: 100%; padding: 6px;">
 
     <div class="scroll-area">
         <table>
@@ -97,20 +95,20 @@ Citation database app
             <tbody>
                 <!--Gets all datafields using REF_FIELDS, if no data -> insert empty. Needed for complete search-->
                 {% for c in citations %}
-                <tr class = "citation"
-                {% for field in REF_FIELDS %}
-                data-{{ field }}="{{ c.get_field(field) or '' }}"
-                {% endfor %}
-                >
+                <tr class="citation" {% for field in REF_FIELDS %} data-{{ field }}="{{ c.get_field(field) or '' }}" {%
+                    endfor %}>
                     <td>
-                        <a href="/info/{{ c.get_field('citation_type') }}/{{ c.id }}" style="color: blue; text-decoration: underline;">
-                            {{ c.get_field("name") }}
+                        <a href="/info/{{ c.get_field('citation_type') }}/{{ c.id }}"
+                           style="color: blue; text-decoration: underline;">
+                            <span class="table-truncate">{{ c.get_field("name") }}</span>
                         </a>
                     </td>
                     <td>{{ c.get_field("citation_type") }}</td>
-                    <td>{{ c.get_field("title") }}</td>
+                    <td>
+                        <span class="table-truncate">{{ c.get_field("title") }}</span>
+                    </td>
                     <td>{{ c.get_field("year") }}</td>
-                
+
                     </td>
                 </tr>
                 {% endfor %}
@@ -119,4 +117,3 @@ Citation database app
     </div>
 </div>
 {% endblock %}
-
