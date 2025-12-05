@@ -44,6 +44,10 @@ def save_citation(fields: dict, citation_id):
     """Save a citation by id."""
     if citation_id is None or fields["name"] is None:
         return
+    original_citation = get_citation_by_id(citation_id)
+    if fields["name"] != original_citation.get_field("name"):
+        if citation_name_exists(fields["name"]):
+            return
 
     sql_command = f"""
         UPDATE citations

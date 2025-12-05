@@ -55,6 +55,7 @@ class TestInitialCitationDatabase(unittest.TestCase):
         citations = get_citations()
         self.assertNotEqual(citations[0].get_field("id"), citations[1].get_field("id"))
 
+
 class TestExistingCitationDatabase(unittest.TestCase):
     def setUp(self):
         self.app_context = app.app_context()
@@ -62,7 +63,10 @@ class TestExistingCitationDatabase(unittest.TestCase):
         reset_db()
         app.testing = True
         self.client = app.test_client()
-        fields = {
+        create_citation(self.ref_fields())
+
+    def ref_fields(self, **overrides):
+        base_ref_fields = {
             "name": "test-citation",
             "citation_type": "article",
             "author": "A",
@@ -73,8 +77,8 @@ class TestExistingCitationDatabase(unittest.TestCase):
             "number": "1",
             "pages": "1-10",
         }
-        create_citation(fields)
-
+        base_ref_fields.update(overrides)
+        return base_ref_fields
     
     def tearDown(self):
         self.app_context.pop()
@@ -89,6 +93,8 @@ class TestExistingCitationDatabase(unittest.TestCase):
         self.assertEqual(citation.get_field("name"), "test-citation")
 
     def test_find_citation_by_id_not_found(self):
+        citation_id = get_citations()[0].get_field("id")
+        self.assertNotEqual(citation_id, 9999)
         citation = get_citation_by_id(9999)
         self.assertIsNone(citation)
 
@@ -102,48 +108,39 @@ class TestExistingCitationDatabase(unittest.TestCase):
         self.assertFalse(citation_name_exists("non-existing-name"))
 
     def test_save_citation_updates_existing(self):
-        citation = get_citations()[0]
-        original_author = citation.get_field("author")
-        citation_id = citation.get_field("id")
-        fields = {
-            "name": "test-citation",
-            "citation_type": "article",
-            "author": "B",
-            "title": "T",
-            "journal": "J",
-            "year": "2024",
-            "volume": "1",
-            "number": "1",
-            "pages": "1-10",
-        }
-        save_citation(fields, citation_id)
-        updated_citation = get_citation_by_id(citation_id)
+        original_citation = get_citations()[0]
+        original_author = original_citation.get_field("author")
+        original_citation_id = original_citation.get_field("id")
+        fields = self.ref_fields(author="B")
+        save_citation(fields, original_citation_id)
+        updated_citation = get_citation_by_id(original_citation_id)
         self.assertNotEqual(updated_citation.get_field("author"), original_author)
         self.assertEqual(updated_citation.get_field("author"), "B")
 
     def test_save_citation_with_no_id_does_nothing(self):
-        citation = get_citations()[0]
-        original_author = citation.get_field("author")
-        fields = {
-            "name": "test-citation",
-            "author": "C"
-        }
+        original_citation = get_citations()[0]
+        original_author = original_citation.get_field("author")
+        original_citation_id = original_citation.get_field("id")
+        fields = self.ref_fields(author="C")
         save_citation(fields, None)
-        unchanged_citation = get_citation_by_id(citation.get_field("id"))
+        unchanged_citation = get_citation_by_id(original_citation_id)
         self.assertEqual(unchanged_citation.get_field("author"), original_author)
 
     def test_save_citation_with_no_name_does_nothing(self):
-        citation = get_citations()[0]
-        original_author = citation.get_field("author")
-        citation_id = citation.get_field("id")
-        fields = {
-            "name": None,
-            "author": "D"
-        }
-        save_citation(fields, citation_id)
-        unchanged_citation = get_citation_by_id(citation_id)
+        original_citation = get_citations()[0]
+        original_author = original_citation.get_field("author")
+        original_citation_id = original_citation.get_field("id")
+        fields = self.ref_fields(name=None, author="D")
+        save_citation(fields, original_citation_id)
+        unchanged_citation = get_citation_by_id(original_citation_id)
         self.assertEqual(unchanged_citation.get_field("author"), original_author)
 
+    def test_save_citation_with_duplicate_name_does_nothing(self):
+        create_citation(self.ref_fields(name="other-name"))
+        citation_id = get_citations()[1].get_field("id")
+        fields = self.ref_fields(name="test-citation", author="E")
+        save_citation(fields, citation_id)
+        unchanged_citation = get_citation_by_id(citation_id)
+        self.assertEqual(unchanged_citation.get_field("name"), "other-name")
+        self.assertEqual(len(get_citations()), 2)
 
-    
-    
