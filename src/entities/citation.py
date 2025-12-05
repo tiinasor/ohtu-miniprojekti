@@ -18,7 +18,3 @@ class Citation:
         if field_name in REF_FIELDS:
             return self.ref_info[REF_FIELDS.index(field_name)]
         raise ValueError(f"Field '{field_name}' is not a valid reference field.")
-
-    def __str__(self):
-        """Return a short string representation of the citation."""
-        return f"Citation({', '.join(f'{field}={getattr(self, field)}' for field in REF_FIELDS)})"

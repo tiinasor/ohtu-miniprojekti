@@ -13,7 +13,6 @@ from repositories.citation_repository import (
 )
 from config import app, test_env
 from ref_fields import REF_FIELDS
-from util import UserInputError
 
 
 def get_required_fields(citation_type, fields):
@@ -146,7 +145,7 @@ def create_citation_route():
         create_citation(fields)
         return redirect("/")
 
-    except (UserInputError, ValueError, TypeError) as error:
+    except (ValueError, TypeError) as error:
         flash(str(error))
         return redirect("/")
 
@@ -194,7 +193,6 @@ def save(citation_id):
         save_citation(fields, citation_id)
         return redirect("/")
 
-    except UserInputError as error:
         flash(str(error))
         return redirect("/")
     except (ValueError, TypeError) as error:
