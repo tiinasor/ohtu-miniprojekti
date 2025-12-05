@@ -3,7 +3,7 @@
 from ref_fields import REF_FIELDS
 
 
-class Citation:
+class Citation:  # pylint: disable=too-few-public-methods
     """Represents a citation row (id and its fields)."""
 
     def __init__(self, ref_info: list):

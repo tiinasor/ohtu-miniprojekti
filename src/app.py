@@ -193,8 +193,6 @@ def save(citation_id):
         save_citation(fields, citation_id)
         return redirect("/")
 
-        flash(str(error))
-        return redirect("/")
     except (ValueError, TypeError) as error:
         flash(str(error))
         return redirect("/")
