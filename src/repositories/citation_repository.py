@@ -42,7 +42,7 @@ def remove_citation(citation_id):
 
 def save_citation(fields: dict, citation_id):
     """Save a citation by id."""
-    if citation_id is None:
+    if citation_id is None or fields["name"] is None:
         return
 
     sql_command = f"""
