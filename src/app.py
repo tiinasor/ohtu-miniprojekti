@@ -96,6 +96,33 @@ def is_valid_month(value):
     return value in MONTH_ABBREVIATIONS
 
 
+def validate_citation_fields(fields, citation_type):
+    """Validate citation fields and return error message if any, otherwise None."""
+    required, error = get_required_fields(citation_type, fields)
+
+    if error:
+        return error
+
+    # Check name for spaces
+    if fields.get("name") and " " in fields["name"]:
+        return "Citation name cannot contain spaces"
+
+    # Check missing required fields
+    for field in required:
+        if not fields.get(field):
+            return "Missing required fields"
+
+    # Check valid month
+    if not is_valid_month(fields.get("month")):
+        return "Month must be one of: Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec"
+
+    # Check unique name
+    if citation_name_exists(fields["name"]):
+        return "Citation name must be unique"
+
+    return None
+
+
 @app.route("/create_citation", methods=["POST"])
 def create_citation_route():
     """Create a new citation entry."""
@@ -103,32 +130,8 @@ def create_citation_route():
     citation_type = request.form.get("citation_type")
     fields["citation_type"] = citation_type
 
-    # Validate required fields
-    required, error = get_required_fields(citation_type, fields)
-
-    # Collect all validation errors here
-    validation_error = None
-
-    if error:
-        validation_error = error
-    else:
-        # Check missing required fields
-        for field in required:
-            if not fields.get(field):
-                validation_error = "Missing required fields"
-                break
-
-        # Check valid month
-        if not validation_error and not is_valid_month(fields.get("month")):
-            validation_error = (
-                "Month must be one of: Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec"
-            )
-
-        # Check unique name
-        if not validation_error and citation_name_exists(fields["name"]):
-            validation_error = "Citation name must be unique"
-
-    # If any validation failed
+    # Validate fields
+    validation_error = validate_citation_fields(fields, citation_type)
     if validation_error:
         flash(validation_error)
         return redirect("/")

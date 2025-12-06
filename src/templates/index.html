@@ -35,7 +35,7 @@ Citation database app
         <div class="field-row field-large required-field">
             <label for="citation_name">Name (Key)</label>
             <div class="required-wrapper">
-                <input type="text" id="citation_name" name="name" placeholder="Unique name" required>
+                <input type="text" id="citation_name" name="name" placeholder="Unique name (no spaces)" pattern="\S+" title="Citation name cannot contain spaces" required>
                 <span class="required-star">*</span>
             </div>
         </div>

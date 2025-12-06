@@ -77,6 +77,11 @@ class ValidateCitationTestCase(unittest.TestCase):
             self.submit(name=f"bad-{field}", **{field: bad_value})
             self.assertEqual(len(get_citations()), 0)
 
+    def test_citation_name_cannot_contain_spaces(self):
+        response = self.submit(name="name with spaces")
+        self.assertEqual(len(get_citations()), 0)
+        self.assertIn(b"Citation name cannot contain spaces", response.data)
+
     """ ----------------- INFO PAGE TESTS ----------------- """
 
     def test_get_citation_by_id_returns_citation(self):
