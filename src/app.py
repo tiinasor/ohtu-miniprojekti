@@ -15,7 +15,7 @@ from config import app, test_env
 from ref_fields import REF_FIELDS
 
 
-def get_required_fields(citation_type, fields):
+def check_required_fields(citation_type, fields):
     """Return required fields for a given citation type.
 
     Returns:
@@ -35,15 +35,15 @@ def get_required_fields(citation_type, fields):
     # Book special case: requires *either* author or editor
     if citation_type == "book":
         if not fields.get("author") and not fields.get("editor"):
-            return None, "Book requires either an author or an editor."
+            return "Book requires either an author or an editor."
 
     required = required_fields_map.get(citation_type, [])
-    
+
     for field in required:
         if not fields.get(field):
-            return None, f"Missing required field: {field}"
+            return f"Missing required field: {field}"
 
-    return required, None
+    return None
 
 
 @app.route("/generate_bibtex", methods=["POST"])
@@ -100,10 +100,10 @@ def is_valid_month(value):
 
 def validate_citation_fields(fields, citation_type):
     """Validate citation fields and return error message if any, otherwise None."""
-    error = get_required_fields(citation_type, fields)[1]
+    missing_required_fields = check_required_fields(citation_type, fields)
 
-    if error:
-        return error
+    if missing_required_fields:
+        return missing_required_fields
 
     # Check name for spaces
     if fields.get("name") and " " in fields["name"]:
@@ -138,7 +138,7 @@ def create_citation_route():
     if validation_error:
         flash(validation_error)
         return redirect("/")
-    
+
     # Check unique name
     if citation_name_exists(fields["name"]):
         flash("Citation name must be unique")
@@ -167,6 +167,13 @@ def save(citation_id):
     if validation_error:
         flash(validation_error)
         return redirect("/")
+
+    # Check unique name
+    existing_citation = get_citation_by_id(citation_id)
+    if existing_citation.get_field("name") != fields["name"]:
+        if citation_name_exists(fields["name"]):
+            flash("Citation name must be unique")
+            return redirect("/")
 
     save_citation(fields, citation_id)
     return redirect("/")
