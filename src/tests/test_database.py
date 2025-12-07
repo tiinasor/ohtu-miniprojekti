@@ -34,27 +34,6 @@ class TestInitialCitationDatabase(unittest.TestCase):
         citations = get_citations()
         self.assertEqual(len(citations), 1)
         self.assertEqual(citations[0].get_field("name"), "test-citation")
-    
-    def test_create_citation_sets_unique_id(self):
-        fields = {
-            "name": "test-citation1",
-            "citation_type": "article",
-            "author": "A",
-            "title": "T",
-            "year": "2024"
-        }
-        create_citation(fields)
-        fields = {
-            "name": "test-citation2",
-            "citation_type": "article",
-            "author": "B",
-            "title": "U",
-            "year": "2024"
-        }
-        create_citation(fields)
-        citations = get_citations()
-        self.assertNotEqual(citations[0].get_field("id"), citations[1].get_field("id"))
-
 
 class TestExistingCitationDatabase(unittest.TestCase):
     def setUp(self):
@@ -91,6 +70,16 @@ class TestExistingCitationDatabase(unittest.TestCase):
         citation = get_citation_by_id(citation_id)
         self.assertIsNotNone(citation)
         self.assertEqual(citation.get_field("name"), "test-citation")
+
+    def test_create_citation_sets_unique_id(self):
+        fields = self.ref_fields(name="another-citation")
+        create_citation(fields)
+        citations = get_citations()
+        self.assertNotEqual(citations[0].get_field("id"), citations[1].get_field("id"))
+
+    def test_create_citation_with_not_unique_name_does_nothing(self):
+        fields = self.ref_fields()
+        self.assertRaises(Exception, create_citation, fields)
 
     def test_find_citation_by_id_not_found(self):
         citation_id = get_citations()[0].get_field("id")
