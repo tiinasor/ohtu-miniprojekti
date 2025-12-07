@@ -79,10 +79,10 @@ class TestApplication(unittest.TestCase):
             for field in required_fields:
                 response = self.submit(citation_type=citation_type, **{field: ""})
                 self.assertEqual(len(get_citations()), 0)
-                self.assertIn(b"Missing required fields", response.data)
+                self.assertIn(b"Missing required field:", response.data)
                 response = self.submit(citation_type=citation_type, **{field: None})
                 self.assertEqual(len(get_citations()), 0)
-                self.assertIn(b"Missing required fields", response.data)
+                self.assertIn(b"Missing required field:", response.data)
 
     def test_invalid_numeric_fields(self):
         integer_fields = ["year", "volume", "number"]
@@ -91,7 +91,7 @@ class TestApplication(unittest.TestCase):
             for bad_value in invalids:
                 response = self.submit(**{field: bad_value})
                 self.assertEqual(len(get_citations()), 0)
-                self.assertIn(b"invalid", response.data)
+                self.assertIn(f"{field.capitalize()} must be a whole number".encode(), response.data)
     
     def test_invalid_month_field(self):
         invalid_months = ["13", "0", "-1", "abc", "1.5"]

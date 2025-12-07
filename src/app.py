@@ -19,12 +19,13 @@ def get_required_fields(citation_type, fields):
     """Return required fields for a given citation type.
 
     Returns:
-        (required_fields, error_message)
+        error_message: str or None
         If error_message is not None, validation failed.
     """
 
     required_fields_map = {
         "article": ["name", "author", "title", "journal", "year"],
+        "book": ["name", "title", "publisher", "year"],  # special case handled separately
         "inproceedings": ["name", "author", "title", "booktitle", "year"],
         "mastersthesis": ["name", "author", "title", "school", "year"],
         "phdthesis": ["name", "author", "title", "school", "year"],
@@ -35,12 +36,13 @@ def get_required_fields(citation_type, fields):
     if citation_type == "book":
         if not fields.get("author") and not fields.get("editor"):
             return None, "Book requires either an author or an editor."
-        return ["name", "title", "publisher", "year"], None
 
-    required = required_fields_map.get(
-        citation_type,
-        ["name", "author", "title", "journal", "year"]
-    )
+    required = required_fields_map.get(citation_type, [])
+    
+    for field in required:
+        if not fields.get(field):
+            return None, f"Missing required field: {field}"
+
     return required, None
 
 
@@ -98,7 +100,7 @@ def is_valid_month(value):
 
 def validate_citation_fields(fields, citation_type):
     """Validate citation fields and return error message if any, otherwise None."""
-    required, error = get_required_fields(citation_type, fields)
+    error = get_required_fields(citation_type, fields)[1]
 
     if error:
         return error
@@ -107,18 +109,19 @@ def validate_citation_fields(fields, citation_type):
     if fields.get("name") and " " in fields["name"]:
         return "Citation name cannot contain spaces"
 
-    # Check missing required fields
-    for field in required:
-        if not fields.get(field):
-            return "Missing required fields"
-
     # Check valid month
     if not is_valid_month(fields.get("month")):
         return "Month must be one of: Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec"
 
-    # Check unique name
-    if citation_name_exists(fields["name"]):
-        return "Citation name must be unique"
+    # Check numeric fields
+    for numeric_field in ["year", "volume", "number"]:
+        if fields.get(numeric_field):
+            try:
+                integer_field = int(fields[numeric_field])
+            except ValueError:
+                return f"{numeric_field.capitalize()} must be a whole number"
+            if str(integer_field) != str(fields[numeric_field]):
+                return f"{numeric_field.capitalize()} must be a whole number"
 
     return None
 
@@ -135,22 +138,14 @@ def create_citation_route():
     if validation_error:
         flash(validation_error)
         return redirect("/")
-
-    # Attempt conversion and creation
-    try:
-        if fields.get("year"):
-            fields["year"] = int(fields["year"])
-        if fields.get("volume"):
-            fields["volume"] = int(fields["volume"])
-        if fields.get("number"):
-            fields["number"] = int(fields["number"])
-
-        create_citation(fields)
+    
+    # Check unique name
+    if citation_name_exists(fields["name"]):
+        flash("Citation name must be unique")
         return redirect("/")
 
-    except (ValueError, TypeError) as error:
-        flash(str(error))
-        return redirect("/")
+    create_citation(fields)
+    return redirect("/")
 
 
 @app.route("/remove/<int:citation_id>", methods=["POST"])
@@ -164,41 +159,18 @@ def remove(citation_id):
 def save(citation_id):
     """Save a citation."""
     fields = {field: request.form.get(field) for field in REF_FIELDS}
-
     citation_type = request.form.get("citation_type")
     fields["citation_type"] = citation_type
 
-    # Validate required fields
-    required, error = get_required_fields(citation_type, fields)
-
-    if error:
-        flash(error)
+    # Validate fields
+    validation_error = validate_citation_fields(fields, citation_type)
+    if validation_error:
+        flash(validation_error)
         return redirect("/")
 
-    for field in required:
-        if not fields.get(field):
-            flash("Missing required fields")
-            return redirect("/")
+    save_citation(fields, citation_id)
+    return redirect("/")
 
-    if not is_valid_month(fields.get("month")):
-        flash("Month must be one of: Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec")
-        return redirect("/")
-
-    try:
-        # convert numeric fields
-        if fields.get("year"):
-            fields["year"] = int(fields["year"])
-        if fields.get("volume"):
-            fields["volume"] = int(fields["volume"])
-        if fields.get("number"):
-            fields["number"] = int(fields["number"])
-
-        save_citation(fields, citation_id)
-        return redirect("/")
-
-    except (ValueError, TypeError) as error:
-        flash(str(error))
-        return redirect("/")
 
 @app.route("/edit/<citation_type>/<int:citation_id>", methods=["GET"])
 def edit(citation_type,citation_id):
