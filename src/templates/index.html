@@ -81,6 +81,7 @@ Citation database app
     <input type="text" id="search" placeholder="Search citations…"
         style="margin-bottom: 12px; width: 100%; padding: 6px;">
 
+    <form action="/process_selected" method="post">
     <div class="scroll-area">
         <table>
             <thead>
@@ -105,10 +106,14 @@ Citation database app
                     <td>{{ c.get_field("citation_type") }}</td>
                     <td>{{ c.get_field("title") }}</td>
                     <td>{{ c.get_field("year") }}</td>
+                    <td>
+                        <input type="checkbox" name="selected[]" value="{{ c.id }}" class="checkbox">
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+  </form> 
 </div>
 {% endblock %}
