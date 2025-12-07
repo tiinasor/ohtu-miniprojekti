@@ -92,6 +92,13 @@ class TestApplication(unittest.TestCase):
                 response = self.submit(**{field: bad_value})
                 self.assertEqual(len(get_citations()), 0)
                 self.assertIn(b"invalid", response.data)
+    
+    def test_invalid_month_field(self):
+        invalid_months = ["13", "0", "-1", "abc", "1.5"]
+        for bad_value in invalid_months:
+            response = self.submit(month=bad_value)
+            self.assertEqual(len(get_citations()), 0)
+            self.assertIn(b"Month must be one of: Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec", response.data)
 
     def test_book_input_allows_either_author_or_editor(self):
         for required_field in ("author", "editor"):
