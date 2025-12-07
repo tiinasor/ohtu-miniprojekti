@@ -127,17 +127,49 @@ class TestApplication(unittest.TestCase):
         self.assertIsNone(citation)
 
     def test_info_page_shows_citation_data(self):
-        self.submit(name="info-test", author="Test Author")
-        citation_id = get_citations()[0].get_field("id")
-        response = self.client.get(f"/info/article/{citation_id}")
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(b"info-test", response.data)
-        self.assertIn(b"Test Author", response.data)
+        
+        fields_map = {
+            "article": ["name", "author", "title", "journal"],
+            "book": ["name", "author", "title", "publisher"],
+            "inproceedings": ["name", "author", "title", "booktitle"],
+            "mastersthesis": ["name", "author", "title", "school"],
+            "phdthesis": ["name", "author", "title", "school"],
+            "misc": ["name"],
+        }
+        for citation_type, fields in fields_map.items():
+            overrides = {field: f"Test-{field.capitalize()}" for field in fields}
+            overrides["citation_type"] = citation_type
+            self.submit(**overrides)
+            citation_id = get_citations()[0].get_field("id")
+            response = self.client.get(f"/info/{citation_type}/{citation_id}")
+            self.assertEqual(response.status_code, 200)
+            for field in fields:
+                self.assertIn(f"Test-{field.capitalize()}".encode(), response.data)
+            reset_db()
 
     def test_info_page_redirects_for_invalid_id(self):
         response = self.client.get("/info/article/99999", follow_redirects=True)
         self.assertIn(b"Citation not found", response.data)
 
+    """ ----------------- DELETE TESTS ----------------- """
+
+    def test_delete_citation_removes_it_from_list(self):
+        self.submit(name="to-be-deleted")
+        citation_id = get_citations()[0].get_field("id")
+        response = self.client.post(f"/remove/{citation_id}", follow_redirects=True)
+        self.assertEqual(len(get_citations()), 0)
+        self.assertNotIn(b"to-be-deleted", response.data)
+
+    def test_delete_citation_removes_its_info_page(self):
+        self.submit(name="to-be-deleted-info")
+        citation_id = get_citations()[0].get_field("id")
+        self.client.post(f"/remove/{citation_id}", follow_redirects=True)
+        response = self.client.get(f"/info/article/{citation_id}", follow_redirects=True)
+        self.assertIn(b"Citation not found", response.data)
+    
+    def test_delete_invalid_id_shows_error(self):
+        response = self.client.post("/remove/99999", follow_redirects=True)
+        self.assertIn(b"Citation not found", response.data)
 
     """ ----------------- EDIT TESTS ----------------- """
 

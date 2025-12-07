@@ -97,7 +97,6 @@ def is_valid_month(value):
         return True
     return value in MONTH_ABBREVIATIONS
 
-
 def validate_citation_fields(fields, citation_type):
     """Validate citation fields and return error message if any, otherwise None."""
     missing_required_fields = check_required_fields(citation_type, fields)
@@ -122,7 +121,6 @@ def validate_citation_fields(fields, citation_type):
                 return f"{numeric_field.capitalize()} must be a whole number"
 
     return None
-
 
 @app.route("/create_citation", methods=["POST"])
 def create_citation_route():
@@ -149,6 +147,11 @@ def create_citation_route():
 @app.route("/remove/<int:citation_id>", methods=["POST"])
 def remove(citation_id):
     """Delete a citation immediately (confirmation handled by JS popup)."""
+    citation = get_citation_by_id(citation_id)
+    if citation is None:
+        flash("Citation not found")
+        return redirect("/")
+
     remove_citation(citation_id)
     return redirect("/")
 
