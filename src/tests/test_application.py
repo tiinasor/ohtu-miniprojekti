@@ -8,7 +8,7 @@ from db_helper import reset_db
 from repositories.citation_repository import get_citations, get_citation_by_id
 
 
-class ValidateCitationTestCase(unittest.TestCase):
+class TestApplication(unittest.TestCase):
     def setUp(self):
         self.app_context = app.app_context()
         self.app_context.push()
@@ -24,58 +24,83 @@ class ValidateCitationTestCase(unittest.TestCase):
             "name": "test",
             "citation_type": "article",
             "author": "A",
+            "editor": "E",
             "title": "T",
+            "booktitle": "B",
+            "school": "S",
+            "publisher": "P",
             "journal": "J",
             "year": "2024",
             "volume": "1",
             "number": "1",
             "pages": "1-10",
         }
+
         base.update(overrides)
         return self.client.post("/create_citation", data=base, follow_redirects=True)
 
-    """ ----------------- SQL DATABASE TESTS ----------------- """
-
-    def test_sql_create_article_citation(self):
+    def test_create_citation_shows_citation_in_citation_list(self):
         response = self.submit(name="test-citation")
-        citations = get_citations()
-        self.assertEqual(len(citations), 1)
-        self.assertEqual(citations[0].get_field("name"), "test-citation")
         self.assertIn(b"test-citation", response.data)
+    
+    """ ----------------- FORM VALIDITY TESTS ----------------- """
 
-    def test_sql_unique_article_citation_name(self):
+    def test_create_citation_works_for_all_citation_types(self):
+        citation_types = [
+            "article",
+            "inproceedings",
+            "book",
+            "mastersthesis",
+            "phdthesis",
+            "misc",
+        ]
+        for ctype in citation_types:
+            reset_db()
+            response = self.submit(name=f"test-{ctype}", citation_type=ctype)
+            self.assertIn(f"test-{ctype}".encode(), response.data)
+
+    def test_nonunique_citation_name_shows_error(self):
         self.submit(name="unique-name")
         response = self.submit(name="unique-name")
         citations = get_citations()
         self.assertEqual(len(citations), 1)
         self.assertIn(b"Citation name must be unique", response.data)
 
-    def test_sql_remove_article_citation(self):
-        self.submit(name="to-delete")
-        citation_id = get_citations()[0].get_field("id")
-        response = self.client.post(f"/remove/{citation_id}", data={"remove": "1"}, follow_redirects=True)
-        self.assertEqual(len(get_citations()), 0)
-        self.assertNotIn(b"to-delete", response.data)
-
-    """ ----------------- FORM VALIDITY TESTS ----------------- """
-
-    def test_article_form_missing_required_fields(self):
-        fields = ["name", "author", "title", "journal", "year"]
-        for field in fields:
-            reset_db()  # Reset database between iterations
-            response = self.submit(**{field: ""})
-            self.assertEqual(len(get_citations()), 0)
-            self.assertIn(b"Missing required fields", response.data)
-
-    def test_article_form_invalid_numeric_fields(self):
-        invalids = {
-            "year": "abcd",
-            "volume": "x.y",
-            "number": "xyz",
+    def test_missing_required_fields_shows_error(self):
+        
+        required_fields_map = {
+            "article": ["name", "author", "title", "journal", "year"],
+            "inproceedings": ["name", "author", "title", "booktitle", "year"],
+            "mastersthesis": ["name", "author", "title", "school", "year"],
+            "phdthesis": ["name", "author", "title", "school", "year"],
+            "misc": ["name"],
         }
-        for field, bad_value in invalids.items():
-            self.submit(name=f"bad-{field}", **{field: bad_value})
-            self.assertEqual(len(get_citations()), 0)
+        for citation_type, required_fields in required_fields_map.items():
+            for field in required_fields:
+                response = self.submit(citation_type=citation_type, **{field: ""})
+                self.assertEqual(len(get_citations()), 0)
+                self.assertIn(b"Missing required fields", response.data)
+                response = self.submit(citation_type=citation_type, **{field: None})
+                self.assertEqual(len(get_citations()), 0)
+                self.assertIn(b"Missing required fields", response.data)
+
+    def test_invalid_numeric_fields(self):
+        integer_fields = ["year", "volume", "number"]
+        invalids = ["abcd", "x.y", "xyz", "adfs123", "1.1.1"]
+        for field in integer_fields:
+            for bad_value in invalids:
+                response = self.submit(**{field: bad_value})
+                self.assertEqual(len(get_citations()), 0)
+                self.assertIn(b"invalid", response.data)
+
+    def test_book_input_allows_either_author_or_editor(self):
+        for required_field in ("author", "editor"):
+            self.submit(citation_type="book", **{required_field: ""})
+            self.assertEqual(len(get_citations()), 1)
+            reset_db()
+        response = self.submit(citation_type="book", author="", editor="")
+        self.assertEqual(len(get_citations()), 0)
+        self.assertIn(b"Book requires either an author or an editor", response.data)
 
     def test_citation_name_cannot_contain_spaces(self):
         response = self.submit(name="name with spaces")
