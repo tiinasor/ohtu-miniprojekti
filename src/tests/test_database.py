@@ -87,6 +87,12 @@ class TestExistingCitationDatabase(unittest.TestCase):
         citation = get_citation_by_id(9999)
         self.assertIsNone(citation)
 
+    def test_remove_citation_deletes_from_db(self):
+        citation_id = get_citations()[0].get_field("id")
+        self.assertEqual(len(get_citations()), 1)
+        remove_citation(citation_id)
+        self.assertEqual(len(get_citations()), 0)
+
     def test_no_citations_removed_from_db_if_id_none(self):
         self.assertEqual(len(get_citations()), 1)
         remove_citation(None)
@@ -98,13 +104,13 @@ class TestExistingCitationDatabase(unittest.TestCase):
 
     def test_save_citation_updates_existing(self):
         original_citation = get_citations()[0]
-        original_author = original_citation.get_field("author")
+        original_name = original_citation.get_field("name")
         original_citation_id = original_citation.get_field("id")
-        fields = self.ref_fields(author="B")
+        fields = self.ref_fields(name="B")
         save_citation(fields, original_citation_id)
         updated_citation = get_citation_by_id(original_citation_id)
-        self.assertNotEqual(updated_citation.get_field("author"), original_author)
-        self.assertEqual(updated_citation.get_field("author"), "B")
+        self.assertNotEqual(updated_citation.get_field("name"), original_name)
+        self.assertEqual(updated_citation.get_field("name"), "B")
 
     def test_save_citation_with_no_id_does_nothing(self):
         original_citation = get_citations()[0]
@@ -124,6 +130,7 @@ class TestExistingCitationDatabase(unittest.TestCase):
         unchanged_citation = get_citation_by_id(original_citation_id)
         self.assertEqual(unchanged_citation.get_field("author"), original_author)
 
+        
     def test_save_citation_with_duplicate_name_does_nothing(self):
         create_citation(self.ref_fields(name="other-name"))
         citation_id = get_citations()[1].get_field("id")
@@ -132,4 +139,3 @@ class TestExistingCitationDatabase(unittest.TestCase):
         unchanged_citation = get_citation_by_id(citation_id)
         self.assertEqual(unchanged_citation.get_field("name"), "other-name")
         self.assertEqual(len(get_citations()), 2)
-
