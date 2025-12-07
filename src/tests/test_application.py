@@ -246,5 +246,18 @@ class TestApplication(unittest.TestCase):
         response = self.edit(citation_id, name="original-name")
         self.assertIn(b"Citation name must be unique", response.data)
 
+    """ ----------------- BIBTEX FILE GENERATION TESTS ----------------- """
+
+    def test_generate_bibtex_file(self):
+        self.submit(name="bibtex-endpoint-test", author="Endpoint Author")
+        response = self.client.post("/generate_bibtex")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.headers["Content-Disposition"],
+            'attachment; filename=citations.bib'
+        )
+        self.assertIn(b"@article{bibtex-endpoint-test", response.data)
+        self.assertIn(b"author = {Endpoint Author}", response.data)
+
 if __name__ == "__main__":
     unittest.main()
