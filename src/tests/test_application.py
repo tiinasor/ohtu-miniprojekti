@@ -6,6 +6,7 @@ os.environ["TEST_ENV"] = "true"
 from app import app
 from db_helper import reset_db
 from repositories.citation_repository import get_citations, get_citation_by_id
+from ref_fields import REF_FIELDS
 
 
 class TestApplication(unittest.TestCase):
@@ -37,7 +38,7 @@ class TestApplication(unittest.TestCase):
 
         base.update(overrides)
         return self.client.post("/create_citation", data=base, follow_redirects=True)
-
+ 
     def test_create_citation_shows_citation_in_citation_list(self):
         response = self.submit(name="test-citation")
         self.assertIn(b"test-citation", response.data)
@@ -166,42 +167,84 @@ class TestApplication(unittest.TestCase):
         self.client.post(f"/remove/{citation_id}", follow_redirects=True)
         response = self.client.get(f"/info/article/{citation_id}", follow_redirects=True)
         self.assertIn(b"Citation not found", response.data)
-    
+        
     def test_delete_invalid_id_shows_error(self):
         response = self.client.post("/remove/99999", follow_redirects=True)
         self.assertIn(b"Citation not found", response.data)
 
     """ ----------------- EDIT TESTS ----------------- """
 
+    def edit(self, citation_id, **overrides):
+        citation = get_citation_by_id(citation_id)
+        base = {}
+        for field in REF_FIELDS:
+            base[field] = citation.get_field(field)
+
+        base.update(overrides)
+        return self.client.post(f"/save/{citation_id}", data=base, follow_redirects=True)
+
     def test_edit_page_shows_existing_data(self):
-        self.submit(name="edit-test", author="Edit Author", title="Original Title")
+        self.submit(title="Original Title")
         citation_id = get_citations()[0].get_field("id")
 
         response = self.client.get(f"/edit/article/{citation_id}")
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Original Title", response.data)
 
-    def test_save_updates_citation(self):
-        self.submit(name="save-test", author="Save Author", title="Old Title")
+    def test_edit_page_for_invalid_id_shows_error(self):
+        response = self.client.get("/edit/article/99999", follow_redirects=True)
+        self.assertIn(b"Citation not found", response.data)
+
+    def test_save_updates_citation_name(self):
+        self.submit(name="Old-name")
         citation_id = get_citations()[0].get_field("id")
-
-        data = {
-            "name": "save-test",
-            "citation_type": "article",
-            "author": "Save Author",
-            "title": "New Title",
-            "journal": "J",
-            "year": "2000",
-            "volume": "1",
-            "number": "1",
-            "pages": "1-2",
-        }
-        response = self.client.post(f"/save/{citation_id}", data=data, follow_redirects=True)
-
+        response = self.edit(citation_id, name="New-name")
         citation = get_citation_by_id(citation_id)
-        self.assertEqual(citation.get_field("title"), "New Title")
-        self.assertIn(b"New Title", response.data)
+        self.assertEqual(citation.get_field("name"), "New-name")
+        self.assertIn(b"New-name", response.data)
 
+    def test_save_updates_multiple_fields(self):
+        self.submit(
+            name="Initial-name",
+            author="Initial Author",
+            title="Initial Title",
+            journal="Initial Journal",
+            year=2023,
+        )
+        citation_id = get_citations()[0].get_field("id")
+        response = self.edit(
+            citation_id,
+            name="Updated-name",
+            author="Updated Author",
+            title="Updated Title",
+            journal="Updated Journal",
+            year=2024,
+        )
+        citation = get_citation_by_id(citation_id)
+        self.assertEqual(citation.get_field("name"), "Updated-name")
+        self.assertEqual(citation.get_field("author"), "Updated Author")
+        self.assertEqual(citation.get_field("title"), "Updated Title")
+        self.assertEqual(citation.get_field("journal"), "Updated Journal")
+        self.assertEqual(citation.get_field("year"), 2024)
+        self.assertIn(b"Updated-name", response.data)
+
+
+    def test_invalid_inputs_on_save_shows_error(self):
+        self.submit()
+        citation_id = get_citations()[0].get_field("id")
+        for field in ["year", "volume", "number"]:
+            response = self.edit(citation_id, **{field: "invalid-number"})
+            self.assertIn(f"{field.capitalize()} must be a whole number".encode(), response.data)
+        for required_field in ["name", "author", "title", "journal", "year"]:
+            response = self.edit(citation_id, **{required_field: ""})
+            self.assertIn(f"Missing required field: {required_field}".encode(), response.data)
+
+    def test_save_duplicate_name_shows_error(self):
+        self.submit(name="original-name")
+        self.submit(name="duplicate-name")
+        citation_id = get_citations()[1].get_field("id")
+        response = self.edit(citation_id, name="original-name")
+        self.assertIn(b"Citation name must be unique", response.data)
 
 if __name__ == "__main__":
     unittest.main()
