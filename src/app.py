@@ -157,7 +157,7 @@ def remove(citation_id):
 
 @app.route("/save/<int:citation_id>", methods=["POST"])
 def save(citation_id):
-    """Save a citation."""
+    """Save edited information of a citation."""
     fields = {field: request.form.get(field) for field in REF_FIELDS}
     citation_type = request.form.get("citation_type")
     fields["citation_type"] = citation_type
@@ -181,7 +181,7 @@ def save(citation_id):
 
 @app.route("/edit/<citation_type>/<int:citation_id>", methods=["GET"])
 def edit(citation_type,citation_id):
-    """Edit a citation (not implemented)."""
+    """Open edit page according to citation type."""
     citation = get_citation_by_id(citation_id)
 
     if citation is None:
