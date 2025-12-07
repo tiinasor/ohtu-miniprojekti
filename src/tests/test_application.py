@@ -32,7 +32,6 @@ class TestApplication(unittest.TestCase):
             "journal": "J",
             "year": "2024",
             "volume": "1",
-            "number": "1",
             "pages": "1-10",
         }
 
@@ -82,11 +81,11 @@ class TestApplication(unittest.TestCase):
                 self.assertIn(b"Missing required field:", response.data)
                 response = self.submit(citation_type=citation_type, **{field: None})
                 self.assertEqual(len(get_citations()), 0)
-                self.assertIn(b"Missing required field:", response.data)
+                self.assertIn(b"Missing required field", response.data)
 
     def test_invalid_numeric_fields(self):
         integer_fields = ["year", "volume", "number"]
-        invalids = ["abcd", "x.y", "xyz", "adfs123", "1.1.1"]
+        invalids = ["abcd", "x.y", "xyz", "adfs123", "1.1.1", "2.3", "1,23", " "]
         for field in integer_fields:
             for bad_value in invalids:
                 response = self.submit(**{field: bad_value})

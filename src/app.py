@@ -117,10 +117,8 @@ def validate_citation_fields(fields, citation_type):
     for numeric_field in ["year", "volume", "number"]:
         if fields.get(numeric_field):
             try:
-                integer_field = int(fields[numeric_field])
+                int(fields[numeric_field])
             except ValueError:
-                return f"{numeric_field.capitalize()} must be a whole number"
-            if str(integer_field) != str(fields[numeric_field]):
                 return f"{numeric_field.capitalize()} must be a whole number"
 
     return None
