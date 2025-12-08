@@ -262,5 +262,31 @@ class TestApplication(unittest.TestCase):
         if os.path.exists(bib_path):
             os.remove(bib_path)
 
+    def test_generate_bibtex_selected_citations_file(self):
+        self.submit(name="citation-1", author="Author One", title="Title One")
+        self.submit(name="citation-2", author="Author Two", title="Title Two")
+        self.submit(name="citation-3", author="Author Three", title="Title Three")
+        
+        citations = get_citations()
+        selected_ids = [str(citations[0].id), str(citations[2].id)]
+        
+        response = self.client.post("/generate_bibtex_selected", 
+                                   data={"selected[]": selected_ids})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.headers["Content-Disposition"],
+            'attachment; filename=selected_citations.bib'
+        )
+        self.assertIn(b"@article{citation-1", response.data)
+        self.assertIn(b"author = {Author One}", response.data)
+        self.assertIn(b"@article{citation-3", response.data)
+        self.assertIn(b"author = {Author Three}", response.data)
+        self.assertNotIn(b"citation-2", response.data)
+        
+        bib_path = os.path.join(os.path.dirname(__file__), "..", "selected_citations.bib")
+        if os.path.exists(bib_path):
+            os.remove(bib_path)
+
 if __name__ == "__main__":
     unittest.main()
+
