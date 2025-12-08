@@ -43,10 +43,10 @@ $ python src/index.py
 
 Yksikkötestit voidaan suorittaa komennolla:
 ```
-$ python src/tests
+$ pytest src/tests
 ```
 
 Robot-testit voidaan suorittaa komennolla:
 ```
-$ python src/story_tests
+$ robot src/story_tests
 ```
