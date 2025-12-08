@@ -35,7 +35,15 @@ Citation database app
         <div class="field-row field-large required-field">
             <label for="citation_name">Name (Key)</label>
             <div class="required-wrapper">
-                <input type="text" id="citation_name" name="name" placeholder="Unique name (no spaces)" pattern="\S+" title="Citation name cannot contain spaces" required>
+                <input
+                    type="text"
+                    id="citation_name"
+                    name="name"
+                    placeholder="Unique name (no spaces)"
+                    pattern="\S+"
+                    title="Citation name cannot contain spaces"
+                    required
+                >
                 <span class="required-star">*</span>
             </div>
         </div>
@@ -69,7 +77,6 @@ Citation database app
     </form>
 </div>
 
-
 <div class="panel list-panel" style="max-width: none; width: 100%; box-sizing: border-box; padding: 20px 16px;">
     <h2>Citations</h2>
     <p class="panel-subtitle">All saved entries</p>
@@ -81,38 +88,50 @@ Citation database app
     <!-- Unified form for selection + selected export -->
     <form action="/process_selected" method="post" id="selection-form">
 
-        <button type="submit" formaction="/generate_bibtex_selected" style="margin-bottom: 8px;" 
-                onclick="return validateSelection(event, '/generate_bibtex_selected');">
+        <button
+            type="submit"
+            formaction="/generate_bibtex_selected"
+            style="margin-bottom: 8px;"
+            onclick="return validateSelection(event, '/generate_bibtex_selected');"
+        >
             Generate .bib (selected citations)
         </button>
 
-        <input type="text" id="search" placeholder="Search citations…"
-            style="margin-bottom: 12px; width: 100%; padding: 6px;">
+        <input
+            type="text"
+            id="search"
+            placeholder="Search citations…"
+            style="margin-bottom: 12px; width: 100%; padding: 6px;"
+        >
 
         <div class="scroll-area">
             <table>
                 <thead>
                     <tr>
-                        <th>name (Key)</th>
-                        <th>type</th>
-                        <th>title</th>
-                        <th>year</th>
+                        <th class="col-name">name (Key)</th>
+                        <th class="col-type">type</th>
+                        <th class="col-title">title</th>
+                        <th class="col-year">year</th>
+                        <th class="col-select"></th>
                     </tr>
                 </thead>
 
                 <tbody>
-                <!--Gets all datafields using REF_FIELDS, if no data -> insert empty. Needed for complete search-->
                     {% for c in citations %}
                     <tr class="citation" {% for field in REF_FIELDS %} data-{{ field }}="{{ c.get_field(field) or '' }}" {% endfor %}>
-                        <td>
-                            <a href="/info/{{ c.get_field('citation_type') }}/{{ c.id }}">
+                        <td class="col-name">
+                            <a href="/info/{{ c.get_field('citation_type') }}/{{ c.id }}" class="cell-clip">
                                 {{ c.get_field("name") }}
                             </a>
                         </td>
-                        <td>{{ c.get_field("citation_type") }}</td>
-                        <td>{{ c.get_field("title") }}</td>
-                        <td>{{ c.get_field("year") }}</td>
-                        <td>
+                        <td class="col-type">{{ c.get_field("citation_type") }}</td>
+                        <td class="col-title">
+                            <span class="cell-clip">
+                                {{ c.get_field("title") }}
+                            </span>
+                        </td>
+                        <td class="col-year">{{ c.get_field("year") }}</td>
+                        <td class="col-select">
                             <input type="checkbox" name="selected[]" value="{{ c.id }}" class="checkbox">
                         </td>
                     </tr>

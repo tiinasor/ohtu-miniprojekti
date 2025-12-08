@@ -7,6 +7,7 @@ body {
     overflow: hidden; /* no page scroll */
 }
 
+/* Page layout */
 .page-wrapper {
     height: 100%;
     display: flex;
@@ -22,6 +23,7 @@ body {
     gap: 40px;
 }
 
+/* Panels */
 .panel {
     flex: 1;
     background: white;
@@ -32,21 +34,6 @@ body {
     padding: 20px;
     box-sizing: border-box;
     height: 100%;
-    overflow-y: auto; /* panels scroll internally */
-}
-
-/* form panel */
-.form-panel .form-fields {
-    margin-top: 10px;
-}
-
-/* list panel */
-.list-panel .scroll-area {
-    flex: 1;
-    margin-top: 10px;
-    border: 1px solid #eee;
-    border-radius: 4px;
-    padding: 6px;
     overflow-y: auto;
 }
 
@@ -60,6 +47,7 @@ body {
     margin-bottom: 20px;
 }
 
+/* Forms */
 form {
     display: flex;
     flex-direction: column;
@@ -70,7 +58,6 @@ label {
     font-size: 14px;
 }
 
-/* INPUTS */
 input[type="text"],
 select,
 textarea {
@@ -78,7 +65,7 @@ textarea {
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 6px 8px;
-    padding-right: 24px;  /* space for required star */
+    padding-right: 24px;
     font-size: 14px;
     box-sizing: border-box;
 }
@@ -87,7 +74,6 @@ textarea {
     resize: vertical;
 }
 
-/* Submit button row */
 .button-row {
     margin-top: 10px;
 }
@@ -105,51 +91,7 @@ button:hover {
     background-color: #1e4ed0;
 }
 
-/* Table */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-}
-
-th,
-td {
-    border: 1px solid #ddd;
-    padding: 6px 8px;
-}
-
-th {
-    background-color: #f3f3f3;
-}
-
-table td:last-child,
-table th:last-child {
-    width: 1%;
-    white-space: nowrap;
-    padding-left: 4px;
-    padding-right: 4px;
-}
-
-/* Remove button */
-.remove-button {
-    background-color: #d9534f;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    width: 22px;   /* smaller width */
-    height: 22px;  /* smaller height */
-    padding: 0;    /* IMPORTANT — removes padding */
-    line-height: 22px;
-    text-align: center;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.remove-button:hover {
-    background-color: #c9302c;
-}
-
-/* REQUIRED FIELD STYLING */
+/* Required fields */
 .required {
     color: #d9534f;
     margin-left: 3px;
@@ -158,7 +100,6 @@ table th:last-child {
 
 .required-wrapper {
     position: relative;
-    width: 100%;
 }
 
 .required-star {
@@ -169,34 +110,17 @@ table th:last-child {
     color: #d9534f;
     font-size: 16px;
     pointer-events: none;
-    margin: 0;
 }
 
-/* FIELD LAYOUT SYSTEM ---------------------------------- */
-
-/* Multiple fields in one row */
+/* Field layout */
 .field-inline {
     display: flex;
     gap: 10px;
 }
 
-/* Size modifiers (used inside inline rows) */
-.field-inline .field-small {
-    flex: 1;
-}
-
-.field-inline .field-medium {
-    flex: 1.5;
-}
-
-.field-inline .field-large {
-    flex: 2;
-}
-
-/* Ensure child inputs expand fully */
-.field-row {
-    width: 100%;
-}
+.field-inline .field-small { flex: 1; }
+.field-inline .field-medium { flex: 1.5; }
+.field-inline .field-large { flex: 2; }
 
 .field-row input,
 .field-row select,
@@ -205,76 +129,75 @@ table th:last-child {
     box-sizing: border-box;
 }
 
-
-
-
-/* small icon delete button */
-.icon-button {
-    width: 32px;
-    height: 32px;
-    padding: 0;
-    font-size: 18px;
-    line-height: 32px;
-    text-align: center;
-    border-radius: 6px;
-    background-color: #d9534f;
-    color: white;
-    border: none;
-    cursor: pointer;
+/* Table container */
+.list-panel .scroll-area {
+    flex: 1;
+    margin-top: 10px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 6px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
-.icon-button:hover {
-    background-color: #c9302c;
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    table-layout: fixed; /* required for ellipsis */
 }
 
-.table-truncate {
-    display: block;
-    max-width: 180px;
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 6px 8px;
+}
+
+th {
+    background-color: #f3f3f3;
+    text-align: left;
+}
+
+/* Column widths */
+th.col-name  { width: 30%; }
+th.col-type  { width: 12%; }
+th.col-title { width: 30%; }
+th.col-year  { width: 10%; }
+
+/* Force ellipsis inside name + title cells */
+td.col-name a.cell-clip,
+td.col-title .cell-clip {
+    display: inline-block;
+    width: 140px;            /* tweak this to adjust visible characters */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    vertical-align: middle;
 }
 
-
-
-
-.list-actions {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 8px;
+/* Checkbox column */
+table td:last-child,
+table th:last-child {
+    width: 35px;
+    text-align: center;
+    white-space: nowrap;
 }
 
-.list-panel tbody tr {
-    cursor: pointer;
-}
-
+/* Selected row highlight */
 .list-panel tbody tr.selected-row {
     background-color: #e0ecff;
 }
 
-#delete_selected {
-    background-color: #d9534f;
-}
-
-#delete_selected:hover {
-    background-color: #c9302c;
-}
-
-/* INFO PAGE STYLING */
-.info-fields {
-    margin-top: 5px;
-}
-
+/* Info page */
 .info-fields .field-row {
     margin-bottom: 12px;
 }
 
 .info-fields label {
-    display: block;
     font-size: 14px;
     font-weight: 500;
     color: #333;
-    margin-bottom: 4px;
 }
 
 .info-fields .field-value {
@@ -284,8 +207,6 @@ table th:last-child {
     border-radius: 4px;
     font-size: 14px;
     color: #555;
-    min-height: 20px;
-    box-sizing: border-box;
 }
 
 .info-fields textarea.field-value {
