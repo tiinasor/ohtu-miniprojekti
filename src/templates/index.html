@@ -81,7 +81,8 @@ Citation database app
     <!-- Unified form for selection + selected export -->
     <form action="/process_selected" method="post" id="selection-form">
 
-        <button type="submit" formaction="/generate_bibtex_selected" style="margin-bottom: 8px;">
+        <button type="submit" formaction="/generate_bibtex_selected" style="margin-bottom: 8px;" 
+                onclick="return validateSelection(event, '/generate_bibtex_selected');">
             Generate .bib (selected citations)
         </button>
 

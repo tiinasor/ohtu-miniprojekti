@@ -60,6 +60,24 @@ def generate_bibtex():
     )
 
 
+@app.route("/generate_bibtex_selected", methods=["POST"])
+def generate_bibtex_selected():
+    """Generate a BibTeX file from selected citations and return it for download."""
+    selected_ids = request.form.getlist("selected[]")
+
+    citations = [get_citation_by_id(int(cid)) for cid in selected_ids]
+    citations = [c for c in citations if c is not None]
+
+    file_path = create_bibtex_file(citations)
+
+    return send_file(
+        file_path,
+        as_attachment=True,
+        download_name="selected_citations.bib",
+        mimetype="text/plain"
+    )
+
+
 def create_bibtex_file(citations):
     """Create a BibTeX file inside the src directory."""
     base_path = os.path.dirname(os.path.abspath(__file__))

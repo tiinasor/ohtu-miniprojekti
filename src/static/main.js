@@ -80,3 +80,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
+// validate selection for generating bibtex
+function validateSelection(event) {
+    const checkboxes = document.querySelectorAll('input[name="selected[]"]:checked');
+    if (checkboxes.length === 0) {
+        event.preventDefault();
+        alert("Please select at least one citation");
+        return false;
+    }
+    return true;
+}
