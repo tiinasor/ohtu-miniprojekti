@@ -258,6 +258,9 @@ class TestApplication(unittest.TestCase):
         )
         self.assertIn(b"@article{bibtex-endpoint-test", response.data)
         self.assertIn(b"author = {Endpoint Author}", response.data)
+        bib_path = os.path.join(os.path.dirname(__file__), "..", "citations.bib")
+        if os.path.exists(bib_path):
+            os.remove(bib_path)
 
 if __name__ == "__main__":
     unittest.main()
