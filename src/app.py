@@ -2,7 +2,7 @@
 
 import os
 from flask import redirect, render_template, request, jsonify, flash, send_file
-from db_helper import reset_db
+from db_helper import create_demo_citations, reset_db
 from repositories.citation_repository import (
     get_citations,
     create_citation,
@@ -229,3 +229,10 @@ if test_env:
         """Reset the database (test only)."""
         reset_db()
         return jsonify({"message": "db reset"})
+
+    @app.route("/demo")
+    def create_demo():
+        """Reset the database and add demo citations (test only)."""
+        reset_db()
+        create_demo_citations()
+        return redirect("/")
