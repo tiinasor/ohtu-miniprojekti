@@ -1,11 +1,16 @@
 [project]
-name = "miniprojekti-boilerplate"
-version = "0.1.0"
+name = "citation-database-app"
+version = "2.0.0"
 description = ""
 authors = [
-    {name = "Matti Luukkainen",email = "mluukkai@iki.fi"}
+    {name = "Ares Beletski"}
+    {name = "Camilla Campbell"}
+    {name = "Ruusu Laihonen"}
+    {name = "Iiro Närvänen"}
+    {name = "Miika Tonteri"}
+    {name = "Tiina Vilkko"}
 ]
-license = {text = "MIT"}
+license = {text = "Unlicense"}
 requires-python = "^3.12"
 dependencies = [
     "flask (>=3.1.2,<4.0.0)",
