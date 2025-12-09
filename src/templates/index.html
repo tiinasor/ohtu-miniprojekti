@@ -105,13 +105,13 @@ Citation database app
         >
 
         <div class="scroll-area">
-            <table>
+            <table id="sortable">
                 <thead>
                     <tr>
-                        <th class="col-name">name (Key)</th>
-                        <th class="col-type">type</th>
-                        <th class="col-title">title</th>
-                        <th class="col-year">year</th>
+                        <th class="col-name" onclick="sortBy(0)">name (Key)<span class="sort-arrow"></span></th>
+                        <th class="col-type" onclick="sortBy(1)">type<span class="sort-arrow"></span></th>
+                        <th class="col-title" onclick="sortBy(2)">title<span class="sort-arrow"></span></th>
+                        <th class="col-year" onclick="sortBy(3)">year<span class="sort-arrow"></span></th>
                         <th class="col-select"></th>
                     </tr>
                 </thead>

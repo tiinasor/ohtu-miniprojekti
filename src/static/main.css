@@ -165,6 +165,14 @@ th.col-type  { width: 12%; }
 th.col-title { width: 30%; }
 th.col-year  { width: 10%; }
 
+/* Sort arrow  */
+.sort-arrow {
+    color: white;
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+
 /* Force ellipsis inside name + title cells */
 td.col-name a.cell-clip,
 td.col-title .cell-clip {

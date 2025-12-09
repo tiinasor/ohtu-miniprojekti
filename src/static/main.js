@@ -91,3 +91,63 @@ function validateSelection(event) {
     }
     return true;
 }
+
+let lastColumn = -1;
+let lastDirection = 0;     
+let originalRows = null;   
+
+function sortBy(col) {
+    const table = document.getElementById("sortable");
+    const tbody = table.querySelector("tbody");
+    let rows = Array.from(tbody.querySelectorAll("tr"));
+
+    if (!originalRows) {
+        originalRows = rows.map(r => r.cloneNode(true));
+    }
+
+    if (col !== lastColumn) {
+        lastDirection = 1;
+    } else {
+        if (lastDirection === 1) lastDirection = -1;
+        else if (lastDirection === -1) lastDirection = 0;
+        else lastDirection = 1; 
+    }
+    lastColumn = col;
+
+    updateArrows(col, lastDirection);
+
+    if (lastDirection === 0) {
+        tbody.innerHTML = "";
+        originalRows.forEach(r => tbody.appendChild(r.cloneNode(true)));
+        return;
+    }
+
+    rows.sort((a, b) => {
+        let A = a.children[col].innerText.trim();
+        let B = b.children[col].innerText.trim();
+
+        let nA = parseFloat(A);
+        let nB = parseFloat(B);
+        if (!isNaN(nA) && !isNaN(nB)) {
+            return lastDirection === 1 ? nA - nB : nB - nA;
+        }
+
+        return lastDirection === 1
+            ? A.localeCompare(B)
+            : B.localeCompare(A);
+    });
+
+    tbody.innerHTML = "";
+    rows.forEach(r => tbody.appendChild(r));
+}
+
+function updateArrows(col, direction) {
+    const headers = document.querySelectorAll("#sortable th .sort-arrow");
+    headers.forEach(h => h.textContent = "");
+
+    if (direction === 1) {
+        headers[col].textContent = "↑";
+    } else if (direction === -1) {
+        headers[col].textContent = "↓";
+    }
+}
