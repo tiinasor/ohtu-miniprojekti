@@ -81,18 +81,21 @@ Citation database app
     <h2>Citations</h2>
     <p class="panel-subtitle">All saved entries</p>
 
+    <div id="download-notification" style="display: none; padding: 10px; margin-bottom: 12px; background-color: #d4edda; border: 1px solid #c3e6cb; border-radius: 4px; color: #155724;">
+        File downloaded successfully
+    </div>
+
     <form action="/generate_bibtex" method="post" style="margin-bottom: 8px;">
-        <button type="submit">Generate .bib (all citations)</button>
+        <button type="button" onclick="downloadBibTexAll(event)">Generate .bib (all citations)</button>
     </form>
 
     <!-- Unified form for selection + selected export -->
     <form action="/process_selected" method="post" id="selection-form">
 
         <button
-            type="submit"
-            formaction="/generate_bibtex_selected"
+            type="button"
             style="margin-bottom: 8px;"
-            onclick="return validateSelection(event, '/generate_bibtex_selected');"
+            onclick="downloadBibTexSelected(event)"
         >
             Generate .bib (selected citations)
         </button>

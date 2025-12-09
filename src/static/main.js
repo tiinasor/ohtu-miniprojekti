@@ -151,3 +151,104 @@ function updateArrows(col, direction) {
         headers[col].textContent = "↓";
     }
 }
+
+function showNotification(message, isError = false) {
+    const notification = document.getElementById("download-notification");
+    if (notification) {
+        notification.textContent = message;
+        notification.style.backgroundColor = isError ? "#f8d7da" : "#d4edda";
+        notification.style.borderColor = isError ? "#f5c6cb" : "#c3e6cb";
+        notification.style.color = isError ? "#721c24" : "#155724";
+        notification.style.display = "block";
+        
+        setTimeout(() => {
+            notification.style.display = "none";
+        }, 3000);
+    }
+}
+
+function downloadBibTexSelected(event) {
+    event.preventDefault();
+    
+    // Validate selection
+    const checkboxes = document.querySelectorAll('input[name="selected[]"]:checked');
+    if (checkboxes.length === 0) {
+        alert("Please select at least one citation");
+        return false;
+    }
+    
+    // Get selected IDs
+    const formData = new FormData();
+    checkboxes.forEach(cb => {
+        formData.append("selected[]", cb.value);
+    });
+    
+    // Make AJAX request
+    fetch("/generate_bibtex_selected", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(text => {
+                throw new Error(text || "Failed to generate BibTeX file");
+            });
+        }
+        return response.blob();
+    })
+    .then(blob => {
+        // Create download link
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "selected_citations.bib";
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        
+        // Show success notification
+        showNotification("File downloaded successfully");
+    })
+    .catch(error => {
+        showNotification("Error: " + error.message, true);
+    });
+    
+    return false;
+}
+
+function downloadBibTexAll(event) {
+    event.preventDefault();
+    
+    // Make AJAX request
+    fetch("/generate_bibtex", {
+        method: "POST"
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(text => {
+                throw new Error(text || "Failed to generate BibTeX file");
+            });
+        }
+        return response.blob();
+    })
+    .then(blob => {
+        // Create download link
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "citations.bib";
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        
+        // Show success notification
+        showNotification("File downloaded successfully");
+    })
+    .catch(error => {
+        showNotification("Error: " + error.message, true);
+    });
+    
+    return false;
+}

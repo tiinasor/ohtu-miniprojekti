@@ -103,27 +103,14 @@ Generate .bib file with selected citations works correctly
     Click Button  Save citation
     Page Should Contain  UniqueNameFormisc
 
-
     # NOW SELECT SOME OF THEM FOR .bib FILE GENERATION
     Select Checkbox    xpath=(//input[@name="selected[]"])[1]
     Select Checkbox    xpath=(//input[@name="selected[]"])[3]
     Select Checkbox    xpath=(//input[@name="selected[]"])[5]
+    
+    # CLICK THE BUTTON TO GENERATE SELECTED CITATIONS
     Click Button  Generate .bib (selected citations)
     
-
-    #VERIFY THAT .BIB FILE CONTAINS ONLY THE SELECTED CITATIONS
-    #${bib_path}=  Set Variable  ${DOWNLOAD_DIR}/selected_citations.bib
-    #${home}=  Evaluate  os.path.expanduser("~")  os
-    #${downloads_path}=  Set Variable  ${home}/Downloads/selected_citations.bib
-    
-   # Try test_downloads first, then fall back to system Downloads
-   # ${file_exists}=  Run Keyword And Return Status  Wait Until Created  ${bib_path}  timeout=2s
-   # IF  not ${file_exists}
-   # ${bib_path}=  Set Variable  ${downloads_path}
-   # #END
-    
-   # ${bib_content}=  Get File  ${bib_path}
-   # Should Contain  ${bib_content}  @article{UniqueNameForArticle,
-   # Should Contain  ${bib_content}  @inproceedings{UniqueNameforInproceedings,
-   # Should Contain  ${bib_content}  @mastersthesis{UniqueNameForMastersthesis,
-   # Should Not Contain  ${bib_content}  @book{UniqueNameforBook,
+    # VERIFY THAT THE DOWNLOAD NOTIFICATION APPEARS
+    Wait Until Element Is Visible  id:download-notification  timeout=2s
+    Element Should Contain  id:download-notification  File downloaded successfully
