@@ -4,7 +4,8 @@ body {
     margin: 0;
     font-family: system-ui, sans-serif;
     background-color: #f1f1f1;
-    overflow: hidden; /* no page scroll */
+    overflow: hidden;
+    /* no page scroll */
 }
 
 /* Page layout */
@@ -118,9 +119,17 @@ button:hover {
     gap: 10px;
 }
 
-.field-inline .field-small { flex: 1; }
-.field-inline .field-medium { flex: 1.5; }
-.field-inline .field-large { flex: 2; }
+.field-inline .field-small {
+    flex: 1;
+}
+
+.field-inline .field-medium {
+    flex: 1.5;
+}
+
+.field-inline .field-large {
+    flex: 2;
+}
 
 .field-row input,
 .field-row select,
@@ -145,7 +154,8 @@ table {
     width: 100%;
     border-collapse: collapse;
     font-size: 14px;
-    table-layout: fixed; /* required for ellipsis */
+    table-layout: fixed;
+    /* required for ellipsis */
 }
 
 th,
@@ -160,14 +170,28 @@ th {
 }
 
 /* Column widths */
-th.col-name  { width: 30%; }
-th.col-type  { width: 12%; }
-th.col-title { width: 30%; }
-th.col-year  { width: 10%; }
+th.col-name {
+    width: 30%;
+}
+
+th.col-type {
+    width: 25%;
+}
+
+th.col-title {
+    width: 30%;
+}
+
+th.col-year {
+    width: 10%;
+}
+
+th.col-name, th.col-type, th.col-title, th.col-year {
+    cursor: pointer;
+}
 
 /* Sort arrow  */
 .sort-arrow {
-    color: white;
     font-size: 20px;
     margin-left: 10px;
 }
@@ -177,7 +201,8 @@ th.col-year  { width: 10%; }
 td.col-name a.cell-clip,
 td.col-title .cell-clip {
     display: inline-block;
-    width: 140px;            /* tweak this to adjust visible characters */
+    width: 130px;
+    /* tweak this to adjust visible characters */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
