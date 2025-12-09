@@ -87,7 +87,7 @@ def create_bibtex_file(citations):
         for citation in citations:
             bibtex_content = f'@{citation.get_field("citation_type")}'
             bibtex_content += '{' + f'{citation.get_field("name")},\n'
-            for field in REF_FIELDS:
+            for field in REF_FIELDS[2:]:  # Skip 'citation_type' field
                 if citation.get_field(field):
                     bibtex_content += f'  {field} = {{{citation.get_field(field)}}},\n'
             bibtex_content += '}\n'
