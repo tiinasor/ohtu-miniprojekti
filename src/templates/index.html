@@ -110,13 +110,31 @@ Citation database app
         <div class="scroll-area">
             <table id="sortable">
                 <thead>
-                    <tr>
-                        <th class="col-name" onclick="sortBy(0)">name (Key)<span class="sort-arrow"></span></th>
-                        <th class="col-type" onclick="sortBy(1)">type<span class="sort-arrow"></span></th>
-                        <th class="col-title" onclick="sortBy(2)">title<span class="sort-arrow"></span></th>
-                        <th class="col-year" onclick="sortBy(3)">year<span class="sort-arrow"></span></th>
-                        <th class="col-select"></th>
-                    </tr>
+                        <th class="col-name">
+                            name (Key)
+                            <span class="sort-up" data-col="0" onclick="sortColumn(0, 'asc')">↑</span>
+                            <span class="sort-down" data-col="0" onclick="sortColumn(0, 'desc')">↓</span>
+                        </th>
+
+                        <th class="col-type">
+                            type
+                            <span class="sort-up" data-col="1" onclick="sortColumn(1, 'asc')">↑</span>
+                            <span class="sort-down" data-col="1" onclick="sortColumn(1, 'desc')">↓</span>
+                        </th>
+
+                        <th class="col-title">
+                            title
+                            <span class="sort-up" data-col="2" onclick="sortColumn(2, 'asc')">↑</span>
+                            <span class="sort-down" data-col="2" onclick="sortColumn(2, 'desc')">↓</span>
+                        </th>
+
+                        <th class="col-year">
+                            year
+                            <span class="sort-up" data-col="3" onclick="sortColumn(3, 'asc')">↑</span>
+                            <span class="sort-down" data-col="3" onclick="sortColumn(3, 'desc')">↓</span>
+                        </th>
+
+                        <th></th>
                 </thead>
 
                 <tbody>

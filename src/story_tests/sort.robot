@@ -104,32 +104,34 @@ Add content to the page and sorting works correctly
 
     # Test1
 
-    Click Element  css:th.col-name
+
+    Click Element    css:span.sort-up[data-col="0"]
     Table Row Should Contain  id:sortable  1  UniqueNameForArticle
-    Click Element  css:th.col-name
+    Click Element    css:span.sort-down[data-col="0"]
     Table Row Should Contain  id:sortable  1  UniqueNameForphdthesis
-    Click Element  css:th.col-name
+    Click Element    css:span.sort-down[data-col="0"]
     Table Row Should Contain  id:sortable  1  UniqueNameforInproceedings
+
     # Test2
-    Click Element  css:th.col-type
+    Click Element    css:span.sort-up[data-col="1"]
     Table Row Should Contain  id:sortable  1  UniqueNameForArticle
-    Click Element  css:th.col-type
+    Click Element    css:span.sort-down[data-col="1"]
     Table Row Should Contain  id:sortable  1  UniqueNameForphdthesis
-    Click Element  css:th.col-type
+    Click Element    css:span.sort-down[data-col="1"]
     Table Row Should Contain  id:sortable  1  UniqueNameforInproceedings
 
     # Test3
-    Click Element  css:th.col-title
+    Click Element    css:span.sort-up[data-col="2"]
     Table Row Should Contain  id:sortable  1  My First Article
-    Click Element  css:th.col-title
+    Click Element    css:span.sort-down[data-col="2"]
     Table Row Should Contain  id:sortable  1  The Great Book
-    Click Element  css:th.col-title
+    Click Element    css:span.sort-down[data-col="2"]
     Table Row Should Contain  id:sortable  1  My First Inproceedings
 
     # Test4     
-    Click Element  css:th.col-year
+    Click Element    css:span.sort-up[data-col="3"]
     Table Row Should Contain  id:sortable  1  UniqueNameforBook
-    Click Element  css:th.col-year
+    Click Element    css:span.sort-down[data-col="3"]
     Table Row Should Contain  id:sortable  1  UniqueNameFormisc
-    Click Element  css:th.col-year
+    Click Element    css:span.sort-down[data-col="3"]
     Table Row Should Contain  id:sortable  1  UniqueNameforInproceedings

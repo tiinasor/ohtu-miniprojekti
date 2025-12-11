@@ -92,11 +92,11 @@ function validateSelection(event) {
     return true;
 }
 
-let lastColumn = -1;
-let lastDirection = 0;     
-let originalRows = null;   
+let originalRows = null;
+let lastCol = null;
+let lastDir = null;
 
-function sortBy(col) {
+function sortColumn(col, direction) {
     const table = document.getElementById("sortable");
     const tbody = table.querySelector("tbody");
     let rows = Array.from(tbody.querySelectorAll("tr"));
@@ -105,50 +105,60 @@ function sortBy(col) {
         originalRows = rows.map(r => r.cloneNode(true));
     }
 
-    if (col !== lastColumn) {
-        lastDirection = 1;
-    } else {
-        if (lastDirection === 1) lastDirection = -1;
-        else if (lastDirection === -1) lastDirection = 0;
-        else lastDirection = 1; 
-    }
-    lastColumn = col;
-
-    updateArrows(col, lastDirection);
-
-    if (lastDirection === 0) {
-        tbody.innerHTML = "";
-        originalRows.forEach(r => tbody.appendChild(r.cloneNode(true)));
+    if (col === lastCol && direction === lastDir) {
+        resetSorting();
         return;
     }
+
+    lastCol = col;
+    lastDir = direction;
 
     rows.sort((a, b) => {
         let A = a.children[col].innerText.trim();
         let B = b.children[col].innerText.trim();
 
-        let nA = parseFloat(A);
-        let nB = parseFloat(B);
+        const nA = parseFloat(A);
+        const nB = parseFloat(B);
+
         if (!isNaN(nA) && !isNaN(nB)) {
-            return lastDirection === 1 ? nA - nB : nB - nA;
+            return direction === "asc" ? nA - nB : nB - nA;
         }
 
-        return lastDirection === 1
+        return direction === "asc"
             ? A.localeCompare(B)
             : B.localeCompare(A);
     });
 
     tbody.innerHTML = "";
     rows.forEach(r => tbody.appendChild(r));
+
+    highlightArrows(col, direction);
 }
 
-function updateArrows(col, direction) {
-    const headers = document.querySelectorAll("#sortable th .sort-arrow");
-    headers.forEach(h => h.textContent = "");
+function resetSorting() {
+    const tbody = document.querySelector("#sortable tbody");
+    tbody.innerHTML = "";
+    originalRows.forEach(r => tbody.appendChild(r.cloneNode(true)));
 
-    if (direction === 1) {
-        headers[col].textContent = "↑";
-    } else if (direction === -1) {
-        headers[col].textContent = "↓";
+    lastCol = null;
+    lastDir = null;
+
+    highlightArrows(null, null);
+}
+
+function highlightArrows(col, direction) {
+    const ups = document.querySelectorAll(".sort-up");
+    const downs = document.querySelectorAll(".sort-down");
+
+    ups.forEach(el => el.style.opacity = "0.3");
+    downs.forEach(el => el.style.opacity = "0.3");
+
+    if (col === null) return;
+
+    if (direction === "asc") {
+        document.querySelectorAll(".sort-up")[col].style.opacity = "1";
+    } else if (direction === "desc") {
+        document.querySelectorAll(".sort-down")[col].style.opacity = "1";
     }
 }
 

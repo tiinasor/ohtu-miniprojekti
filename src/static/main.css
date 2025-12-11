@@ -183,7 +183,7 @@ th.col-title {
 }
 
 th.col-year {
-    width: 10%;
+    width: 20%;
 }
 
 th.col-name, th.col-type, th.col-title, th.col-year {
@@ -246,4 +246,15 @@ table th:last-child {
     resize: none;
     width: 100%;
     font-family: system-ui, sans-serif;
+}
+.sort-up, .sort-down {
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 6px;
+    opacity: 0.3;
+    transition: opacity 0.2s;
+}
+
+.sort-up:hover, .sort-down:hover {
+    opacity: 0.8;
 }
