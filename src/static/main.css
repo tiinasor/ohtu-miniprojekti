@@ -200,9 +200,8 @@ th.col-name, th.col-type, th.col-title, th.col-year {
 /* Force ellipsis inside name + title cells */
 td.col-name a.cell-clip,
 td.col-title .cell-clip {
-    display: inline-block;
-    width: 130px;
-    /* tweak this to adjust visible characters */
+    display: block;         
+    width: 100%;             
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
