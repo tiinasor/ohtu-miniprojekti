@@ -139,4 +139,4 @@ def setup_db():
 
 if __name__ == "__main__":
     with app.app_context():
-        create_demo_citations()
+        setup_db()
