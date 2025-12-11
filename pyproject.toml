@@ -3,7 +3,12 @@ name = "citation-database-app"
 version = "2.0.0"
 description = ""
 authors = [
-    {name = "Camilla Campbell", email = "camilla.campbell@helsinki.fi"}
+    {name = "Camilla Campbell", email = "camilla.campbell@example.com"},
+    {name = "Ares Beletski"},
+    {name = "Ruusu Laihonen"},
+    {name = "Iiro Närvänen"},
+    {name = "Miika Tonteri"},
+    {name = "Tiina Vilkko"}
 ]
 license = {text = "Unlicense"}
 requires-python = "^3.12"
