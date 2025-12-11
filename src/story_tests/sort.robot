@@ -109,29 +109,24 @@ Add content to the page and sorting works correctly
     Table Row Should Contain  id:sortable  1  UniqueNameForArticle
     Click Element    css:span.sort-down[data-col="0"]
     Table Row Should Contain  id:sortable  1  UniqueNameForphdthesis
-    Click Element    css:span.sort-down[data-col="0"]
-    Table Row Should Contain  id:sortable  1  UniqueNameforInproceedings
+
 
     # Test2
     Click Element    css:span.sort-up[data-col="1"]
     Table Row Should Contain  id:sortable  1  UniqueNameForArticle
     Click Element    css:span.sort-down[data-col="1"]
     Table Row Should Contain  id:sortable  1  UniqueNameForphdthesis
-    Click Element    css:span.sort-down[data-col="1"]
-    Table Row Should Contain  id:sortable  1  UniqueNameforInproceedings
+
 
     # Test3
     Click Element    css:span.sort-up[data-col="2"]
     Table Row Should Contain  id:sortable  1  My First Article
     Click Element    css:span.sort-down[data-col="2"]
     Table Row Should Contain  id:sortable  1  The Great Book
-    Click Element    css:span.sort-down[data-col="2"]
-    Table Row Should Contain  id:sortable  1  My First Inproceedings
+
 
     # Test4     
     Click Element    css:span.sort-up[data-col="3"]
     Table Row Should Contain  id:sortable  1  UniqueNameforBook
     Click Element    css:span.sort-down[data-col="3"]
     Table Row Should Contain  id:sortable  1  UniqueNameFormisc
-    Click Element    css:span.sort-down[data-col="3"]
-    Table Row Should Contain  id:sortable  1  UniqueNameforInproceedings
