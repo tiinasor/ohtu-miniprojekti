@@ -1,4 +1,4 @@
-Ryhmä Spagettitehdas (Tiina Vilkko, Ruusu Laihonen, Ares Beletski, Miika Tonteri, Iiro Närvänen ja Camilla)
+Ryhmä Spagettitehdas (Tiina Vilkko, Ruusu Laihonen, Ares Beletski, Miika Tonteri, Iiro Närvänen ja Camilla Campbell)
 
 Ensimmäisessä sprintissä suurimmat haasteet liittyivät yhteisen tilannekuvan puutteeseen ja alkukankeuteen. Projektin aloitusvaiheessa oli vaikeaa hahmottaa mistä lähdetään liikkeelle ja ryhmän järjestäytymiseen kului aikaa. Lisäksi muiden ryhmäläisten vahvuuksien, toimintatapojen ja mieltymysten ymmärtäminen ei ollut täysin selkeää: oli epäselvää, mitä ja kuinka paljon kukin pystyi ja halusi tehdä. Tämä korostui rajallisen yhteisen työajan ja vähäisten kasvokkaisten tapaamisten vuoksi. Myös aikataulutus osoittautui haastavaksi, jonka takia työ painottui usein sprintin loppupuolelle.
 
