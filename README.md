@@ -6,7 +6,7 @@
 
 [Product ja sprint backlog](https://docs.google.com/spreadsheets/d/1mSdKyYM1908SzdmZ8wrdTdeK1SKqvMYnkV53-zhKxrM/edit?gid=1#gid=1)
 
-[Final Report](https://github.com/tiinasor/ohtu-miniprojekti/blob/main/Report.md)
+[Final Report](https://github.com/tiinasor/ohtu-miniprojekti/blob/main/report.md)
 
 ## Definition of done
 
